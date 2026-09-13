@@ -78,7 +78,7 @@ Kemudian install package yang diperlukan:
 apt install -y curl tar dnsutils
 ```
 <p align="center">
-  <img width="853" height="233" alt="Instalasi package dnsutils" src="https://github.com/user-attachments/assets/c5c6a326-5e30-4b3d-acee-8ce2cd8dbc0f" />
+  <img width="853" height="233" alt="Instalasi package dnsutils" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/instalasi-package-dnsutils.png" style="border-radius: 10px;" />
   <br>
   Gambar 1: Instalasi paket
 </p>
@@ -105,7 +105,7 @@ Download binary CoreDNS:
 curl -LO https://github.com/coredns/coredns/releases/download/v1.14.6/coredns_1.14.6_linux_amd64.tgz
 ```
 <p align="center">
-  <img width="868" height="114" alt="Download CoreDNS" src="https://github.com/user-attachments/assets/b9078444-7730-4b4c-b70e-5d3a01e70135" />
+  <img width="868" height="114" alt="Download CoreDNS" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/instalasi-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 2: Download CoreDNS
 </p>
@@ -134,7 +134,7 @@ Pastikan CoreDNS telah berhasil di-install dengan menjalankan:
 coredns -version
 ```
 <p align="center">
-  <img width="359" height="78" alt="Verifikasi versi CoreDNS" src="https://github.com/user-attachments/assets/d9e84a45-b784-4675-87e7-54973bf52621" />
+  <img width="359" height="78" alt="Verifikasi versi CoreDNS" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/verifikasi-versi-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 3: Verifikasi versi CoreDNS
 </p>
@@ -235,7 +235,7 @@ domainkamu.com:53 {
 }
 ```
 <p align="center">
-  <img width="828" height="189" alt="Konfigurasi Corefile CoreDNS" src="https://github.com/user-attachments/assets/fc32c5c4-de2d-45a1-a701-1afb9e6b6886" />
+  <img width="828" height="189" alt="Konfigurasi Corefile CoreDNS" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/konfigurasi-corefile-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 4: Konfigurasi Corefile
 </p>
@@ -260,7 +260,7 @@ Periksa terlebih dahulu penggunaan port `53`:
 ss -lntup | grep ':53'
 ```
 <p align="center">
-  <img width="940" height="97" alt="Pengecekan penggunaan port 53" src="https://github.com/user-attachments/assets/45704a52-1c0a-4bb8-8b03-ca15518cf4e4" />
+  <img width="940" height="97" alt="Pengecekan penggunaan port 53" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/cek-penggunaan-port53.jpeg" style="border-radius: 10px;" />
   <br>
   Gambar 5: Pemeriksaan port 53
 </p>
@@ -278,7 +278,7 @@ Pada bagian `[Resolve]`, tambahkan atau ubah konfigurasi menjadi:
 DNSStubListener=no
 ```
 <p align="center">
-  <img width="940" height="544" alt="Konfigurasi DNSStubListener" src="https://github.com/user-attachments/assets/01153ba8-d973-4c9b-9139-a89188cf5e91" />
+  <img width="940" height="544" alt="Konfigurasi DNSStubListener" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/konfigurasi-dnsstublistener.png" style="border-radius: 10px;" />
   <br>
   Gambar 6: Konfigurasi DNSStubListener
 </p>
@@ -295,7 +295,7 @@ Periksa kembali penggunaan port `53`:
 ss -lntup | grep ':53'
 ```
 <p align="center">
-  <img width="445" height="44" alt="verifikasi-port-dns-coredns" src="https://github.com/user-attachments/assets/18104316-2f1f-413a-93f4-8e3841d63b41" />
+  <img width="445" height="44" alt="verifikasi-port-dns-coredns" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/verifikasi-port-dns-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 7: Verifikasi port DNS
 </p>
@@ -318,7 +318,7 @@ Verifikasi capability yang telah diberikan:
 getcap /usr/local/bin/coredns
 ```
 <p align="center">
-  <img width="534" height="69" alt="verifikasi-capability-coredns" src="https://github.com/user-attachments/assets/2321e3a5-5dfc-4de0-92f0-d16d7ce3f6ac" />
+  <img width="534" height="69" alt="verifikasi-capability-coredns" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/verifikasi-capability-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 8: Verifikasi capability CoreDNS
 </p>
@@ -339,7 +339,7 @@ Jalankan CoreDNS menggunakan user `coredns`:
 sudo -u coredns /usr/local/bin/coredns -conf /etc/coredns/Corefile
 ```
 <p align="center">
-  <img width="827" height="147" alt="pengujian-manual-coredns" src="https://github.com/user-attachments/assets/7613aa54-9e0f-4ace-a668-fa8fb9f9d1c9" />
+  <img width="827" height="147" alt="pengujian-manual-coredns" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/pengujian-manual-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 9: Pengujian manual CoreDNS
 </p>
@@ -382,7 +382,7 @@ RestartSec=5
 WantedBy=multi-user.target
 ```
 <p align="center">
-  <img width="847" height="490" alt="service-coredns" src="https://github.com/user-attachments/assets/939489a1-bc32-4ac6-aff1-f1e04a563197" />
+  <img width="847" height="490" alt="service-coredns" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/service-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 10: Service CoreDNS
 </p>
@@ -419,7 +419,7 @@ Jika service berhasil berjalan, status akan menunjukkan:
 Active: active (running)
 ```
 <p align="center">
-  <img width="631" height="271" alt="status-service-coredns" src="https://github.com/user-attachments/assets/5a647ec5-7306-4c86-a2d0-13bc1659750f" />
+  <img width="631" height="271" alt="status-service-coredns" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/status-service-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 11: Status service CoreDNS
 </p>
@@ -441,7 +441,7 @@ Kemudian periksa status firewall:
 ufw status
 ```
 <p align="center">
-  <img width="600" height="375" alt="ufw-status" src="https://github.com/user-attachments/assets/a5e3aaa9-30c7-4617-9b5b-260bcee8fe20" />
+  <img width="600" height="375" alt="ufw-status" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/ufw-status.png" style="border-radius: 10px;" />
   <br>
   Gambar 12: Verifikasi UFW
 </p>
@@ -456,7 +456,7 @@ Setelah CoreDNS berhasil dijalankan, pastikan CoreDNS telah listen pada port `53
 ss -lntup | grep ':53'
 ```
 <p align="center">
-  <img width="850" height="77" alt="verifikasi-port-53-coredns" src="https://github.com/user-attachments/assets/91af094a-8f3b-435f-8d3a-7a2a402f51eb" />
+  <img width="850" height="77" alt="verifikasi-port-53-coredns" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/verifikasi-port-53-coredns.png" style="border-radius: 10px;" />
   <br>
   Gambar 13: Verifikasi port 53 CoreDNS
 </p>
