@@ -47,9 +47,9 @@ Pada panduan ini, kita akan menggunakan contoh konfigurasi berikut:
 | Konfigurasi    | Nilai                       |
 | -------------- | ---------------------------- |
 | Sistem Operasi | Ubuntu 24.04 LTS             |
-| Domain         | `uptime.domainkamu.com`      |
+| Domain         | `uptime-kuma.domainkamu.com`      |
 
-> **Catatan:** `uptime.domainkamu.com` hanya digunakan sebagai contoh. Silakan sesuaikan dengan domain yang digunakan.
+> **Catatan:** `uptime-kuma.domainkamu.com` hanya digunakan sebagai contoh. Silakan sesuaikan dengan domain yang digunakan.
 
 ## Rangkuman Versi yang Digunakan
 
@@ -74,12 +74,6 @@ Uptime Kuma dapat dijalankan pada berbagai distribusi Linux, baik menggunakan me
 | ---------------------------------- | ---------------- | ---------------------------------------------------------------------- |
 | Ubuntu / Debian                    | `apt`            | Digunakan pada panduan ini.                                            |
 | CentOS / Rocky Linux / AlmaLinux   | `dnf` / `yum`    | Nama paket dapat berbeda, contoh: `nginx`, `certbot`, `python3-certbot-nginx` umumnya tersedia di repository EPEL. |
-| Fedora                             | `dnf`            | Umumnya sudah menyertakan versi Node.js dan Nginx yang lebih baru pada repository default. |
-| Arch Linux                         | `pacman`         | Paket `nodejs`, `npm`, `git`, `nginx`, dan `certbot` tersedia pada repository resmi. |
-
-Untuk metode **Docker**, selama Docker Engine dan Docker Compose plugin sudah terinstal, langkah instalasi Uptime Kuma berlaku sama di seluruh distribusi Linux tanpa perlu penyesuaian tambahan, karena Uptime Kuma dijalankan di dalam container yang sudah membawa environment-nya sendiri.
-
-> **Catatan:** Menurut dokumentasi resmi, metode Non-Docker mendukung mayoritas distribusi Linux utama (Debian, Ubuntu, CentOS, Fedora, ArchLinux, dan lainnya) serta Windows 10/Windows Server 2012 R2 ke atas. Platform seperti Replit dan Heroku tidak didukung.
 
 ## Memilih Metode Instalasi
 
@@ -88,7 +82,6 @@ Uptime Kuma dapat diinstal menggunakan salah satu dari dua metode berikut. Pilih
 * **Metode Non-Docker (Native)**, menggunakan Node.js dan PM2. Cocok apabila VPS tidak menjalankan Docker atau ingin instalasi langsung pada sistem operasi.
 * **Metode Docker**, menggunakan Docker Compose. Cocok apabila VPS sudah menjalankan Docker Engine, karena instalasi menjadi lebih ringkas dan proses update lebih sederhana.
 
-> **Catatan:** Jangan menjalankan kedua metode instalasi secara bersamaan pada satu VPS yang sama, karena keduanya akan memakai port `3001` secara default sehingga dapat menyebabkan konflik.
 
 ---
 
@@ -99,8 +92,6 @@ Sebelum melakukan instalasi Uptime Kuma, lakukan update package pada Ubuntu deng
 ```bash
 apt update && apt upgrade -y
 ```
-
-> **Catatan:** Perintah pada panduan ini diasumsikan dijalankan menggunakan user `root`. Jika menggunakan user biasa, tambahkan `sudo` pada perintah yang membutuhkan hak akses administratif.
 
 ---
 
@@ -131,7 +122,7 @@ git --version
 ```
 
 <p align="center">
-<img alt="verifikasi versi node dan git" src="Images/version_git_node.png" />
+<img alt="Verifikasi Versi Node dan Git" src="Images/npm/version_git_node.png" />
   <br>
   <em>Gambar 1: Verifikasi Versi Node dan Git</em>
 </p>
@@ -155,7 +146,7 @@ npm run setup
 ```
 
 <p align="center">
-<img alt="menjalankan npm run setup" src="Images/npm_run_setup.png" />
+<img alt="Menjalankan npm run setup" src="Images/npm/npm_run_setup.png" />
   <br>
   <em>Gambar 2: Menjalankan npm run setup</em>
 </p>
@@ -191,7 +182,7 @@ pm2 list
 ```
 
 <p align="center">
-<img alt="Menjalankan pm2 list" src="Images/pm2_list.png" />
+<img alt="Menjalankan pm2 list" src="Images/npm/pm2_list.png" />
   <br>
   <em>Gambar 3: Menjalankan pm2 list</em>
 </p>
@@ -234,7 +225,7 @@ pm2 logs uptime-kuma
 pm2 monit
 ```
 
-Lanjutkan ke bagian **Pilihan Database** untuk memahami opsi database yang tersedia (Non-Docker hanya menyediakan SQLite), lalu ke bagian **Konfigurasi Firewall**.
+Lanjutkan ke bagian **Pilihan Database** untuk memahami opsi database yang tersedia (Non-Docker hanya menyediakan MariaDB dan SQLite), lalu ke bagian **Konfigurasi Firewall**.
 
 ---
 
@@ -259,7 +250,7 @@ docker compose version
 ```
 
 <p align="center">
-<img alt="verifikasi versi docker dan docker compose" src="Images/docker_version.png" />
+<img alt="Verifikasi Versi Docker dan Docker Compose" src="Images/docker/docker_version.png" />
   <br>
   <em>Gambar 4: Verifikasi Versi Docker dan Docker Compose</em>
 </p>
@@ -307,6 +298,12 @@ Jalankan container menggunakan Docker Compose:
 docker compose up -d
 ```
 
+<p align="center">
+<img alt="Menjalankan docker compose up -d" src="Images/docker/docker_compose_up.png" />
+  <br>
+  <em>Gambar 6: Menjalankan docker compose up -d</em>
+</p>
+
 Verifikasi container berjalan:
 
 ```bash
@@ -314,9 +311,9 @@ docker ps
 ```
 
 <p align="center">
-<img alt="menjalankan docker ps" src="Images/docker_ps.png" />
+<img alt="Menjalankan docker ps" src="Images/docker/docker_ps.png" />
   <br>
-  <em>Gambar 5: Menjalankan docker ps</em>
+  <em>Gambar 7: Menjalankan docker ps</em>
 </p>
 
 Status container harus menunjukkan kondisi `Up`.
@@ -414,9 +411,9 @@ ufw status
 ```
 
 <p align="center">
-<img alt="verifikasi konfigurasi UFW" src="Images/ufw.png" />
+<img alt="Verifikasi Konfigurasi UFW" src="Images/nginx/4_ufw.png" />
   <br>
-  <em>Gambar 6: Verifikasi Konfigurasi UFW</em>
+  <em>Gambar 8: Verifikasi Konfigurasi UFW</em>
 </p>
 
 Port `3001` tidak perlu (dan tidak boleh) dibuka ke publik pada tahap produksi karena seluruh traffic publik akan melewati Nginx di port `80`/`443`.
@@ -446,12 +443,12 @@ Buat file konfigurasi:
 nano /etc/nginx/conf.d/uptime-kuma.conf
 ```
 
-Isi dengan konfigurasi berikut, ganti `uptime.domainkamu.com` dengan domain yang sudah di-pointing ke Kilat VM:
+Isi dengan konfigurasi berikut, ganti `uptime-kuma.domainkamu.com` dengan domain yang sudah di-pointing ke Kilat VM:
 
 ```nginx
 server {
     listen 80;
-    server_name uptime.domainkamu.com;
+    server_name uptime-kuma.domainkamu.com;
 
     location / {
         proxy_pass         http://127.0.0.1:3001;
@@ -484,10 +481,10 @@ systemctl reload nginx
 <p align="center">
 <img alt="verifikasi nginx" src="Images/nginx_verif.png" />
   <br>
-  <em>Gambar 7: Verifikasi NGINX</em>
+  <em>Gambar 9: Verifikasi NGINX</em>
 </p>
 
-Pada titik ini Uptime Kuma sudah bisa diakses melalui `http://uptime.domainkamu.com`, namun masih tanpa enkripsi (HTTP biasa).
+Pada titik ini Uptime Kuma sudah bisa diakses melalui `http://uptime-kuma.domainkamu.com`, namun masih tanpa enkripsi (HTTP biasa).
 
 ### 6.2 Pasang SSL dengan Certbot
 
@@ -500,8 +497,14 @@ apt install certbot python3-certbot-nginx -y
 Jalankan Certbot untuk domain yang sama dengan konfigurasi Nginx:
 
 ```bash
-certbot --nginx -d uptime.domainkamu.com
+certbot --nginx -d uptime-kuma.domainkamu.com
 ```
+
+<p align="center">
+<img alt="Sertifikat Berhasil Diterbitkan" src="Images/nginx/2_cert.png" />
+  <br>
+  <em>Gambar 10: Sertifikat Berhasil Diterbitkan</em>
+</p>
 
 Certbot akan otomatis mengubah konfigurasi Nginx untuk menambahkan blok `listen 443 ssl`, redirect HTTP ke HTTPS, dan menjadwalkan auto-renewal sertifikat.
 
@@ -511,13 +514,29 @@ Verifikasi auto-renewal berjalan dengan benar:
 certbot renew --dry-run
 ```
 
+<p align="center">
+<img alt="Verifikasi Auto-Renewal" src="Images/nginx/3_renewal.png" />
+  <br>
+  <em>Gambar 11: Verifikasi Auto-Renewal</em>
+</p>
+
 ---
 
 ## 7. Akses Website dan Setup Database dengan Akun Admin
 
-Akses Uptime Kuma melalui `https://uptime.domainkamu.com` (atau `http://IP_VPS:3001` apabila belum melakukan konfigurasi reverse proxy dan SSL).
+Akses Uptime Kuma melalui `https://uptime-kuma.domainkamu.com` (atau `http://IP_VPS:3001` apabila belum melakukan konfigurasi reverse proxy dan SSL).
 
-<!-- SCREENSHOT: Halaman awal setup wizard Uptime Kuma saat pertama kali diakses -->
+<p align="center">
+<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)" src="Images/npm/1_akses.png" />
+  <br>
+  <em>Gambar 12: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diaksese - Non-Docker (Native)</em>
+</p>
+
+<p align="center">
+<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker" src="Images/docker/1_akses.png" />
+  <br>
+  <em>Gambar 13: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diaksese - Docker</em>
+</p>
 
 Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pilihan Database](#4-pilihan-database) untuk penjelasan masing-masing opsi):
 
@@ -526,25 +545,37 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 * **MariaDB/MySQL (eksternal)**: isi Hostname (`localhost` jika satu server dan Non-Docker, atau IP internal host jika Uptime Kuma dijalankan via Docker), Port (`3306`), Username, Password, dan Database Name sesuai yang dibuat pada langkah 4.1.
 
 <p align="center">
-<img alt="pemilihan database" src="Images/embedded_mariadb.png" />
+<img alt="Pemilihan Database MariaDB" src="Images/npm/4_mariadb_koneksi.png" />
   <br>
-  <em>Gambar 8: Pemilihan Database</em>
+  <em>Gambar 14: Pemilihan Database MariaDB</em>
+</p>
+
+<p align="center">
+<img alt="Pemilihan Database SQLite" src="Images/npm/2_sqlite.png" />
+  <br>
+  <em>Gambar 15: Pemilihan Database SQLite</em>
+</p>
+
+<p align="center">
+<img alt="Pemilihan Database Embedded MariaDB" src="Images/npm/4_mariadb_koneksi.png" />
+  <br>
+  <em>Gambar 16: Pemilihan Database Embedded MariaDB</em>
 </p>
 
 Buat akun admin dengan username dan password yang kuat pada langkah berikutnya.
 
 <p align="center">
-<img alt="setup admin" src="Images/npm/4_setup_admin_show.png" />
+<img alt="Setup Admin" src="Images/npm/4_setup_admin_show.png" />
   <br>
-  <em>Gambar 9: Setup Admin</em>
+  <em>Gambar 17: Setup Admin</em>
 </p>
 
 Setelah berhasil, dashboard akan menampilkan Quick Stats kosong (Up/Down/Maintenance/Unknown/Pause semuanya 0) dengan pesan "No Monitors, please add one". Ini adalah kondisi normal karena Uptime Kuma tidak melakukan auto-discovery terhadap layanan apapun; setiap monitor harus ditambahkan manual.
 
 <p align="center">
-<img alt="halaman utama" src="Images/docker/6_halaman.png" />
+<img alt="Halaman Utama" src="Images/docker/5_halaman.pngg" />
   <br>
-  <em>Gambar 9: Halaman Utama</em>
+  <em>Gambar 18: Halaman Utama</em>
 </p>
 
 > **Catatan:** Penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.
@@ -560,28 +591,32 @@ Settings > Reverse Proxy
 ```
 
 <p align="center">
-<img alt="halaman settings" src="Images/npm/5_settings.png" />
+<img alt="Settings" src="Images/docker/6_settings.png" />
   <br>
-  <em>Gambar 10: Settings</em>
+  <em>Gambar 19: Settings</em>
 </p>
 
 Set **Trust Proxy** menjadi **Yes**. Ini membuat Uptime Kuma membaca IP client dari header `X-Forwarded-For` yang diteruskan Nginx, bukan mencatat IP Nginx itu sendiri sebagai sumber request.
 
 <p align="center">
-<img alt="reverse proxy" src="Images/npm/6_reverse.png" />
+<img alt="Reverse Prox" src="Images/docker/7_reverse.png" />
   <br>
-  <em>Gambar 11: Reverse Proxy</em>
+  <em>Gambar 20: Reverse Proxy</em>
 </p>
 
 ### Verifikasi Akhir
 
-Akses `https://uptime.domainkamu.com` dan pastikan:
+Akses `https://uptime-kuma.domainkamu.com` dan pastikan:
 
 * Koneksi menampilkan sertifikat valid (padlock aktif, bukan "Not Secure").
 * Login admin berhasil.
 * Dashboard menampilkan Quick Stats seperti pada langkah 7.
 
-<!-- SCREENSHOT: Browser menampilkan padlock/sertifikat valid pada uptime.domainkamu.com -->
+<p align="center">
+<img alt="Connection Secured" src="Images/nginx/5_padlock.png" />
+  <br>
+  <em>Gambar 21: Connection Secured</em>
+</p>
 
 Instalasi, reverse proxy, dan SSL selesai. Konfigurasi monitor, notifikasi, dan status page dilakukan pada artikel terpisah.
 
@@ -615,9 +650,9 @@ Command ini membaca versi rilis aktual dari dalam container, karena tag image `l
 Versi aplikasi juga dapat dilihat langsung melalui halaman **Settings** pada dashboard Uptime Kuma.
 
 <p align="center">
-<img alt="versi uptime kuma" src="Images/npm/7_version.png" />
+<img alt="Versi Uptime Kuma" src="Images/docker/8_versi.png" />
   <br>
-  <em>Gambar 12: Versi Uptime Kuma</em>
+  <em>Gambar 22: Versi Uptime Kuma</em>
 </p>
 
 ---
