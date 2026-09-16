@@ -10,6 +10,16 @@ CoreDNS merupakan DNS server **open source** yang digunakan untuk menangani perm
 
 CoreDNS cocok digunakan pada **Kilat VM** ketika pengguna membutuhkan DNS server yang ringan, fleksibel, dan dapat dikonfigurasi secara mandiri.
 
+### Fungsi CoreDNS
+
+CoreDNS dapat digunakan untuk:
+
+* Menjadi **authoritative DNS server** untuk sebuah domain.
+* Mengelola dan melayani **DNS Zone** serta **DNS Record**.
+* Menjawab permintaan DNS dari client.
+* Mendukung berbagai jenis DNS Record seperti `A`, `AAAA`, `CNAME`, `MX`, `NS`, dan `TXT`.
+* Meneruskan permintaan DNS ke DNS server lain melalui konfigurasi plugin yang sesuai.
+
 ### Kelebihan CoreDNS
 
 Beberapa kelebihan CoreDNS antara lain:
@@ -517,6 +527,30 @@ dig A domainkamu.com +short
 ```
 
 Pastikan hasil query menunjukkan nameserver dan DNS record sesuai dengan konfigurasi yang telah dibuat.
+
+Untuk melihat proses delegasi DNS dari root hingga nameserver domain, gunakan:
+
+```bash
+dig +trace domainkamu.com
+```
+
+## 14. Verifikasi DNS Menggunakan DNS Checker
+
+Setelah nameserver domain dikonfigurasi, lakukan pengecekan untuk memastikan DNS record telah tersebar dan dapat diakses dari berbagai lokasi.
+
+Gunakan layanan [DNS Checker](https://dnschecker.org/) untuk melakukan pengecekan terhadap record DNS.
+
+Masukkan nama domain, kemudian pilih jenis record yang ingin diperiksa, seperti `NS` atau `A`.
+
+<p align="center">
+  <img width="1600" height="850" alt="dns-checker" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/dns-checker.png" style="border-radius: 10px;" />
+  <br>
+  Gambar 14: Verifikasi DNS Checker
+</p>
+
+Pastikan hasil pengecekan menunjukkan nameserver dan IP Address yang sesuai dengan konfigurasi pada CoreDNS. Perubahan DNS tidak selalu langsung terlihat di seluruh lokasi karena dipengaruhi oleh proses propagasi DNS dan nilai TTL.
+
+> **Catatan:** Propagasi DNS adalah proses penyebaran perubahan DNS record ke berbagai DNS server di internet. Proses ini membutuhkan waktu karena setiap DNS server dapat menyimpan informasi DNS berdasarkan nilai TTL (*Time to Live*). Selama proses propagasi, hasil pengecekan DNS dapat berbeda-beda di setiap lokasi.
 
 ## Troubleshooting
 
