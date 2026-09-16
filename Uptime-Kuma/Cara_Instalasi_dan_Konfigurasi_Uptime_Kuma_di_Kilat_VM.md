@@ -225,7 +225,7 @@ pm2 logs uptime-kuma
 pm2 monit
 ```
 
-Lanjutkan ke bagian **Pilihan Database** untuk memahami opsi database yang tersedia (Non-Docker hanya menyediakan MariaDB dan SQLite), lalu ke bagian **Konfigurasi Firewall**.
+Lanjutkan ke bagian **Pilihan Database** untuk memahami opsi database yang tersedia (Non-Docker hanya menyediakan MariaDB/MySQL dan SQLite), lalu ke bagian **Konfigurasi Firewall**.
 
 ---
 
@@ -347,22 +347,22 @@ Restart otomatis saat reboot server sudah tertangani oleh nilai `restart: unless
 
 Pada halaman setup wizard (dibahas di langkah 7), Uptime Kuma menyediakan pilihan database. Jumlah pilihan berbeda tergantung metode instalasi:
 
-* **Non-Docker (Native)**: hanya tersedia **MariaDB** dan **SQLite**. 
-* **Docker (image full, tag `2`)**: tersedia tiga pilihan — **Embedded MariaDB**, **MariaDB**, dan **SQLite**.
+* **Non-Docker (Native)**: hanya tersedia **MariaDB/MySQL** dan **SQLite**. 
+* **Docker (image full, tag `2`)**: tersedia tiga pilihan — **Embedded MariaDB**, **MariaDB/MySQL**, dan **SQLite**.
 
 | Pilihan | Keterangan |
 | --- | --- |
 | **SQLite** | Database disimpan sebagai file di dalam direktori data (`/app/data` pada Docker, atau folder instalasi pada Non-Docker). Tidak perlu instalasi database server maupun pembuatan database/user manual. Direkomendasikan untuk kebanyakan kasus dan deployment berskala kecil. |
 | **Embedded MariaDB** *(khusus instalasi dengan Docker)* | MariaDB sudah dibundel dan dikonfigurasi otomatis oleh image, diakses melalui Unix socket. Tidak perlu `apt install mariadb-server` maupun `CREATE DATABASE`/`CREATE USER` manual — cukup pilih opsi ini pada wizard. |
-| **MariaDB** | Menghubungkan Uptime Kuma ke database MariaDB yang terpisah. Database, user, dan privilege harus disiapkan lebih dulu oleh administrator, lalu kredensialnya diisi pada wizard. Digunakan apabila membutuhkan database terpisah dari container/instalasi, misalnya untuk performa query lebih tinggi pada jumlah monitor besar. |
+| **MariaDB/MySQL** | Menghubungkan Uptime Kuma ke database MariaDB yang terpisah. Database, user, dan privilege harus disiapkan lebih dulu oleh administrator, lalu kredensialnya diisi pada wizard. Digunakan apabila membutuhkan database terpisah dari container/instalasi, misalnya untuk performa query lebih tinggi pada jumlah monitor besar. |
 
 > **Catatan:** Meskipun memilih Embedded MariaDB, volume `./data:/app/data` pada `compose.yaml` tetap wajib dipetakan ke direktori lokal atau Docker volume, karena data MariaDB tersebut tetap disimpan di dalam path tersebut. Menghapus container tanpa persistent volume akan menghilangkan seluruh data.
 
-Bagian berikut menjelaskan langkah setup **MariaDB** apabila opsi tersebut dipilih. Lewati bagian ini apabila menggunakan SQLite atau Embedded MariaDB.
+Bagian berikut menjelaskan langkah setup **MariaDB/MySQL** apabila opsi tersebut dipilih. Lewati bagian ini apabila menggunakan SQLite atau Embedded MariaDB.
 
-### 4.1 (Opsional/Advanced) Setup Database Eksternal MariaDB
+### 4.1 (Opsional/Advanced) Setup Database Eksternal MariaDB/MySQL
 
-Jika menggunakan MariaDB eksternal, database dan user harus dibuat khusus untuk Uptime Kuma, terpisah dari database aplikasi/website lain, karena form setup Uptime Kuma hanya melakukan koneksi ke database yang sudah ada dan tidak membuatnya secara otomatis.
+Jika menggunakan MariaDB/MySQL eksternal, database dan user harus dibuat khusus untuk Uptime Kuma, terpisah dari database aplikasi/website lain, karena form setup Uptime Kuma hanya melakukan koneksi ke database yang sudah ada dan tidak membuatnya secara otomatis.
 
 Install MariaDB (pada VPS yang sama dengan instalasi Non-Docker; apabila menggunakan Docker, MariaDB dapat dijalankan sebagai container atau service terpisah):
 
@@ -404,6 +404,7 @@ Kredensial di atas (`localhost`, `kuma_user`, `kuma`) akan dimasukkan pada halam
 Sebelum expose lewat domain, batasi akses langsung ke port `3001` dan hanya buka port yang dibutuhkan reverse proxy:
 
 ```bash
+ufw allow 22/tcp
 ufw allow 80/tcp
 ufw allow 443/tcp
 ufw reload
@@ -542,12 +543,12 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 
 * **Embedded MariaDB** *(khusus Docker image full)*: tidak perlu input tambahan, langsung klik Next.
 * **SQLite**: tidak perlu input tambahan, langsung klik Next. Direkomendasikan untuk kebanyakan kasus.
-* **MariaDB**: isi Hostname (`localhost` jika satu server dan Non-Docker, atau IP internal host jika Uptime Kuma dijalankan via Docker), Port (`3306`), Username, Password, dan Database Name sesuai yang dibuat pada langkah 4.1.
+* **MariaDB/MySQL**: isi Hostname (`localhost` jika satu server dan Non-Docker, atau IP internal host jika Uptime Kuma dijalankan via Docker), Port (`3306`), Username, Password, dan Database Name sesuai yang dibuat pada langkah 4.1.
 
 <p align="center">
-<img alt="Pemilihan Database MariaDB" src="Images/npm/4_mariadb_koneksi.png" />
+<img alt="Pemilihan Database MariaDB/MySQL" src="Images/npm/4_mariadb_koneksi.png" />
   <br>
-  <em>Gambar 14: Pemilihan Database MariaDB</em>
+  <em>Gambar 14: Pemilihan Database MariaDB/MySQL</em>
 </p>
 
 <p align="center">
@@ -557,7 +558,7 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 </p>
 
 <p align="center">
-<img alt="Pemilihan Database Embedded MariaDB" src="Images/npm/4_mariadb_koneksi.png" />
+<img alt="Pemilihan Database Embedded MariaDB" src="Images/docker/2_embedded_mariadb.png" />
   <br>
   <em>Gambar 16: Pemilihan Database Embedded MariaDB</em>
 </p>
