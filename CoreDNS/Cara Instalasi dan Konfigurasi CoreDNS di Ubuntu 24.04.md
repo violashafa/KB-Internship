@@ -283,7 +283,7 @@ nano /etc/systemd/resolved.conf
 
 Pada bagian `[Resolve]`, tambahkan atau ubah konfigurasi menjadi:
 
-```ini
+```ini 
 [Resolve]
 DNSStubListener=no
 ```
@@ -374,7 +374,7 @@ nano /etc/systemd/system/coredns.service
 
 Tambahkan konfigurasi berikut:
 
-```ini
+```
 [Unit]
 Description=CoreDNS DNS Server
 Documentation=https://coredns.io/
