@@ -64,7 +64,7 @@ Panduan ini menggunakan konfigurasi berikut:
 | Nginx            | Repository default Ubuntu 24.04 |
 | Certbot          | Plugin `python3-certbot-nginx`  |
 
-> **Catatan:** Tag Docker `:2` **bukan** berarti versi 2.0, melainkan *major-version tag* yang selalu mengikuti rilis stabil terbaru dari seri v2 (`2.x.x`). Pada saat panduan ini ditulis, tag `:2` mengarah ke rilis **2.5.4**. Untuk pin ke versi tertentu, gunakan tag spesifik seperti `2.5.4`. Requirement resmi Node.js untuk metode Non-Docker adalah versi 20.4 ke atas. Cara memeriksa versi aktual yang berjalan dibahas pada bagian [Memeriksa Versi Uptime Kuma yang Berjalan](#memeriksa-versi-uptime-kuma-yang-berjalan).
+> **Catatan:** Tag Docker `:2` **bukan** berarti versi 2.0, melainkan *major-version tag* yang selalu mengikuti rilis stabil terbaru dari seri v2 (`2.x.x`). Pada saat panduan ini ditulis, tag `:2` mengarah ke rilis **2.5.4**. Untuk pin ke versi tertentu, gunakan tag spesifik seperti `2.5.4`. Requirement resmi Node.js untuk metode Non-Docker adalah versi 20.4 ke atas. Cara memeriksa versi aktual yang berjalan dibahas pada bagian [Memeriksa Versi Uptime Kuma yang Berjalan](#9-memeriksa-versi-uptime-kuma-yang-berjalan)
 
 ## Kompatibilitas Sistem Operasi
 
@@ -347,18 +347,18 @@ Restart otomatis saat reboot server sudah tertangani oleh nilai `restart: unless
 
 Pada halaman setup wizard (dibahas di langkah 7), Uptime Kuma menyediakan pilihan database. Jumlah pilihan berbeda tergantung metode instalasi:
 
-* **Non-Docker (Native)**: hanya tersedia **SQLite**.
-* **Docker (image full, tag `2`)**: tersedia tiga pilihan — **Embedded MariaDB**, **MariaDB/MySQL**, dan **SQLite**.
+* **Non-Docker (Native)**: hanya tersedia **MariaDB** dan **SQLite**. 
+* **Docker (image full, tag `2`)**: tersedia tiga pilihan — **Embedded MariaDB**, **MariaDB**, dan **SQLite**.
 
 | Pilihan | Keterangan |
 | --- | --- |
 | **SQLite** | Database disimpan sebagai file di dalam direktori data (`/app/data` pada Docker, atau folder instalasi pada Non-Docker). Tidak perlu instalasi database server maupun pembuatan database/user manual. Direkomendasikan untuk kebanyakan kasus dan deployment berskala kecil. |
-| **Embedded MariaDB** *(khusus Docker image full, bukan `-slim`)* | MariaDB sudah dibundel dan dikonfigurasi otomatis oleh image, diakses melalui Unix socket. Tidak perlu `apt install mariadb-server` maupun `CREATE DATABASE`/`CREATE USER` manual — cukup pilih opsi ini pada wizard. |
-| **MariaDB/MySQL (eksternal)** | Menghubungkan Uptime Kuma ke database MariaDB/MySQL yang terpisah. Database, user, dan privilege harus disiapkan lebih dulu oleh administrator, lalu kredensialnya diisi pada wizard. Digunakan apabila membutuhkan database terpisah dari container/instalasi, misalnya untuk performa query lebih tinggi pada jumlah monitor besar. |
+| **Embedded MariaDB** *(khusus instalasi dengan Docker)* | MariaDB sudah dibundel dan dikonfigurasi otomatis oleh image, diakses melalui Unix socket. Tidak perlu `apt install mariadb-server` maupun `CREATE DATABASE`/`CREATE USER` manual — cukup pilih opsi ini pada wizard. |
+| **MariaDB** | Menghubungkan Uptime Kuma ke database MariaDB yang terpisah. Database, user, dan privilege harus disiapkan lebih dulu oleh administrator, lalu kredensialnya diisi pada wizard. Digunakan apabila membutuhkan database terpisah dari container/instalasi, misalnya untuk performa query lebih tinggi pada jumlah monitor besar. |
 
 > **Catatan:** Meskipun memilih Embedded MariaDB, volume `./data:/app/data` pada `compose.yaml` tetap wajib dipetakan ke direktori lokal atau Docker volume, karena data MariaDB tersebut tetap disimpan di dalam path tersebut. Menghapus container tanpa persistent volume akan menghilangkan seluruh data.
 
-Bagian berikut menjelaskan langkah setup **MariaDB/MySQL eksternal** apabila opsi tersebut dipilih. Lewati bagian ini apabila menggunakan SQLite atau Embedded MariaDB.
+Bagian berikut menjelaskan langkah setup **MariaDB** apabila opsi tersebut dipilih. Lewati bagian ini apabila menggunakan SQLite atau Embedded MariaDB.
 
 ### 4.1 (Opsional/Advanced) Setup Database Eksternal MariaDB
 
@@ -479,7 +479,7 @@ systemctl reload nginx
 ```
 
 <p align="center">
-<img alt="verifikasi nginx" src="Images/nginx_verif.png" />
+<img alt="verifikasi nginx" src="Images/nginx/1_verifikasi.png" />
   <br>
   <em>Gambar 9: Verifikasi NGINX</em>
 </p>
@@ -542,7 +542,7 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 
 * **Embedded MariaDB** *(khusus Docker image full)*: tidak perlu input tambahan, langsung klik Next.
 * **SQLite**: tidak perlu input tambahan, langsung klik Next. Direkomendasikan untuk kebanyakan kasus.
-* **MariaDB/MySQL (eksternal)**: isi Hostname (`localhost` jika satu server dan Non-Docker, atau IP internal host jika Uptime Kuma dijalankan via Docker), Port (`3306`), Username, Password, dan Database Name sesuai yang dibuat pada langkah 4.1.
+* **MariaDB**: isi Hostname (`localhost` jika satu server dan Non-Docker, atau IP internal host jika Uptime Kuma dijalankan via Docker), Port (`3306`), Username, Password, dan Database Name sesuai yang dibuat pada langkah 4.1.
 
 <p align="center">
 <img alt="Pemilihan Database MariaDB" src="Images/npm/4_mariadb_koneksi.png" />
@@ -565,7 +565,7 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 Buat akun admin dengan username dan password yang kuat pada langkah berikutnya.
 
 <p align="center">
-<img alt="Setup Admin" src="Images/npm/4_setup_admin_show.png" />
+<img alt="Setup Admin" src="Images/npm/6_setup_akun.png" />
   <br>
   <em>Gambar 17: Setup Admin</em>
 </p>
@@ -573,7 +573,7 @@ Buat akun admin dengan username dan password yang kuat pada langkah berikutnya.
 Setelah berhasil, dashboard akan menampilkan Quick Stats kosong (Up/Down/Maintenance/Unknown/Pause semuanya 0) dengan pesan "No Monitors, please add one". Ini adalah kondisi normal karena Uptime Kuma tidak melakukan auto-discovery terhadap layanan apapun; setiap monitor harus ditambahkan manual.
 
 <p align="center">
-<img alt="Halaman Utama" src="Images/docker/5_halaman.pngg" />
+<img alt="Halaman Utama" src="Images/docker/5_halaman.png" />
   <br>
   <em>Gambar 18: Halaman Utama</em>
 </p>
