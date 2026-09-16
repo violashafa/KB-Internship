@@ -545,8 +545,6 @@ grep -o 'avx2' /proc/cpuinfo | head -1
 
 Jika tidak terdapat output, CPU tidak mendukung AVX2 dan konfigurasi ClickHouse perlu disesuaikan.
 
-TULIS-SOLUSI-SESUAI-PERCOBAAN
-
 ### Tampilan SigNoz Tidak Dapat Diakses
 
 Jika tampilan SigNoz tidak dapat diakses, periksa beberapa hal berikut:
