@@ -1,14 +1,14 @@
-# Cara Instalasi dan Konfigurasi Uptime Kuma di Kilat VM
+# Cara Instalasi dan Konfigurasi Uptime Kuma di Sistem Operasi Linux
 
 Halo, Kawan Belajar! Ingin memantau status uptime website atau service milikmu secara mandiri tanpa bergantung pada layanan pihak ketiga?
 
-Pada panduan ini, kita akan membahas cara menginstal dan mengonfigurasi **Uptime Kuma** pada Kilat VM hingga dapat diakses secara aman melalui domain (HTTPS) menggunakan reverse proxy Nginx dan SSL Certbot.
+Pada panduan ini, kita akan membahas cara menginstal dan mengonfigurasi **Uptime Kuma** pada server Linux hingga dapat diakses secara aman melalui domain (HTTPS) menggunakan reverse proxy Nginx dan SSL Certbot.
 
 ## Apa Itu Uptime Kuma?
 
 Uptime Kuma merupakan **self-hosted monitoring tool** open source yang digunakan untuk memantau status uptime dari website, server, maupun service lain seperti HTTP(s), TCP, Ping, DNS Record, hingga Docker container. Uptime Kuma menyediakan dashboard interaktif berbasis WebSocket sehingga status monitor dapat diperbarui secara realtime tanpa perlu me-refresh halaman.
 
-Uptime Kuma cocok digunakan pada **Kilat VM** ketika pengguna membutuhkan monitoring uptime yang ringan, dapat dihost sendiri, dan tidak bergantung pada kuota atau plan dari layanan monitoring pihak ketiga.
+Uptime Kuma cocok digunakan pada server Linux ketika pengguna membutuhkan monitoring uptime yang ringan, dapat dihost sendiri, dan tidak bergantung pada kuota atau plan dari layanan monitoring pihak ketiga.
 
 ### Kelebihan Uptime Kuma
 
@@ -29,16 +29,16 @@ Uptime Kuma juga memiliki beberapa hal yang perlu diperhatikan:
 * Pengelolaan update, backup, dan keamanan dilakukan secara mandiri oleh pengguna.
 * Basis data default menggunakan SQLite, yang perlu diperhatikan performanya apabila jumlah monitor sangat besar.
 
-Pada panduan ini, Uptime Kuma akan diinstal dan dikonfigurasi pada Kilat VM dengan sistem operasi Ubuntu 24.04 LTS, dilengkapi reverse proxy Nginx dan SSL Certbot agar dapat diakses secara aman melalui domain.
+Pada panduan ini, Uptime Kuma akan diinstal dan dikonfigurasi pada VPS dengan sistem operasi Ubuntu 24.04 LTS, dilengkapi reverse proxy Nginx dan SSL Certbot agar dapat diakses secara aman melalui domain.
 
 ## Persiapan Awal
 
 Sebelum memulai instalasi dan konfigurasi Uptime Kuma, pastikan kamu sudah memiliki:
 
-1. **Kilat VM** dengan sistem operasi Ubuntu 24.04 LTS (atau distribusi Linux lain, lihat bagian [Kompatibilitas Sistem Operasi](#kompatibilitas-sistem-operasi)).
+1. **VPS** dengan sistem operasi Ubuntu 24.04 LTS (atau distribusi Linux lain, lihat bagian [Kompatibilitas Sistem Operasi](#kompatibilitas-sistem-operasi)).
 2. Akses **Root** atau user dengan hak akses `sudo`.
-3. **IP Address publik** pada Kilat VM.
-4. Domain yang A record-nya sudah diarahkan ke IP Address publik Kilat VM (apabila Uptime Kuma akan diakses melalui domain).
+3. **IP Address publik** pada VPS.
+4. Domain yang A record-nya sudah diarahkan ke IP Address publik VPS (apabila Uptime Kuma akan diakses melalui domain).
 5. Spesifikasi minimum: 1 vCPU, 1 GB RAM, 10 GB storage. Sudah cukup untuk kebutuhan 20-50 monitor.
 6. Port `22`, `80`, dan `443` dapat diakses dari internet (port `3001` tidak perlu dibuka ke publik, lihat bagian [Konfigurasi Firewall](#5-konfigurasi-firewall-ufw)).
 
@@ -444,7 +444,7 @@ Buat file konfigurasi:
 nano /etc/nginx/conf.d/uptime-kuma.conf
 ```
 
-Isi dengan konfigurasi berikut, ganti `uptime-kuma.domainkamu.com` dengan domain yang sudah di-pointing ke Kilat VM:
+Isi dengan konfigurasi berikut, ganti `uptime-kuma.domainkamu.com` dengan domain yang sudah di-pointing ke alamat IP hosting:
 
 ```nginx
 server {
@@ -530,13 +530,13 @@ Akses Uptime Kuma melalui `https://uptime-kuma.domainkamu.com` (atau `http://IP_
 <p align="center">
 <img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)" src="Images/npm/1_akses.png" />
   <br>
-  <em>Gambar 12: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diaksese - Non-Docker (Native)</em>
+  <em>Gambar 12: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)</em>
 </p>
 
 <p align="center">
 <img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker" src="Images/docker/1_akses.png" />
   <br>
-  <em>Gambar 13: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diaksese - Docker</em>
+  <em>Gambar 13: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker</em>
 </p>
 
 Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pilihan Database](#4-pilihan-database) untuk penjelasan masing-masing opsi):
@@ -720,11 +720,11 @@ Pastikan opsi **Trust Proxy** pada `Settings > Reverse Proxy` sudah diaktifkan s
 
 ### Sertifikat SSL Gagal Diterbitkan
 
-Pastikan A record domain sudah mengarah ke IP Address publik Kilat VM dan propagasi DNS sudah selesai sebelum menjalankan `certbot --nginx`. Periksa juga port `80` dapat diakses dari internet, karena Certbot menggunakan metode HTTP-01 challenge melalui port tersebut secara default.
+Pastikan A record domain sudah mengarah ke IP Address publik VPS dan propagasi DNS sudah selesai sebelum menjalankan `certbot --nginx`. Periksa juga port `80` dapat diakses dari internet, karena Certbot menggunakan metode HTTP-01 challenge melalui port tersebut secara default.
 
 ## Kesimpulan
 
-Uptime Kuma dapat diinstal pada Kilat VM baik menggunakan metode Non-Docker (Native dengan Node.js dan PM2) maupun metode Docker (Docker Compose), sesuai kebutuhan dan preferensi environment yang digunakan. Dengan konfigurasi reverse proxy Nginx dan SSL Certbot, Uptime Kuma dapat diakses secara aman melalui domain (HTTPS) dengan dashboard yang menerima update status secara realtime melalui WebSocket.
+Uptime Kuma dapat diinstal pada sistem operasi Linux baik menggunakan metode Non-Docker (Native dengan Node.js dan PM2) maupun metode Docker (Docker Compose), sesuai kebutuhan dan preferensi environment yang digunakan. Dengan konfigurasi reverse proxy Nginx dan SSL Certbot, Uptime Kuma dapat diakses secara aman melalui domain (HTTPS) dengan dashboard yang menerima update status secara realtime melalui WebSocket.
 
 Dengan mengikuti panduan ini, Uptime Kuma telah berhasil diinstal, dikonfigurasi sebagai reverse proxy dengan Trust Proxy aktif, serta siap digunakan untuk menambahkan monitor sesuai kebutuhan.
 
