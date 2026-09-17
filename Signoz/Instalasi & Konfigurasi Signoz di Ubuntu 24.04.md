@@ -107,7 +107,7 @@ apt install -y curl ca-certificates gnupg
 ```
 
 <p align="center">
-  <img width="850" alt="Update sistem Ubuntu" src="Signoz/images/signoz-01-update-sistem.png" style="border-radius: 10px;" />
+  <img width="850" alt="Update sistem Ubuntu" src="/images/signoz-01-update-sistem.png" style="border-radius: 10px;" />
   <br>
   Gambar 1: Update sistem
 </p>
