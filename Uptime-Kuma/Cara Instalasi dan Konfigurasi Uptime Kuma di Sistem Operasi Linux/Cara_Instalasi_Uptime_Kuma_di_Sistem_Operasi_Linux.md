@@ -483,6 +483,6 @@ Dengan mengikuti panduan ini, Uptime Kuma telah berhasil diinstal, akun admin te
 
 ## Referensi
 
-- [Uptime Kuma Official Repository](https://github.com/louislam/uptime-kuma)
+- [Uptime Kuma Official Repository](https://github.com/louislam/uptime-kuma/)
 - [Uptime Kuma - How to Install](https://uptimekuma.co/install-uptime-kuma-linux/)
 - [Uptime Kuma - How to Install on Docker](https://uptimekuma.co/install-uptime-kuma-docker/)
