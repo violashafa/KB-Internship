@@ -444,7 +444,7 @@ Setelah berhasil, dashboard akan menampilkan Quick Stats kosong (Up/Down/Mainten
   <em>Gambar 13: Halaman Utama</em>
 </p>
 
-> **Catatan:** Konfigurasi reverse proxy, SSL, penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.
+> **Catatan:** penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.
 
 ---
 
@@ -479,7 +479,7 @@ Apabila koneksi ke database gagal pada halaman setup wizard, periksa hal berikut
 
 Uptime Kuma dapat diinstal pada sistem operasi Linux baik menggunakan metode Non-Docker (Native dengan Node.js dan PM2) maupun metode Docker (Docker Compose), sesuai kebutuhan dan preferensi environment yang digunakan. Dengan tiga pilihan database yang tersedia (SQLite, Embedded MariaDB, dan MariaDB/MySQL eksternal), instalasi dapat disesuaikan dengan skala penggunaan.
 
-Dengan mengikuti panduan ini, Uptime Kuma telah berhasil diinstal, akun admin telah dibuat, dan dashboard utama sudah dapat diakses. Konfigurasi reverse proxy, SSL, serta penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.
+Dengan mengikuti panduan ini, Uptime Kuma telah berhasil diinstal, akun admin telah dibuat, dan dashboard utama sudah dapat diakses. Konfigurasi penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.
 
 ## Referensi
 
