@@ -149,7 +149,7 @@ docker compose version
 ```
 
 <p align="center">
-  <img width="850" alt="Verifikasi versi Docker" src="/images/signoz-02-verifikasi-docker.png" style="border-radius: 10px;" />
+  <img width="850" alt="Verifikasi versi Docker" src="images/signoz-02-verifikasi-docker.png" style="border-radius: 10px;" />
   <br>
   Gambar 2: Verifikasi instalasi Docker
 </p>
@@ -210,7 +210,7 @@ Perintah `cast` akan memvalidasi Docker pada server, membuat file Docker Compose
 Proses instalasi akan men-download beberapa image container, sehingga membutuhkan waktu tergantung koneksi internet dan spesifikasi server.
 
 <p align="center">
-  <img width="850" alt="Proses instalasi SigNoz" src="/images/signoz-03-proses-instalasi.png" style="border-radius: 10px;" />
+  <img width="850" alt="Proses instalasi SigNoz" src="images/signoz-03-proses-instalasi.png" style="border-radius: 10px;" />
   <br>
   Gambar 3: Proses instalasi SigNoz
 </p>
@@ -224,7 +224,7 @@ docker ps
 ```
 
 <p align="center">
-  <img width="900" alt="Verifikasi container SigNoz" src="/images/signoz-04-verifikasi-container.png" style="border-radius: 10px;" />
+  <img width="900" alt="Verifikasi container SigNoz" src="images/signoz-04-verifikasi-container.png" style="border-radius: 10px;" />
   <br>
   Gambar 4: Verifikasi container SigNoz
 </p>
@@ -274,7 +274,7 @@ ufw status
 ```
 
 <p align="center">
-  <img width="600" alt="Verifikasi UFW" src="/images/signoz-05-verifikasi-ufw.png" style="border-radius: 10px;" />
+  <img width="600" alt="Verifikasi UFW" src="images/signoz-05-verifikasi-ufw.png" style="border-radius: 10px;" />
   <br>
   Gambar 5: Verifikasi UFW
 </p>
@@ -292,7 +292,7 @@ http://IP-VPS:8080
 Pada akses pertama, SigNoz akan meminta pembuatan akun administrator. Masukkan nama, email, dan password yang akan digunakan.
 
 <p align="center">
-  <img width="850" alt="Halaman pembuatan akun SigNoz" src="/images/signoz-06-pembuatan-akun.png" style="border-radius: 10px;" />
+  <img width="850" alt="Halaman pembuatan akun SigNoz" src="images/signoz-06-pembuatan-akun.png" style="border-radius: 10px;" />
   <br>
   Gambar 6: Pembuatan akun administrator
 </p>
@@ -300,7 +300,7 @@ Pada akses pertama, SigNoz akan meminta pembuatan akun administrator. Masukkan n
 Setelah akun berhasil dibuat, tampilan utama SigNoz akan ditampilkan.
 
 <p align="center">
-  <img width="900" alt="Tampilan utama SigNoz" src="/images/signoz-07-tampilan-utama.png" style="border-radius: 10px;" />
+  <img width="900" alt="Tampilan utama SigNoz" src="images/signoz-07-tampilan-utama.png" style="border-radius: 10px;" />
   <br>
   Gambar 7: Tampilan utama SigNoz
 </p>
@@ -365,7 +365,7 @@ Content-Type: application/json
 Buka tampilan SigNoz, kemudian masuk ke menu **Logs**. Log dengan isi `Halo dari uji coba OTLP` akan muncul pada daftar log dengan service name `uji-coba-otlp`.
 
 <p align="center">
-  <img width="900" alt="Tampilan SigNoz setelah menerima data" src="/images/signoz-08-data-masuk.png" style="border-radius: 10px;" />
+  <img width="900" alt="Tampilan SigNoz setelah menerima data" src="images/signoz-08-data-masuk.png" style="border-radius: 10px;" />
   <br>
   Gambar 8: Contoh tampilan SigNoz setelah menerima data
 </p>
@@ -447,7 +447,7 @@ Secara bawaan, SigNoz menyimpan data logs dan traces selama **7 hari**, serta da
 Pengaturan retention dapat diubah melalui tampilan SigNoz pada tab **General** di menu **Settings**. Pada menu tersebut, durasi penyimpanan dapat diatur secara terpisah untuk metrics, traces, dan logs.
 
 <p align="center">
-  <img width="900" alt="Konfigurasi retention SigNoz" src="/images/signoz-9-retention-data.png" style="border-radius: 10px;" />
+  <img width="900" alt="Konfigurasi retention SigNoz" src="images/signoz-9-retention-data.png" style="border-radius: 10px;" />
   <br>
   Gambar 10: Konfigurasi retention data
 </p>
