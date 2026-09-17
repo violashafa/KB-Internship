@@ -6,7 +6,7 @@ Pada panduan ini, kita akan membahas cara instalasi dan konfigurasi SigNoz di at
 
 ## Apa Itu SigNoz?
 
-SigNoz merupakan platform **observability open source** yang digunakan untuk memantau performa aplikasi dan infrastruktur. SigNoz menyatukan tiga jenis data observability, yaitu **metrics**, **traces**, dan **logs**, dalam satu tampilan sehingga memudahkan proses analisis ketika terjadi kendala pada aplikasi.
+SigNoz merupakan platform **observability open source** yang digunakan untuk memantau performa aplikasi dan infrastruktur. SigNoz menyatukan tiga jenis data observability, yaitu **metrics**, **traces**, dan **logs**, dalam satu tampilan. Dibanding menyusun sendiri kombinasi **Prometheus (metrics)**, **Loki (logs)**, dan **Tempo/Jaeger (traces)** yang masing-masing perlu di-setup dan dihubungkan ke **Grafana**, SigNoz sudah menggabungkan ketiganya dalam satu aplikasi dengan satu **database (ClickHouse)**, sehingga proses instalasi dan pengelolaannya lebih ringkas.
 
 SigNoz dibangun di atas standar **OpenTelemetry**, sehingga pengiriman data dari aplikasi dapat dilakukan menggunakan library OpenTelemetry tanpa terikat pada satu vendor tertentu. Data yang dikirimkan disimpan pada database **ClickHouse** yang dirancang untuk menangani data dalam jumlah besar.
 
@@ -85,10 +85,10 @@ Panduan ini menggunakan konfigurasi berikut:
 | Komponen       | Versi            |
 | -------------- | ---------------- |
 | Sistem Operasi | Ubuntu 24.04 LTS |
-| Docker Engine  | 29.6.2           |
-| Docker Compose | v2 (plugin)      |
-| SigNoz         | v0.141.1         |
-| ClickHouse     | Mengikuti bawaan SigNoz v0.141.1 |
+| Docker Engine  | 29.8.1           |
+| Docker Compose | v5.5.1      |
+| SigNoz         | v0.142.1         |
+| ClickHouse     | Mengikuti bawaan SigNoz v0.142.1 |
 
 > **Catatan:** Versi di atas adalah versi terbaru pada saat panduan ini ditulis (September 2026). Karena baik Docker maupun SigNoz cukup aktif merilis versi baru, jalankan `docker --version` dan cek versi SigNoz yang ter-install setelah instalasi untuk memastikan versi yang benar-benar terpasang di server kamu.
 
@@ -169,6 +169,13 @@ Install `foundryctl`:
 
 ```
 curl -fsSL https://signoz.io/foundry.sh | bash
+```
+
+Mengaktifkan dan Mendaftarkan PATH `foundryctl`
+
+```
+echo 'export PATH="/root/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 Buat file konfigurasi `casting.yaml` yang menentukan target deployment (Docker Compose pada satu mesin):
@@ -363,8 +370,6 @@ Buka tampilan SigNoz, kemudian masuk ke menu **Logs**. Log dengan isi `Halo dari
   Gambar 8: Contoh tampilan SigNoz setelah menerima data
 </p>
 
-> **Catatan:** Gambar di atas merupakan contoh tampilan ketika data observability sudah masuk ke SigNoz. Pada instalasi yang baru selesai dilakukan, tampilan tersebut masih kosong hingga terdapat data yang dikirimkan.
-
 > **Catatan:** Endpoint OTLP bawaan SigNoz tidak dilengkapi autentikasi. Apabila port `4317` dan `4318` terbuka ke internet, siapa pun yang mengetahui IP Address server dapat mengirimkan data ke SigNoz kamu. Batasi akses kedua port tersebut hanya untuk IP Address server pengirim data, misalnya menggunakan UFW:
 >
 > ```
@@ -403,8 +408,6 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
 
-        # Header berikut disarankan agar fitur yang butuh koneksi realtime
-        # (misalnya Live Tail pada Logs Explorer) dapat berjalan normal
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
     }
@@ -427,12 +430,6 @@ Kemudian install sertifikat SSL:
 certbot --nginx -d signoz.domainkamu.com
 ```
 
-<p align="center">
-  <img width="850" alt="Instalasi SSL menggunakan Certbot" src="/images/signoz-09-instalasi-ssl.png" style="border-radius: 10px;" />
-  <br>
-  Gambar 9: Instalasi SSL
-</p>
-
 Setelah sertifikat berhasil dipasang, SigNoz dapat diakses melalui:
 
 ```
@@ -450,7 +447,7 @@ Secara bawaan, SigNoz menyimpan data logs dan traces selama **7 hari**, serta da
 Pengaturan retention dapat diubah melalui tampilan SigNoz pada tab **General** di menu **Settings**. Pada menu tersebut, durasi penyimpanan dapat diatur secara terpisah untuk metrics, traces, dan logs.
 
 <p align="center">
-  <img width="900" alt="Konfigurasi retention SigNoz" src="/images/signoz-10-retention-data.png" style="border-radius: 10px;" />
+  <img width="900" alt="Konfigurasi retention SigNoz" src="/images/signoz-9-retention-data.png" style="border-radius: 10px;" />
   <br>
   Gambar 10: Konfigurasi retention data
 </p>
@@ -463,26 +460,6 @@ docker system df
 ```
 
 > **Catatan:** Semakin lama durasi retention, semakin besar kebutuhan disk yang diperlukan. Sesuaikan durasi retention dengan kapasitas disk Kilat VM yang digunakan.
-
-## 10. Konfigurasi Alert (Opsional)
-
-SigNoz dapat mengirimkan notifikasi ketika kondisi tertentu terpenuhi, misalnya penggunaan CPU yang tinggi atau jumlah error yang melebihi batas.
-
-Konfigurasi dilakukan melalui tampilan SigNoz dengan langkah berikut:
-
-1. Tambahkan notification channel pada menu **Settings**, misalnya email, Slack, atau webhook.
-2. Buat alert rule baru pada menu **Alerts**.
-3. Tentukan kondisi, batas nilai, dan durasi evaluasi alert.
-4. Pilih notification channel yang akan digunakan.
-5. Lakukan pengujian untuk memastikan notifikasi dapat diterima.
-
-<p align="center">
-  <img width="900" alt="Konfigurasi alert SigNoz" src="/images/signoz-11-konfigurasi-alert.png" style="border-radius: 10px;" />
-  <br>
-  Gambar 11: Konfigurasi alert
-</p>
-
-> **Catatan:** Nama dan letak menu dapat berbeda tergantung versi SigNoz yang digunakan.
 
 ## Pengelolaan Service SigNoz
 
