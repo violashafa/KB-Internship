@@ -2,7 +2,7 @@
 
 Halo, Kawan Belajar! Artikel ini membahas cara instalasi **Uptime Kuma** pada server Linux menggunakan metode **Docker**, mulai dari persiapan, konfigurasi Docker Compose, pilihan database (termasuk MariaDB eksternal), hingga berhasil login dan sampai ke halaman utama dashboard.
 
-> **Catatan:** Belum tahu apa itu Uptime Kuma? Baca dulu artikel [Apa Itu Uptime Kuma? Mengenal Tool Monitoring Uptime Self-Hosted](Apa_Itu_Uptime_Kuma_Mengenal_Tool_Monitoring_Uptime_Self-Hosted.md). Apabila ingin instalasi tanpa Docker, lihat artikel [Cara Instalasi Uptime Kuma di Linux dengan NPM (Non-Docker/Native)](Cara_Instalasi_Uptime_Kuma_di_Linux_dengan_NPM.md).
+> **Catatan:** Belum tahu apa itu Uptime Kuma? Baca dulu artikel [Apa Itu Uptime Kuma? Mengenal Tool Monitoring Uptime Self-Hosted](https://kb.cloudkilat.id/uptime-kuma/apa-itu-uptime-kuma-mengenal-tool-monitoring-uptime-self-hosted). Apabila ingin instalasi tanpa Docker, lihat artikel [Cara Instalasi Uptime Kuma di Linux dengan NPM (Non-Docker/Native)](https://kb.cloudkilat.id/uptime-kuma/cara-instalasi-uptime-kuma-di-linux-dengan-npm-non-docker-native).
 
 ## Persiapan Awal
 
@@ -14,6 +14,15 @@ Sebelum memulai instalasi Uptime Kuma, pastikan kamu sudah memiliki:
 4. Spesifikasi minimum: 1 vCPU, 1 GB RAM, 10 GB storage. Sudah cukup untuk kebutuhan 20-50 monitor.
 5. Port `22/tcp` (SSH) dan `3001/tcp` (akses dashboard Uptime Kuma) dapat diakses dari internet.
 
+## Kompatibilitas Sistem Operasi
+
+Uptime Kuma dengan metode Docker dapat dijalankan pada berbagai distribusi Linux, selama Docker Engine dan Docker Compose plugin sudah terinstal. Perbedaan antar distribusi hanya terletak pada perintah instalasi Docker itu sendiri, sedangkan langkah instalasi Uptime Kuma di dalamnya tetap sama karena berjalan di dalam container yang sudah membawa environment-nya sendiri.
+
+| Distribusi                        | Package Manager | Catatan                                                              |
+| ---------------------------------- | ---------------- | ---------------------------------------------------------------------- |
+| Ubuntu / Debian                    | `apt`            | Digunakan pada panduan ini.                                            |
+| CentOS / Rocky Linux / AlmaLinux   | `dnf` / `yum`    | Nama paket dependency seperti `docker` umumnya tersedia langsung di repository, namun beberapa paket tambahan mungkin memerlukan repository EPEL. |
+
 ## Rangkuman Versi yang Digunakan
 
 Panduan ini menggunakan konfigurasi berikut:
@@ -24,15 +33,6 @@ Panduan ini menggunakan konfigurasi berikut:
 | Uptime Kuma      | Image `louislam/uptime-kuma:2` |
 
 > **Catatan:** Tag Docker `:2` **bukan** berarti versi 2.0, melainkan *major-version tag* yang selalu mengikuti rilis stabil terbaru dari seri v2 (`2.x.x`). Pada saat panduan ini ditulis, tag `:2` mengarah ke rilis **2.5.4**. Untuk pin ke versi tertentu, gunakan tag spesifik seperti `2.5.4`.
-
-## Kompatibilitas Sistem Operasi
-
-Uptime Kuma dengan metode Docker dapat dijalankan pada berbagai distribusi Linux, selama Docker Engine dan Docker Compose plugin sudah terinstal. Perbedaan antar distribusi hanya terletak pada perintah instalasi Docker itu sendiri, sedangkan langkah instalasi Uptime Kuma di dalamnya tetap sama karena berjalan di dalam container yang sudah membawa environment-nya sendiri.
-
-| Distribusi                        | Package Manager | Catatan                                                              |
-| ---------------------------------- | ---------------- | ---------------------------------------------------------------------- |
-| Ubuntu / Debian                    | `apt`            | Digunakan pada panduan ini.                                            |
-| CentOS / Rocky Linux / AlmaLinux   | `dnf` / `yum`    | Nama paket dependency seperti `docker` umumnya tersedia langsung di repository, namun beberapa paket tambahan mungkin memerlukan repository EPEL. |
 
 ---
 
@@ -158,6 +158,32 @@ docker compose logs -f
 
 Restart otomatis saat reboot server sudah tertangani oleh nilai `restart: unless-stopped` pada `compose.yaml`, sehingga tidak diperlukan konfigurasi tambahan.
 
+### Update Uptime Kuma
+
+Untuk melakukan update Uptime Kuma pada instalasi Docker Compose, masuk ke direktori yang berisi file `compose.yaml`, kemudian pull image terbaru dan recreate container:
+
+```bash
+cd /home/uptime-kuma-docker
+docker compose pull
+docker compose up -d --force-recreate
+```
+
+Perintah `docker compose pull` akan mengambil image terbaru sesuai tag yang digunakan pada `compose.yaml`, misalnya:
+
+```yaml
+image: louislam/uptime-kuma:2
+```
+
+Tag `:2` mengacu pada major version 2 dan akan menggunakan release terbaru yang tersedia pada seri Uptime Kuma 2.x ketika image diperbarui.
+
+Setelah proses update selesai, versi Uptime Kuma yang sedang berjalan dapat diperiksa dengan:
+
+```bash
+docker compose exec uptime-kuma node -p "require('/app/package.json').version"
+```
+
+> **Catatan:** Disarankan untuk melakukan backup direktori `data` sebelum melakukan update. Pada konfigurasi Docker Compose dengan `./data:/app/data`, data Uptime Kuma disimpan pada direktori `data` di host sehingga tetap tersedia ketika container dihentikan, dihapus, atau dibuat ulang.
+
 ---
 
 ## 5. Pilihan Database
@@ -221,7 +247,7 @@ Ubah nilai `bind-address` menjadi `0.0.0.0` (menerima koneksi dari semua interfa
 systemctl restart mariadb
 ```
 
-Kredensial di atas (`kuma_user`, `kuma`) akan dimasukkan pada halaman setup database di bagian selanjutnya. Sebagai Hostname pada wizard, gunakan `host.docker.internal` (apabila didukung oleh environment Docker yang digunakan) atau IP internal host pada jaringan Docker bridge, **bukan** `localhost`, karena `localhost` di dalam container merujuk ke container itu sendiri, bukan ke host.
+Kredensial di atas (`kuma_user`, `kuma`) akan dimasukkan pada halaman setup database di bagian selanjutnya. Sebagai Hostname pada wizard, gunakan `host.docker.internal` (apabila didukung oleh environment Docker yang digunakan) atau IP internal host pada jaringan Docker bridge (gunakan perintah `ip addr show docker0 | grep "inet " | awk '{print $2}' | cut -d/ -f1` untuk mengetahui IP-nya), **bukan** `localhost`, karena `localhost` di dalam container merujuk ke container itu sendiri, bukan ke host.
 
 > **Catatan:** Apabila MariaDB berada pada server terpisah dari VPS Uptime Kuma, gunakan IP Address atau hostname server MariaDB tersebut sebagai Hostname, dan pastikan port `3306` dapat diakses dari VPS Uptime Kuma melalui firewall.
 
@@ -256,7 +282,7 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 </p>
 
 <p align="center">
-<img alt="Pemilihan Database MariaDB/MySQL Eksternal" src="Images/7_mariadb_eksternal.png" />
+<img alt="Pemilihan Database MariaDB/MySQL Eksternal" src="Images/7_mariadb.png" />
   <br>
   <em>Gambar 7: Pemilihan Database MariaDB/MySQL Eksternal</em>
 </p>

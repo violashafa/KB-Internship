@@ -2,7 +2,7 @@
 
 Halo, Kawan Belajar! Artikel ini membahas cara instalasi **Uptime Kuma** pada server Linux menggunakan metode **Non-Docker (Native)** dengan Node.js dan PM2, mulai dari persiapan, konfigurasi PM2, pilihan database (termasuk MariaDB eksternal), hingga berhasil login dan sampai ke halaman utama dashboard.
 
-> **Catatan:** Belum tahu apa itu Uptime Kuma? Baca dulu artikel [Apa Itu Uptime Kuma? Mengenal Tool Monitoring Uptime Self-Hosted](Apa_Itu_Uptime_Kuma_Mengenal_Tool_Monitoring_Uptime_Self-Hosted.md). Apabila ingin instalasi menggunakan Docker, lihat artikel [Cara Instalasi Uptime Kuma di Linux dengan Docker](Cara_Instalasi_Uptime_Kuma_di_Linux_dengan_Docker.md).
+> **Catatan:** Belum tahu apa itu Uptime Kuma? Baca dulu artikel [Apa Itu Uptime Kuma? Mengenal Tool Monitoring Uptime Self-Hosted](https://kb.cloudkilat.id/uptime-kuma/apa-itu-uptime-kuma-mengenal-tool-monitoring-uptime-self-hosted). Apabila ingin instalasi menggunakan Docker, lihat artikel [Cara Instalasi Uptime Kuma di Linux dengan Docker](https://kb.cloudkilat.id/uptime-kuma/cara-instalasi-uptime-kuma-di-linux-dengan-docker).
 
 ## Persiapan Awal
 
@@ -13,6 +13,15 @@ Sebelum memulai instalasi Uptime Kuma, pastikan kamu sudah memiliki:
 3. **IP Address publik** pada VPS.
 4. Spesifikasi minimum: 1 vCPU, 1 GB RAM, 10 GB storage. Sudah cukup untuk kebutuhan 20-50 monitor.
 5. Port `22/tcp` (SSH) dan `3001/tcp` (akses dashboard Uptime Kuma) dapat diakses dari internet.
+
+## Kompatibilitas Sistem Operasi
+
+Uptime Kuma dengan metode Non-Docker dapat dijalankan pada berbagai distribusi Linux. Perbedaan utama antar distribusi hanya terletak pada perintah instalasi paket dependency (Node.js, Git), sedangkan langkah instalasi Uptime Kuma itu sendiri tetap sama.
+
+| Distribusi                        | Package Manager | Catatan                                                              |
+| ---------------------------------- | ---------------- | ---------------------------------------------------------------------- |
+| Ubuntu / Debian                    | `apt`            | Digunakan pada panduan ini.                                            |
+| CentOS / Rocky Linux / AlmaLinux   | `dnf` / `yum`    | Nama paket dependency seperti `nodejs` dan `git` umumnya tersedia langsung di repository, namun beberapa paket tambahan mungkin memerlukan repository EPEL. |
 
 ## Rangkuman Versi yang Digunakan
 
@@ -25,15 +34,6 @@ Panduan ini menggunakan konfigurasi berikut:
 | Node.js          | 20.x LTS                        |
 
 > **Catatan:** Requirement resmi Node.js untuk metode Non-Docker adalah versi 20.4 ke atas.
-
-## Kompatibilitas Sistem Operasi
-
-Uptime Kuma dengan metode Non-Docker dapat dijalankan pada berbagai distribusi Linux. Perbedaan utama antar distribusi hanya terletak pada perintah instalasi paket dependency (Node.js, Git), sedangkan langkah instalasi Uptime Kuma itu sendiri tetap sama.
-
-| Distribusi                        | Package Manager | Catatan                                                              |
-| ---------------------------------- | ---------------- | ---------------------------------------------------------------------- |
-| Ubuntu / Debian                    | `apt`            | Digunakan pada panduan ini.                                            |
-| CentOS / Rocky Linux / AlmaLinux   | `dnf` / `yum`    | Nama paket dependency seperti `nodejs` dan `git` umumnya tersedia langsung di repository, namun beberapa paket tambahan mungkin memerlukan repository EPEL. |
 
 ---
 
@@ -178,6 +178,29 @@ pm2 logs uptime-kuma
 # Melihat console output secara langsung
 pm2 monit
 ```
+
+### 5.3 Update Uptime Kuma
+
+Untuk melakukan update Uptime Kuma pada instalasi Non-Docker, masuk ke direktori instalasi kemudian ambil release terbaru menggunakan Git:
+
+```
+cd /home/uptime-kuma
+git fetch --all --tags
+git checkout <VERSI_TERBARU> --force
+npm install --omit dev --no-audit
+npm run download-dist
+pm2 restart uptime-kuma
+```
+
+Ganti `<VERSI_TERBARU>` dengan nomor release yang ingin digunakan, misalnya `2.5.4`. Nomor versi dapat dilihat pada [halaman Releases resmi Uptime Kuma](https://github.com/louislam/uptime-kuma/releases).
+
+Setelah proses update selesai, versi Uptime Kuma dapat diperiksa dengan:
+
+```bash
+git describe --tags --exact-match HEAD
+```
+
+> **Catatan:** Disarankan untuk melakukan backup data Uptime Kuma sebelum melakukan update, terutama jika instance sudah memiliki banyak konfigurasi monitor, notifikasi, dan Status Page.
 
 ---
 
