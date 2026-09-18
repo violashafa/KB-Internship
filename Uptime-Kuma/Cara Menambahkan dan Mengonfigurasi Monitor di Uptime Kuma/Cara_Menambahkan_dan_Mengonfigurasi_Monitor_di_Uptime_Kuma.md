@@ -4,7 +4,7 @@ Halo, Kawan Belajar! Setelah Uptime Kuma berhasil diinstal dan dashboard sudah d
 
 Pada panduan ini, kita akan membahas cara menambahkan tiga tipe monitor yang umum digunakan: **HTTP(s)** untuk memantau website, **TCP Port** untuk memantau service tertentu pada server lain, dan **Ping** untuk memantau apakah sebuah server aktif (up) atau tidak.
 
-> **Catatan:** Panduan ini merupakan lanjutan dari artikel instalasi Uptime Kuma, baik metode [Docker](Cara_Instalasi_Uptime_Kuma_di_Linux_dengan_Docker.md) maupun [NPM (Non-Docker/Native)](Cara_Instalasi_Uptime_Kuma_di_Linux_dengan_NPM.md). Pastikan Uptime Kuma sudah terinstal dan akun admin sudah dibuat sebelum mengikuti langkah-langkah berikut.
+> **Catatan:** Panduan ini merupakan lanjutan dari artikel instalasi Uptime Kuma, baik metode [Docker](https://kb.cloudkilat.id/uptime-kuma/cara-instalasi-uptime-kuma-di-linux-dengan-docker) maupun [NPM (Non-Docker/Native)](https://kb.cloudkilat.id/uptime-kuma/cara-instalasi-uptime-kuma-di-linux-dengan-npm-non-docker-native). Pastikan Uptime Kuma sudah terinstal dan akun admin sudah dibuat sebelum mengikuti langkah-langkah berikut.
 
 ## Persiapan Awal
 
@@ -41,7 +41,7 @@ Field umum yang tersedia pada setiap tipe monitor:
 * **Heartbeat Interval**: jeda waktu antar pengecekan, dalam detik.
 * **Retries**: jumlah percobaan ulang maksimum sebelum service dinyatakan down dan notifikasi dikirim.
 
-Pada panel **Notifications**, notifikasi yang sudah dikonfigurasi sebelumnya dapat langsung diaktifkan untuk monitor ini menggunakan toggle. Apabila belum ada notifikasi yang dikonfigurasi, klik **Set Up Notification** untuk membuatnya, atau lihat artikel [Cara Setup Notifikasi pada Uptime Kuma ke Email Kilat Hosting 2.0](Cara_Setup_Notifikasi_pada_Uptime_Kuma_ke_Email_Kilat_Hosting.md).
+Pada panel **Notifications**, notifikasi yang sudah dikonfigurasi sebelumnya dapat langsung diaktifkan untuk monitor ini menggunakan toggle. Apabila belum ada notifikasi yang dikonfigurasi, klik **Set Up Notification** untuk membuatnya, atau lihat artikel [Cara Setup Notifikasi pada Uptime Kuma ke Email Kilat Hosting 2.0](https://kb.cloudkilat.id/uptime-kuma/cara-setup-notifikasi-pada-uptime-kuma-ke-email-kilat-hosting-2-0).
 
 ---
 
@@ -157,8 +157,8 @@ Ulangi langkah 2, 3, atau 4 sesuai kebutuhan untuk menambahkan monitor lain.
 
 Setelah monitor berhasil ditambahkan, kamu dapat melanjutkan konfigurasi berikut:
 
-* **Notifikasi**, agar mendapatkan peringatan otomatis melalui email saat monitor berubah status down maupun up kembali. Lihat artikel [Cara Setup Notifikasi pada Uptime Kuma ke Email Kilat Hosting 2.0](Cara_Setup_Notifikasi_pada_Uptime_Kuma_ke_Email_Kilat_Hosting.md).
-* **Public Status Page**, untuk menampilkan status monitor secara publik, dapat dikelompokkan ke dalam beberapa grup/kategori. Lihat artikel [Cara Membuat Public Status Page di Uptime Kuma](Cara_Membuat_Public_Status_Page_di_Uptime_Kuma.md).
+* **Notifikasi**, agar mendapatkan peringatan otomatis melalui email saat monitor berubah status down maupun up kembali. Lihat artikel [Cara Setup Notifikasi pada Uptime Kuma ke Email Kilat Hosting 2.0](https://kb.cloudkilat.id/uptime-kuma/cara-setup-notifikasi-pada-uptime-kuma-ke-email-kilat-hosting-2-0).
+* **Public Status Page**, untuk menampilkan status monitor secara publik, dapat dikelompokkan ke dalam beberapa grup/kategori. Lihat artikel [Cara Membuat Public Status Page di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-membuat-public-status-page-di-uptime-kuma).
 
 ---
 
