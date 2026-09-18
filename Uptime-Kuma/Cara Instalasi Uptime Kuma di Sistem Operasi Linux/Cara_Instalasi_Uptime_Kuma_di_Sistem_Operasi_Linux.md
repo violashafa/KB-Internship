@@ -109,7 +109,7 @@ git --version
 ```
 
 <p align="center">
-<img alt="Verifikasi Versi Node dan Git" src="Images/npm/version_git_node.png" />
+<img alt="Verifikasi Versi Node dan Git" src="Images/1_versi_git_dan_node.png" />
   <br>
   <em>Gambar 1: Verifikasi Versi Node dan Git</em>
 </p>
@@ -133,7 +133,7 @@ npm run setup
 ```
 
 <p align="center">
-<img alt="Menjalankan npm run setup" src="Images/npm/npm_run_setup.png" />
+<img alt="Menjalankan npm run setup" src="Images/2_npm_run_setup.png" />
   <br>
   <em>Gambar 2: Menjalankan npm run setup</em>
 </p>
@@ -169,7 +169,7 @@ pm2 list
 ```
 
 <p align="center">
-<img alt="Menjalankan pm2 list" src="Images/npm/pm2_list.png" />
+<img alt="Menjalankan pm2 list" src="Images/3_pm2_list.png" />
   <br>
   <em>Gambar 3: Menjalankan pm2 list</em>
 </p>
@@ -237,7 +237,7 @@ docker compose version
 ```
 
 <p align="center">
-<img alt="Verifikasi Versi Docker dan Docker Compose" src="Images/docker/docker_version.png" />
+<img alt="Verifikasi Versi Docker dan Docker Compose" src="Images/4_versi_docker.png" />
   <br>
   <em>Gambar 4: Verifikasi Versi Docker dan Docker Compose</em>
 </p>
@@ -286,7 +286,7 @@ docker compose up -d
 ```
 
 <p align="center">
-<img alt="Menjalankan docker compose up -d" src="Images/docker/docker_compose_up.png" />
+<img alt="Menjalankan docker compose up -d" src="Images/5_docker_compose_up.pngdocker_compose_up.png" />
   <br>
   <em>Gambar 5: Menjalankan docker compose up -d</em>
 </p>
@@ -298,7 +298,7 @@ docker ps
 ```
 
 <p align="center">
-<img alt="Menjalankan docker ps" src="Images/docker/docker_ps.png" />
+<img alt="Menjalankan docker ps" src="Images/6_docker_ps.png" />
   <br>
   <em>Gambar 6: Menjalankan docker ps</em>
 </p>
@@ -393,13 +393,13 @@ Kredensial di atas (`localhost`, `kuma_user`, `kuma`) akan dimasukkan pada halam
 Akses Uptime Kuma melalui `http://IP_VPS:3001` pada browser, ganti `IP_VPS` dengan IP Address publik VPS yang digunakan.
 
 <p align="center">
-<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)" src="Images/npm/1_akses.png" />
+<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)" src="Images/7_akses_awal_native.png" />
   <br>
   <em>Gambar 7: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)</em>
 </p>
 
 <p align="center">
-<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker" src="Images/docker/1_akses.png" />
+<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker" src="Images/8_akses_awal_docker.png" />
   <br>
   <em>Gambar 8: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker</em>
 </p>
@@ -411,19 +411,19 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 * **MariaDB/MySQL**: isi Hostname (`localhost` jika satu server dan Non-Docker, atau IP internal host jika Uptime Kuma dijalankan via Docker), Port (`3306`), Username, Password, dan Database Name sesuai yang dibuat pada langkah 4.1.
 
 <p align="center">
-<img alt="Pemilihan Database MariaDB/MySQL" src="Images/npm/4_mariadb_koneksi.png" />
+<img alt="Pemilihan Database MariaDB/MySQL" src="Images/9_mariadb.png" />
   <br>
   <em>Gambar 9: Pemilihan Database MariaDB/MySQL</em>
 </p>
 
 <p align="center">
-<img alt="Pemilihan Database SQLite" src="Images/npm/2_sqlite.png" />
+<img alt="Pemilihan Database SQLite" src="Images/10_sqlite.png" />
   <br>
   <em>Gambar 10: Pemilihan Database SQLite</em>
 </p>
 
 <p align="center">
-<img alt="Pemilihan Database Embedded MariaDB" src="Images/docker/2_embedded_mariadb.png" />
+<img alt="Pemilihan Database Embedded MariaDB" src="Images/11_embedded_mariadb.png" />
   <br>
   <em>Gambar 11: Pemilihan Database Embedded MariaDB</em>
 </p>
@@ -431,17 +431,18 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 Buat akun admin dengan username dan password yang kuat pada langkah berikutnya.
 
 <p align="center">
-<img alt="Setup Admin" src="Images/npm/6_setup_akun.png" />
+<img alt="Setup Admin" src="Images/12_setup_akun_admin.png" />
   <br>
   <em>Gambar 12: Setup Admin</em>
 </p>
 
+
 Setelah berhasil, dashboard akan menampilkan Quick Stats kosong (Up/Down/Maintenance/Unknown/Pause semuanya 0) dengan pesan "No Monitors, please add one". Ini adalah kondisi normal karena Uptime Kuma tidak melakukan auto-discovery terhadap layanan apapun; setiap monitor harus ditambahkan manual.
 
 <p align="center">
-<img alt="Halaman Utama" src="Images/docker/5_halaman.png" />
+<img alt="Halaman Utama" src="Images/17_dashboard.png" />
   <br>
-  <em>Gambar 13: Halaman Utama</em>
+  <em>Gambar 13: Halaman Dashboard</em>
 </p>
 
 > **Catatan:** penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.

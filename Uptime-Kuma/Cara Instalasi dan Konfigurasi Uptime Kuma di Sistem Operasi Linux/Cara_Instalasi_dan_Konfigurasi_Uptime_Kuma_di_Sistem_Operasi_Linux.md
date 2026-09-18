@@ -122,7 +122,7 @@ git --version
 ```
 
 <p align="center">
-<img alt="Verifikasi Versi Node dan Git" src="Images/npm/version_git_node.png" />
+<img alt="Verifikasi Versi Node dan Git" src="Images/1_versi_git_dan_node.png" />
   <br>
   <em>Gambar 1: Verifikasi Versi Node dan Git</em>
 </p>
@@ -146,7 +146,7 @@ npm run setup
 ```
 
 <p align="center">
-<img alt="Menjalankan npm run setup" src="Images/npm/npm_run_setup.png" />
+<img alt="Menjalankan npm run setup" src="Images/2_npm_run_setup.png" />
   <br>
   <em>Gambar 2: Menjalankan npm run setup</em>
 </p>
@@ -182,7 +182,7 @@ pm2 list
 ```
 
 <p align="center">
-<img alt="Menjalankan pm2 list" src="Images/npm/pm2_list.png" />
+<img alt="Menjalankan pm2 list" src="Images/3_pm2_list.png" />
   <br>
   <em>Gambar 3: Menjalankan pm2 list</em>
 </p>
@@ -250,7 +250,7 @@ docker compose version
 ```
 
 <p align="center">
-<img alt="Verifikasi Versi Docker dan Docker Compose" src="Images/docker/docker_version.png" />
+<img alt="Verifikasi Versi Docker dan Docker Compose" src="Images/4_versi_docker.png" />
   <br>
   <em>Gambar 4: Verifikasi Versi Docker dan Docker Compose</em>
 </p>
@@ -299,9 +299,9 @@ docker compose up -d
 ```
 
 <p align="center">
-<img alt="Menjalankan docker compose up -d" src="Images/docker/docker_compose_up.png" />
+<img alt="Menjalankan docker compose up -d" src="Images/5_docker_compose_up.pngdocker_compose_up.png" />
   <br>
-  <em>Gambar 6: Menjalankan docker compose up -d</em>
+  <em>Gambar 5: Menjalankan docker compose up -d</em>
 </p>
 
 Verifikasi container berjalan:
@@ -311,9 +311,9 @@ docker ps
 ```
 
 <p align="center">
-<img alt="Menjalankan docker ps" src="Images/docker/docker_ps.png" />
+<img alt="Menjalankan docker ps" src="Images/6_docker_ps.png" />
   <br>
-  <em>Gambar 7: Menjalankan docker ps</em>
+  <em>Gambar 6: Menjalankan docker ps</em>
 </p>
 
 Status container harus menunjukkan kondisi `Up`.
@@ -412,9 +412,9 @@ ufw status
 ```
 
 <p align="center">
-<img alt="Verifikasi Konfigurasi UFW" src="Images/nginx/4_ufw.png" />
+<img alt="Verifikasi Konfigurasi UFW" src="Images/7_ufw.png" />
   <br>
-  <em>Gambar 8: Verifikasi Konfigurasi UFW</em>
+  <em>Gambar 7: Verifikasi Konfigurasi UFW</em>
 </p>
 
 Port `3001` tidak perlu (dan tidak boleh) dibuka ke publik pada tahap produksi karena seluruh traffic publik akan melewati Nginx di port `80`/`443`.
@@ -480,9 +480,9 @@ systemctl reload nginx
 ```
 
 <p align="center">
-<img alt="verifikasi nginx" src="Images/nginx/1_verifikasi.png" />
+<img alt="verifikasi nginx" src="Images/8_verifikasi_nginx.png" />
   <br>
-  <em>Gambar 9: Verifikasi NGINX</em>
+  <em>Gambar 8: Verifikasi NGINX</em>
 </p>
 
 Pada titik ini Uptime Kuma sudah bisa diakses melalui `http://uptime-kuma.domainkamu.com`, namun masih tanpa enkripsi (HTTP biasa).
@@ -502,9 +502,9 @@ certbot --nginx -d uptime-kuma.domainkamu.com
 ```
 
 <p align="center">
-<img alt="Sertifikat Berhasil Diterbitkan" src="Images/nginx/2_cert.png" />
+<img alt="Sertifikat Berhasil Diterbitkan" src="Images/9_ssl.png" />
   <br>
-  <em>Gambar 10: Sertifikat Berhasil Diterbitkan</em>
+  <em>Gambar 9: Sertifikat Berhasil Diterbitkan</em>
 </p>
 
 Certbot akan otomatis mengubah konfigurasi Nginx untuk menambahkan blok `listen 443 ssl`, redirect HTTP ke HTTPS, dan menjadwalkan auto-renewal sertifikat.
@@ -516,9 +516,9 @@ certbot renew --dry-run
 ```
 
 <p align="center">
-<img alt="Verifikasi Auto-Renewal" src="Images/nginx/3_renewal.png" />
+<img alt="Verifikasi Auto-Renewal" src="Images/10_verifikasi_ssl.png" />
   <br>
-  <em>Gambar 11: Verifikasi Auto-Renewal</em>
+  <em>Gambar 10: Verifikasi Auto-Renewal</em>
 </p>
 
 ---
@@ -528,15 +528,15 @@ certbot renew --dry-run
 Akses Uptime Kuma melalui `https://uptime-kuma.domainkamu.com` (atau `http://IP_VPS:3001` apabila belum melakukan konfigurasi reverse proxy dan SSL).
 
 <p align="center">
-<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)" src="Images/npm/1_akses.png" />
+<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)" src="Images/11_akses_awal_native.png" />
   <br>
-  <em>Gambar 12: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)</em>
+  <em>Gambar 11: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Non-Docker (Native)</em>
 </p>
 
 <p align="center">
-<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker" src="Images/docker/1_akses.png" />
+<img alt="Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker" src="Images/12_akses_awal_docker.png" />
   <br>
-  <em>Gambar 13: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker</em>
+  <em>Gambar 12: Halaman Awal Setup Wizard Uptime Kuma Saat Pertama Kali Diakses - Docker</em>
 </p>
 
 Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pilihan Database](#4-pilihan-database) untuk penjelasan masing-masing opsi):
@@ -546,37 +546,37 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 * **MariaDB/MySQL**: isi Hostname (`localhost` jika satu server dan Non-Docker, atau IP internal host jika Uptime Kuma dijalankan via Docker), Port (`3306`), Username, Password, dan Database Name sesuai yang dibuat pada langkah 4.1.
 
 <p align="center">
-<img alt="Pemilihan Database MariaDB/MySQL" src="Images/npm/4_mariadb_koneksi.png" />
+<img alt="Pemilihan Database MariaDB/MySQL" src="Images/13_mariadb.png" />
   <br>
-  <em>Gambar 14: Pemilihan Database MariaDB/MySQL</em>
+  <em>Gambar 13: Pemilihan Database MariaDB/MySQL</em>
 </p>
 
 <p align="center">
-<img alt="Pemilihan Database SQLite" src="Images/npm/2_sqlite.png" />
+<img alt="Pemilihan Database SQLite" src="Images/14_sqlite.png" />
   <br>
-  <em>Gambar 15: Pemilihan Database SQLite</em>
+  <em>Gambar 14: Pemilihan Database SQLite</em>
 </p>
 
 <p align="center">
-<img alt="Pemilihan Database Embedded MariaDB" src="Images/docker/2_embedded_mariadb.png" />
+<img alt="Pemilihan Database Embedded MariaDB" src="Images/15_embedded_mariadb.png" />
   <br>
-  <em>Gambar 16: Pemilihan Database Embedded MariaDB</em>
+  <em>Gambar 15: Pemilihan Database Embedded MariaDB</em>
 </p>
 
 Buat akun admin dengan username dan password yang kuat pada langkah berikutnya.
 
 <p align="center">
-<img alt="Setup Admin" src="Images/npm/6_setup_akun.png" />
+<img alt="Setup Admin" src="Images/16_setup_akun_admin.png" />
   <br>
-  <em>Gambar 17: Setup Admin</em>
+  <em>Gambar 16: Setup Admin</em>
 </p>
 
 Setelah berhasil, dashboard akan menampilkan Quick Stats kosong (Up/Down/Maintenance/Unknown/Pause semuanya 0) dengan pesan "No Monitors, please add one". Ini adalah kondisi normal karena Uptime Kuma tidak melakukan auto-discovery terhadap layanan apapun; setiap monitor harus ditambahkan manual.
 
 <p align="center">
-<img alt="Halaman Utama" src="Images/docker/5_halaman.png" />
+<img alt="Halaman Utama" src="Images/17_dashboard.png" />
   <br>
-  <em>Gambar 18: Halaman Utama</em>
+  <em>Gambar 17: Halaman Dashboard</em>
 </p>
 
 > **Catatan:** Penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.
@@ -592,17 +592,17 @@ Settings > Reverse Proxy
 ```
 
 <p align="center">
-<img alt="Settings" src="Images/docker/6_settings.png" />
+<img alt="Settings" src="Images/18_settings.png" />
   <br>
-  <em>Gambar 19: Settings</em>
+  <em>Gambar 18: Settings</em>
 </p>
 
 Set **Trust Proxy** menjadi **Yes**. Ini membuat Uptime Kuma membaca IP client dari header `X-Forwarded-For` yang diteruskan Nginx, bukan mencatat IP Nginx itu sendiri sebagai sumber request.
 
 <p align="center">
-<img alt="Reverse Prox" src="Images/docker/7_reverse.png" />
+<img alt="Reverse Prox" src="Images/19_reverse_proxy.png" />
   <br>
-  <em>Gambar 20: Reverse Proxy</em>
+  <em>Gambar 19: Reverse Proxy</em>
 </p>
 
 ### Verifikasi Akhir
@@ -614,51 +614,16 @@ Akses `https://uptime-kuma.domainkamu.com` dan pastikan:
 * Dashboard menampilkan Quick Stats seperti pada langkah 7.
 
 <p align="center">
-<img alt="Connection Secured" src="Images/nginx/5_padlock.png" />
+<img alt="Connection Secured" src="Images/20_secured.png" />
   <br>
-  <em>Gambar 21: Connection Secured</em>
+  <em>Gambar 20: Connection Secured</em>
 </p>
 
 Instalasi, reverse proxy, dan SSL selesai. Konfigurasi monitor, notifikasi, dan status page dilakukan pada artikel terpisah.
 
 ---
 
-## 9. Memeriksa Versi Uptime Kuma yang Berjalan
-
-Sebelum melakukan update, periksa terlebih dahulu versi Uptime Kuma yang sedang berjalan. Perhatikan bahwa `npm -v` **tidak** menunjukkan versi Uptime Kuma, melainkan versi package manager npm itu sendiri.
-
-**Metode Non-Docker**, periksa Git tag pada direktori instalasi:
-
-```bash
-cd /home/uptime-kuma
-git describe --tags --exact-match HEAD
-```
-
-Contoh output:
-
-```text
-2.5.4
-```
-
-**Metode Docker**, jalankan perintah berikut dari direktori yang berisi `compose.yaml`:
-
-```bash
-docker compose exec uptime-kuma node -p "require('/app/package.json').version"
-```
-
-Command ini membaca versi rilis aktual dari dalam container, karena tag image `louislam/uptime-kuma:2` hanya menunjukkan major version, bukan versi patch spesifik yang sedang berjalan.
-
-Versi aplikasi juga dapat dilihat langsung melalui halaman **Settings** pada dashboard Uptime Kuma.
-
-<p align="center">
-<img alt="Versi Uptime Kuma" src="Images/docker/8_versi.png" />
-  <br>
-  <em>Gambar 22: Versi Uptime Kuma</em>
-</p>
-
----
-
-## 10. Update Uptime Kuma
+## 9. Update Uptime Kuma
 
 ### Update Metode Non-Docker (Native)
 
