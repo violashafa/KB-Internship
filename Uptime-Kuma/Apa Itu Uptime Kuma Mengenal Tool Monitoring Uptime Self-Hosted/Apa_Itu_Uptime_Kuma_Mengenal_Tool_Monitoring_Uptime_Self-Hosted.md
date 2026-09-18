@@ -4,6 +4,10 @@ Halo, Kawan Belajar! Pernahkah kamu ingin tahu apakah website atau service milik
 
 Kebutuhan seperti ini biasanya diselesaikan dengan layanan monitoring pihak ketiga berbayar. Namun, ada alternatif yang bisa kamu host dan kendalikan sepenuhnya sendiri, yaitu **Uptime Kuma**.
 
+<p align="center">
+  <img alt="Logo Uptime Kuma" src="Images/Uptime-Kuma-Logo.png" width="200" />
+</p>
+
 ## Mengenal Uptime Kuma
 
 Uptime Kuma adalah **self-hosted monitoring tool** open source yang digunakan untuk memantau status uptime dari website, server, maupun service lain seperti HTTP(s), TCP Port, Ping, DNS Record, hingga Docker container. Uptime Kuma menyediakan dashboard interaktif berbasis WebSocket, sehingga status monitor dapat diperbarui secara realtime tanpa perlu me-refresh halaman.
