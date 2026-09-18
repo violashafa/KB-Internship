@@ -135,7 +135,7 @@ docker ps
 
 Status container harus menunjukkan kondisi `Up`.
 
-### Menghentikan dan Mengelola Service Uptime Kuma (Docker Compose)
+### 4.1 Menghentikan dan Mengelola Service Uptime Kuma (Docker Compose)
 
 Beberapa command Docker Compose yang berguna untuk mengelola service Uptime Kuma:
 
@@ -158,7 +158,7 @@ docker compose logs -f
 
 Restart otomatis saat reboot server sudah tertangani oleh nilai `restart: unless-stopped` pada `compose.yaml`, sehingga tidak diperlukan konfigurasi tambahan.
 
-### Update Uptime Kuma
+### 4.2 Update Uptime Kuma
 
 Untuk melakukan update Uptime Kuma pada instalasi Docker Compose, masuk ke direktori yang berisi file `compose.yaml`, kemudian pull image terbaru dan recreate container:
 
