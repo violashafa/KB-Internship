@@ -286,7 +286,7 @@ docker compose up -d
 ```
 
 <p align="center">
-<img alt="Menjalankan docker compose up -d" src="Images/5_docker_compose_up.pngdocker_compose_up.png" />
+<img alt="Menjalankan docker compose up -d" src="Images/5_docker_compose_up.png" />
   <br>
   <em>Gambar 5: Menjalankan docker compose up -d</em>
 </p>
@@ -440,7 +440,7 @@ Buat akun admin dengan username dan password yang kuat pada langkah berikutnya.
 Setelah berhasil, dashboard akan menampilkan Quick Stats kosong (Up/Down/Maintenance/Unknown/Pause semuanya 0) dengan pesan "No Monitors, please add one". Ini adalah kondisi normal karena Uptime Kuma tidak melakukan auto-discovery terhadap layanan apapun; setiap monitor harus ditambahkan manual.
 
 <p align="center">
-<img alt="Halaman Utama" src="Images/17_dashboard.png" />
+<img alt="Halaman Utama" src="Images/13_dashboard.png" />
   <br>
   <em>Gambar 13: Halaman Dashboard</em>
 </p>

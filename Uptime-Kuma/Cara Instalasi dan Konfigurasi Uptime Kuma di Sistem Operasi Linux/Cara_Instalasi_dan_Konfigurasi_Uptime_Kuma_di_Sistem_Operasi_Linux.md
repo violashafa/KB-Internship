@@ -299,7 +299,7 @@ docker compose up -d
 ```
 
 <p align="center">
-<img alt="Menjalankan docker compose up -d" src="Images/5_docker_compose_up.pngdocker_compose_up.png" />
+<img alt="Menjalankan docker compose up -d" src="Images/5_docker_compose_up.png" />
   <br>
   <em>Gambar 5: Menjalankan docker compose up -d</em>
 </p>
