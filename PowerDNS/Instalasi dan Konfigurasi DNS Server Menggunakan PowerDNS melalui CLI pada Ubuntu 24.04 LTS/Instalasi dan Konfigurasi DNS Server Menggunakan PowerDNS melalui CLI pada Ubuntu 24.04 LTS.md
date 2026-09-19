@@ -14,28 +14,13 @@ Salah satu aplikasi yang dapat digunakan sebagai DNS Server adalah **PowerDNS**.
 
 Pada panduan kali ini, akan dilakukan instalasi dan konfigurasi **PowerDNS pada Kilat VM 2.0** dengan sistem operasi Ubuntu. Konfigurasi dilakukan menggunakan domain sendiri dengan nameserver ns1 dan ns2 sehingga diperlukan Glue Record.
 
-# 1. Pengenalan
+> 💡 **Catatan Kawan Belajar:** 
+> 
+> Sebelum kita masuk ke langkah-langkah instalasi teknis, pastikan kamu sudah memahami dasar-dasar serta alur kerjanya melalui artikel pengenalan sebelumnya:
+> 
+> 👉 [Apa Itu PowerDNS? Mengenal DNS Server Authoritative yang Fleksibel](https://www.cloudkilat.com/layanan/kilat-domain)
 
-
-**PowerDNS** adalah perangkat lunak DNS Server yang digunakan untuk mengelola dan melayani permintaan DNS pada sebuah domain. PowerDNS bertugas menerjemahkan nama domain menjadi informasi yang dibutuhkan, seperti alamat IP, sehingga domain dapat diakses oleh pengguna.
-
-**Cara kerja PowerDNS** secara sederhana adalah ketika pengguna mengakses suatu domain, permintaan DNS akan diteruskan ke **Nameserver** yang menggunakan PowerDNS. PowerDNS kemudian mencari informasi domain pada **DNS Zone** dan **DNS Record** yang telah dikonfigurasi, lalu mengembalikan hasilnya kepada pengguna.
-
-### Fungsi PowerDNS
-PowerDNS memiliki beberapa fungsi antara lain:
-* Menjadi DNS Server untuk sebuah domain.
-* Mengelola DNS Zone dan DNS Record.
-* Menjawab permintaan DNS dari client.
-* Mendukung berbagai jenis DNS Record seperti A, AAAA, CNAME, MX, NS, dan TXT.
-* Dapat menggunakan database sebagai tempat penyimpanan data DNS, tergantung backend yang digunakan.
-
-### Kekurangan PowerDNS
-Adapun beberapa kekurangan PowerDNS yang perlu dipertimbangkan antara lain:
-* Kompleksitas Konfigurasi Awal: Pengaturan awal cukup rumit karena membutuhkan konfigurasi database backend tambahan.
-* Ketergantungan pada Database: Layanan DNS akan langsung mati total jika database (MariaDB) mengalami gangguan.
-* Konsumsi Sumber Daya: Penggunaan database membuat PowerDNS membutuhkan lebih banyak RAM dan CPU pada trafik tinggi.
-
-# 2. Persiapan
+## 1. Persiapan
 
 Untuk melakukan instalasi dan konfigurasi DNS Server menggunakan PowerDNS, beberapa kebutuhan yang perlu disiapkan antara lain:
 * Domain dan Kilat VM 2.0 aktif.
@@ -57,8 +42,7 @@ Panduan ini menggunakan komponen dan versi perangkat lunak berikut:
 
 > **Catatan:** Versi PowerDNS dapat berubah seiring adanya *release* terbaru. Versi yang digunakan pada panduan ini adalah PowerDNS 4.8.3
 
-# 3. Instalasi dan Konfigurasi
-## a. Setup Glue Record
+## 2. Setup Glue Record
 Sebelum melakukan konfigurasi PowerDNS, pastikan domain telah memiliki **Glue Record** apabila menggunakan nameserver sendiri.
 
 Glue Record merupakan informasi IP Address yang digunakan oleh suatu nameserver dan didaftarkan pada registrar domain.
@@ -68,7 +52,7 @@ Adapun panduan cara setup Glue Record seperti berikut ini:
 
 1. [Login Portal Client Area CloudKilat](https://portal.cloudkilat.com/clientarea) terlebih dahulu.
 2. Untuk langkah-langkah lengkapnya, Anda dapat mengikuti panduan resmi melalui tautan [Cara Menggunakan Private Name Server pada Domain di Portal Client CloudKilat](https://kb.cloudkilat.id/domain-di-cloudkilat/cara-menggunakan-private-name-server-pada-domain-di-portal-client-cloudkilat).
-## b. Install dan Konfigurasi PowerDNS
+## 3. Akses SSH & Update Sistem
 Selanjutya, untuk melakukan instalasi dan konfigurasi DNS Server, silakan mengikuti langkah-langkah berikut ini:
 
 Masuk ke Kilat VM 2.0 Anda terlebih dahulu, atau Anda juga bisa melakukan *remote* menggunakan SSH. Jika Anda masih belum mengetahui cara *remote* menggunakan SSH, silakan membaca panduannya melalui tautan [Cara Akses Kilat VM Melalui SSH](https://kb.cloudkilat.id/akses-kilat-vm/cara-akses-kilat-vm-melalui-ssh).
@@ -85,7 +69,7 @@ apt update -y
   <em>Gambar 1: Update Paket Ubuntu Server</em>
 </p>
 
-## Menonaktifkan DNS Stub Listener Ubuntu
+## 4. Menonaktifkan DNS Stub Listener Ubuntu
 Pada Ubuntu 24.04, terdapat *service* `systemd-resolved` yang membantu sistem melakukan koneksi ke DNS. *Service* ini menggunakan port 53 melalui fitur *DNS Stub Listener* (`127.0.0.53:53`).
 
 PowerDNS juga membutuhkan port 53 untuk menerima permintaan DNS. Jika port tersebut sudah digunakan oleh `systemd-resolved`, PowerDNS tidak dapat berjalan karena mengalami konflik pada port yang sama.
@@ -129,7 +113,7 @@ ss -lntup | grep ':53'
 
 > **Catatan:** Langkah ini hanya mematikan fungsi DNS stub listener pada `systemd-resolved` tanpa menghentikan service tersebut secara total, sehingga koneksi internet serta resolver pada VPS Anda dipastikan tetap berjalan dengan normal.
 
-## Instalasi PowerDNS
+## 5. Instalasi PowerDNS
 
 Tunggu proses update hingga benar-benar selesai, dan selanjutnya install paket PowerDNS menggunakan perintah : 
 
@@ -175,7 +159,7 @@ Kemudian, aktifkan dan pastikan service PowerDNS berjalan dengan baik menggunaka
              └─329879 /usr/sbin/pdns_server --guardian=no --daemon=no --disable-syslog --log-timestamp=no>
 ```
 
-## Instalasi Database Backend
+## 6. Instalasi Database Backend
 
 PowerDNS dapat menggunakan berbagai jenis *backend* untuk menyimpan data DNS. Pada praktik ini, digunakan MariaDB sebagai *database backend*.
 
@@ -217,7 +201,7 @@ apt install pdns-backend-mysql
   <em>Gambar 6: Instal Backend MariaDB</em>
 </p>
 
-## Membuat Database PowerDNS
+## 7. Membuat Database PowerDNS
 
 Masuk atau *login* ke MariaDB sebagai pengguna *root* dengan menjalankan perintah berikut:
 ```
@@ -246,7 +230,7 @@ FLUSH PRIVILEGES;
 ```
 > **Catatan:** Apabila proses konfigurasi database telah selesai dan Anda ingin keluar dari prompt MariaDB, gunakan perintah `exit;`.
 
-## Import Database Schema PowerDNS
+## 8. Import Database Schema PowerDNS
 
 Setelah *backend* MariaDB PowerDNS berhasil diinstal, cari file *schema* yang tersedia pada sistem dengan menjalankan perintah berikut:
 ```
@@ -286,7 +270,7 @@ SHOW TABLES;
 </p>
 
 
-## Konfigurasi Backend PowerDNS
+## 9. Konfigurasi Backend PowerDNS
 
 Nah, setelah *schema* masuk ke *database*, baru kita beri tahu PowerDNS bahwa data DNS disimpan di dalam *database* MariaDB.
 
@@ -332,7 +316,7 @@ Kemudian cek kembali status service PowerDNS untuk memastikan semuanya berjalan 
 ```
 > **Catatan:** Pastikan statusnya menunjukkan keterangan active (running):
 
-## Membuat DNS Zone
+## 10. Membuat DNS Zone
 
 Setelah *backend* berhasil dikonfigurasi, langkah selanjutnya adalah membuat DNS *Zone* untuk domain yang akan digunakan.
 
@@ -357,7 +341,7 @@ SELECT * FROM domains;
   <em>Gambar 9: Show Domain</em>
 </p>
 
-## Menambahkan DNS Record
+## 11. Menambahkan DNS Record
 
 Setelah DNS *Zone* berhasil dibuat, langkah berikutnya adalah menambahkan berbagai macam DNS *Record* yang diperlukan ke dalam *database*.
 #### A Record
@@ -395,7 +379,7 @@ VALUES
 > **Catatan:** `domainkamu.id` hanya digunakan sebagai contoh. Silakan sesuaikan dengan domain dan IP Address yang digunakan.
 
 
-## Mengecek DNS Zone dan Record
+## 12. Mengecek DNS Zone dan Record
 Setelah seluruh *record* ditambahkan ke dalam *database*, langkah terakhir adalah memeriksa kembali seluruh data yang telah dibuat untuk memastikan semuanya sudah terkonfigurasi dengan benar.
 
 Jalankan *query* SQL berikut di dalam MariaDB:
@@ -442,7 +426,7 @@ Setelah seluruh konfigurasi dan penambahan record selesai, lakukan restart terak
      CGroup: /system.slice/pdns.service
 ```
 
-# 4. Verifikasi
+## 13. Verifikasi
 ## Mengecek Port DNS
 Layanan DNS menggunakan port `53` (baik protokol UDP maupun TCP) untuk menerima setiap *query* atau permintaan DNS yang masuk dari klien.
 
@@ -502,7 +486,7 @@ Apabila dari hasil verifikasi, hasil pointing domain masih belum mengarah ke IP 
 >
 >> _Proses propagasi ini dipengaruhi oleh beberapa faktor, yaitu pengaturan TTL (Time to Live), jaringan ISP, serta pihak Registry domain. Waktu yang dibutuhkan untuk proses propagasi ini biasanya memakan waktu kurang lebih hingga 48 jam._
 
-# Troubleshooting
+## 14.  Troubleshooting
 
 ### PowerDNS tidak berjalan
 Jika *service* PowerDNS gagal berjalan atau mengalami *stop*, periksa status *service* terlebih dahulu:
@@ -582,12 +566,12 @@ dig domainkamu.id A
 
 Jika konfigurasi sudah dipastikan benar tetapi perubahan belum terlihat dari jaringan luar atau resolver tertentu, kemungkinan besar domain Anda masih berada dalam proses propagasi (waktu yang dibutuhkan oleh internet/ISP untuk mengenali perubahan record DNS yang baru, yang biasanya membutuhkan waktu hingga 48 jam).
 
-# Kesimpulan
+## Kesimpulan
 Dengan memahami konsep dan cara kerja PowerDNS, kamu bisa membangun layanan DNS Authoritative pada VPS secara lebih fleksibel dan terkelola. Dengan dukungan MariaDB sebagai backend, konfigurasi zone dan record DNS dapat disimpan serta dikelola dengan lebih terstruktur sesuai kebutuhan.
 
 Setelah PowerDNS berhasil dikonfigurasi, kamu dapat mengelola domain, nameserver, serta DNS record melalui database dan melakukan pengecekan untuk memastikan layanan DNS berjalan dengan baik.
 
-# Referensi
+## Referensi
 
 * [PowerDNS Official Website](https://www.powerdns.com/)
 * [PowerDNS GitHub Releases](https://github.com/PowerDNS/pdns)
