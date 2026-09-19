@@ -141,7 +141,7 @@ Setelah memahami konsep dasar CoreDNS, kamu dapat melanjutkan ke panduan instala
 
 **Panduan Instalasi dan Konfigurasi:**
 
-[Cara Instalasi dan Konfigurasi CoreDNS di Ubuntu 24.04](https://github.com/violashafa/KB-Internship/blob/main/CoreDNS/Cara%20Instalasi%20dan%20Konfigurasi%20CoreDNS%20di%20Ubuntu%2024.04.md)
+[Cara Instalasi dan Konfigurasi CoreDNS di Ubuntu 24.04](https://kb.cloudkilat.id/coredns/cara-instalasi-dan-konfigurasi-coredns-di-ubuntu-24.04)
 
 ## Kesimpulan
 
