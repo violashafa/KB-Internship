@@ -1,3 +1,4 @@
+
 # Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS-Admin melalui GUI pada Ubuntu 24.04 LTS
 
 Pelajari cara instalasi dan konfigurasi PowerDNS Server berbasis GUI di Kilat VM 2.0 dengan Ubuntu 24.04. Panduan lengkap ini membahas persiapan sistem, setup Glue Record, hingga manajemen zona domain secara visual dan mudah melalui panel PowerDNS-Admin.
@@ -271,3 +272,151 @@ apt install pdns-backend-mysql
   <br>
   <em>Gambar 8: Instal Backend MariaDB</em>
 </p>
+
+## 7. Membuat Database PowerDNS
+
+Masuk atau *login* ke MariaDB sebagai pengguna *root* dengan menjalankan perintah berikut:
+```
+mysql -u root -p
+```
+
+Kemudian, buat sebuah database baru untuk PowerDNS menggunakan perintah:
+```
+CREATE DATABASE powerdns;
+```
+
+Buat user baru untuk mengakses database tersebut 
+```
+CREATE USER 'powerdns'@'localhost' IDENTIFIED BY 'PASSWORD';
+```
+> **Catatan:** Ganti 'PASSWORD' dengan kata sandi yang kuat dan aman (kombinasi huruf besar, huruf kecil, angka, dan simbol) untuk menghindari risiko keamanan pada database Anda.
+
+Berikan hak akses penuh kepada user tersebut pada database PowerDNS:
+```
+GRANT ALL PRIVILEGES ON powerdns.* TO 'powerdns'@'localhost';
+```
+
+Terakhir, perbarui hak istimewa (privileges) dengan menjalankan perintah:
+```
+FLUSH PRIVILEGES;
+```
+> **Catatan:** Apabila proses konfigurasi database telah selesai dan Anda ingin keluar dari prompt MariaDB, gunakan perintah `exit;`.
+
+## 8. Import Database Schema PowerDNS
+
+Setelah *backend* MariaDB PowerDNS berhasil diinstal, cari file *schema* yang tersedia pada sistem dengan menjalankan perintah berikut:
+```
+ls /usr/share/doc/pdns-backend-mysql/
+```
+
+Kalau ingin mencari file SQL secara lebih spesifik, Anda bisa menggunakan perintah:
+```
+find /usr/share -type f -iname "*.sql" | grep -i pdns
+```
+
+Kemudian lakukan import menggunakan path tersebut
+```
+mysql -u powerdns -p powerdns < /usr/share/pdns-backend-mysql/schema/schema.mysql.sql
+```
+<p align="center">
+<img width="903" height="97" alt="impor schema" src="https://github.com/user-attachments/assets/f6e61714-468c-432e-98b9-e5a4bd888930" />
+  <br>
+  <em>Gambar 9: Impor File</em>
+</p>
+
+> **Catatan:** Saat diminta password, masukkan password user powerdns yang sudah Anda buat sebelumnya
+
+Setelah proses selesai, silakan login kembali ke database untuk memastikan tabel-tabelnya sudah terbuat:
+```
+mysql -u powerdns -p powerdns
+```
+
+Kemudian cek tabel untuk memastikan schema berhasil di-import dan tabel-tabel yang dibutuhkan PowerDNS muncul:
+```
+SHOW TABLES;
+```
+<p align="center">
+<img width="577" height="261" alt="show tables" src="https://github.com/user-attachments/assets/8c09928b-5e50-4a67-a4d1-23e9f79fa3ba" />
+  <br>
+  <em>Gambar 10: Show Tables</em>
+</p>
+
+
+## 9. Konfigurasi Backend PowerDNS
+
+Nah, setelah *schema* masuk ke *database*, baru kita beri tahu PowerDNS bahwa data DNS disimpan di dalam *database* MariaDB.
+
+Edit file konfigurasi utama PowerDNS dengan menggunakan editor teks `nano`:
+```
+nano /etc/powerdns/pdns.conf
+```
+
+Tambahkan atau sesuaikan konfigurasi backend database di dalam file tersebut seperti berikut:
+```
+launch=gmysql 
+gmysql-host=127.0.0.1 
+gmysql-port=3306 
+gmysql-dbname=powerdns 
+gmysql-user=powerdns 
+gmysql-password=PASSWORD_ANDA 
+gmysql-dnssec=yes
+```
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 11: File Pdns</em>
+</p>
+
+Setelah konfigurasi disimpan, restart service PowerDNS untuk menerapkan perubahan:
+```
+systemctl restart pdns
+```
+
+Kemudian cek kembali status service PowerDNS untuk memastikan semuanya berjalan dengan normal:
+```
+#systemctl status pdns
+● pdns.service - PowerDNS Authoritative Server
+     Loaded: loaded (/usr/lib/systemd/system/pdns.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-09-19 14:47:50 WIB; 9s ago
+       Docs: man:pdns_server(1)
+             man:pdns_control(1)
+             https://doc.powerdns.com
+   Main PID: 5508 (pdns_server)
+      Tasks: 8 (limit: 1094)
+     Memory: 46.6M (peak: 46.9M)
+        CPU: 161ms
+     CGroup: /system.slice/pdns.service
+             └─5508 /usr/sbin/pdns_server --guardian=no --daemon=no --disable-syslog --log-timestamp=no>
+```
+
+> **Catatan:** Pastikan statusnya menunjukkan keterangan active (running):
+
+## 10. Konfigurasi PowerDNS API
+## 11. Instalasi Docker
+## 12. Instalasi PowerDNS-Admin
+## 13. Konfigurasi Koneksi PowerDNS API
+## 14. Akses PowerDNS-Admin melalui Browser
+## 15. Membuat Akun Administrator
+## 16. Konfigurasi PowerDNS pada PowerDNS-Admin
+## 17. Membuat DNS Zone melalui GUI
+## 18. Menambahkan DNS Record melalui GUI
+### Record A
+### CNAME
+### TXT
+## 19. Memeriksa DNS Record melalui PowerDNS-Admin
+## 20. Memeriksa Service PowerDNS
+## 21. Verifikasi DNS Menggunakan dig
+### Verifikasi SOA
+### Verifikasi NS Record
+### Verifikasi Record A
+### Pengujian melalui Public IP
+### Pengujian dari DNS Resolver Publik
+## 22. Pengujian menggunakan DNS Checker
+## 23. Troubleshooting
+### PowerDNS gagal berjalan karena port 53 digunakan
+### PowerDNS-Admin tidak dapat terhubung ke PowerDNS API
+### PowerDNS API tidak aktif
+### DNS Record tidak muncul
+### DNS belum dapat diakses dari internet
+## Kesimpulan
+## Referensi
