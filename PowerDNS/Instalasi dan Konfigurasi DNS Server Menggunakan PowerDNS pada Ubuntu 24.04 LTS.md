@@ -1,6 +1,6 @@
 
 
-# Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS pada Ubuntu 24.04 LTS
+# Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS melalui CLI pada Ubuntu 24.04 LTS
 
 Pelajari cara instalasi dan konfigurasi DNS Server menggunakan BIND di Kilat VM 2.0 berbasis Ubuntu 24.04. Panduan lengkap mulai dari persiapan, setup Glue Record, hingga konfigurasi zona domain.
 ***
