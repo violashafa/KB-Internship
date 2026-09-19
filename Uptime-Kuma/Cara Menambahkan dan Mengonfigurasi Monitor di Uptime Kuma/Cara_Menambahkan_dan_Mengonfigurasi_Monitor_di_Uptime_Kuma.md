@@ -88,8 +88,6 @@ Untuk mengatasinya:
   <em>Gambar 4: Bypass Cache dengan HTTP Headers</em>
 </p>
 
-> **Catatan:** Bagian **HTTP Options** pada monitor HTTP(s) juga menyediakan field **Method** (default `GET`), **Body Encoding**, dan **Body** untuk kebutuhan monitoring endpoint yang membutuhkan request body, namun field-field tersebut berada di luar cakupan panduan ini karena tidak digunakan pada monitor website biasa.
-
 Klik **Save** setelah header ditambahkan.
 
 ---
@@ -113,8 +111,6 @@ Pada dashboard, klik **Add New Monitor**, lalu isi konfigurasi berikut:
 </p>
 
 Klik **Save** untuk menyimpan monitor.
-
-> **Catatan:** Monitor tipe Ping dapat ditambahkan lebih dari satu untuk memantau beberapa server sekaligus, masing-masing dengan Hostname (IP Address) server yang berbeda.
 
 ---
 

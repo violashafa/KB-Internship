@@ -44,10 +44,6 @@ Pada dashboard Uptime Kuma, klik ikon profil di kanan atas, lalu pilih **Setting
   <em>Gambar 1: Menu Notifications pada Halaman Settings</em>
 </p>
 
-Apabila belum pernah dikonfigurasi, bagian Notifications akan menampilkan keterangan `Not available, please set up.` Ini adalah kondisi normal.
-
-> **Catatan:** Modal **Set Up Notification** yang sama juga dapat dibuka dari halaman **Add New Monitor** maupun **Edit Monitor**, melalui panel **Notifications** di sisi kanan. Pintu masuknya berbeda, namun form dan hasil konfigurasinya identik.
-
 ---
 
 ## 2. Konfigurasi Notifikasi Email (SMTP)
@@ -71,8 +67,6 @@ Pada modal **Set Up Notification**, isi konfigurasi berikut:
   <br>
   <em>Gambar 2: Konfigurasi Notifikasi Email (SMTP)</em>
 </p>
-
-> **Catatan:** Nilai **From Email** sebaiknya sama dengan akun yang digunakan pada **Username**, karena mail server umumnya menolak pengiriman dengan alamat pengirim yang berbeda dari akun yang melakukan autentikasi.
 
 Pada bagian bawah modal terdapat dua opsi tambahan:
 
