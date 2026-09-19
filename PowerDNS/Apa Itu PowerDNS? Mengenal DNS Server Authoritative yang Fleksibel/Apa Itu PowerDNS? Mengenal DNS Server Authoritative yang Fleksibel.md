@@ -11,12 +11,12 @@ Kebutuhan seperti ini biasanya diselesaikan dengan layanan DNS pihak ketiga yang
   <img width="450" alt="logo power dns" src="https://github.com/user-attachments/assets/7d8281c3-c2c8-46d7-a394-cb47f8fd6784" />
 </p>
 
-# Apa Itu PowerDNS?
+## Apa Itu PowerDNS?
 PowerDNS adalah perangkat lunak **DNS server otoritatif (_Authoritative DNS Server_)** berkinerja tinggi yang bersifat _open-source_. Berbeda dengan DNS server tradisional seperti BIND yang umumnya membaca data dari file teks datar (zone files), PowerDNS dirancang dengan arsitektur modular yang memungkinkannya mengambil data zona langsung dari berbagai backend basis data seperti **MariaDB, MySQL, PostgreSQL, SQLite, atau bahkan LDAP dan Redis**.
 
 Hal ini membuat PowerDNS sangat fleksibel, terutama bagi penyedia layanan (hosting) atau administrator yang ingin mengelola ribuan domain secara dinamis melalui aplikasi web atau panel otomatisasi.
 
-# Bagaimana Cara Kerja PowerDNS?
+## Bagaimana Cara Kerja PowerDNS?
 Secara garis besar, alur kerja PowerDNS dalam melayani query DNS dari pengguna adalah sebagai berikut:
 
 <p align="center">
@@ -27,7 +27,7 @@ Secara garis besar, alur kerja PowerDNS dalam melayani query DNS dari pengguna a
 2. **Pencarian Berjenjang**: Recursor mencari alamat tersebut secara bertahap mulai dari Root DNS hingga server TLD.   
 3. **Pemberian IP**: Server PowerDNS Authoritative memberikan informasi IP tujuan akhir kepada Recursor untuk diteruskan kembali ke klien.   
 
-# Komponen Utama PowerDNS
+## Komponen Utama PowerDNS
 * **PowerDNS Authoritative Server**, komponen inti yang menyimpan data domain asli Anda dan menjawab query khusus untuk domain tersebut.
 * **PowerDNS Recursor**, komponen yang melakukan pencarian DNS ke internet luar untuk melayani permintaan dari pengguna akhir.
 * **Storage Backends**, modul penghubung yang menentukan tempat penyimpanan data DNS (seperti di MySQL, PostgreSQL, atau file BIND).
@@ -43,21 +43,21 @@ Secara garis besar, alur kerja PowerDNS dalam melayani query DNS dari pengguna a
 | **TXT** | Menyimpan teks untuk verifikasi & keamanan (SPF/DKIM). | `v=spf1 include:_spf.google.com ~all` |
 | **NS** | Menentukan server DNS otoritatif untuk domain. | `ns1.domainkamu.id` & `ns2.domainkamu.id` |
 
-# Kelebihan Utama PowerDNS
+## Kelebihan Utama PowerDNS
 * **Kinerja Tinggi**, mampu memproses permintaan DNS dalam jumlah besar dengan sangat cepat dan stabil.
 * **Backend Database Fleksibel**, data domain disimpan di database (seperti MariaDB atau MySQL), jadi jauh lebih fleksibel dibanding file teks biasa.
 * **Integrasi API**, memudahkan sistem lain atau aplikasi luar untuk mengatur domain secara otomatis.
 * **Kompatibilitas Luas**, tetap mendukung format standar BIND, jadi mudah dipindah atau digabung dengan sistem lain.
 * **Manajemen Terpusat**, mudah dihubungkan ke panel web (seperti PowerDNS-Admin) jika kamu lebih suka mengatur domain lewat tampilan visual/klik.
 
-# Kekurangan PowerDNS
+## Kekurangan PowerDNS
 Meskipun memiliki banyak keunggulan, beberapa kelemahan PowerDNS berikut ini juga perlu diperhatikan:
 
 * **Arsitektur Terpisah**, fungsi Authoritative dan Recursor tidak menyatu, membuat konfigurasi gabungan dalam satu server menjadi rumit.
 * **Ketergantungan Database**, performa DNS bertumpu pada database (MySQL/PostgreSQL). Jika database mati, layanan DNS ikut lumpuh.
 * **Boros Sumber Daya**, konsumsi RAM dan CPU lebih tinggi dibanding DNS tradisional karena beban proses dari sistem database.
 
-# Perbandingan: PowerDNS Versi CLI vs Versi GUI
+## Perbandingan: PowerDNS Versi CLI vs Versi GUI
 Sebelum masuk ke panduan praktis instalasi di artikel selanjutnya, penting untuk memahami perbedaan cara mengelola PowerDNS:
 
 | Parameter  | CLI (Command Line / Database) |GUI (PowerDNS-Admin) |
@@ -68,7 +68,7 @@ Sebelum masuk ke panduan praktis instalasi di artikel selanjutnya, penting untuk
 | **Fitur Ekstra**      | Terbatas pada fungsi dasar server.     | Akses _multi-user_, grafik, log, & DNSSEC 1-klik.     | 
 | **Rekomendasi**      | Server tanpa GUI (_headless_) & otomatisasi tingkat lanjut.     | Kolaborasi tim & admin yang ingin kemudahan.     | 
 
-# Siap Menguasai PowerDNS? Lanjutkan dengan Panduan Ini
+## Siap Menguasai PowerDNS? Lanjutkan dengan Panduan Ini
 Setelah memahami dasar-dasar PowerDNS, cara kerja, serta kelebihannya, kini saatnya mendalami langkah instalasi dan konfigurasi praktisnya sesuai dengan kebutuhan infrastruktur Anda.
 
 Silakan pilih panduan lengkap langkah demi langkah di bawah ini:
@@ -79,7 +79,7 @@ Silakan pilih panduan lengkap langkah demi langkah di bawah ini:
 **Pengelolaan via Web Dashboard (GUI):**
 * linknya
 
-# Kesimpulan
+## Kesimpulan
 **PowerDNS** adalah solusi server DNS modern yang sangat handal, cepat, dan fleksibel karena datanya disimpan langsung di dalam database. Meskipun memerlukan sedikit perhatian lebih pada pengelolaan resource dan database, PowerDNS menjadi pilihan terbaik bagi siapa saja yang menginginkan kontrol penuh, performa tinggi, serta kemudahan pengelolaan domain secara mandiri, baik melalui baris perintah **(CLI)** maupun panel web **(GUI)**.
 
 > ## Siap Mengelola Domain dan DNS Sendiri?
@@ -94,7 +94,7 @@ Silakan pilih panduan lengkap langkah demi langkah di bawah ini:
 > 
 > 👉 https://www.cloudkilat.com/layanan/kilat-domain
 
-# Referensi
+## Referensi
 * [PowerDNS Official Website](https://www.powerdns.com/)
 * [PowerDNS Authoritative Documentation](https://doc.powerdns.com/authoritative/index.html)
 * [IDN.id - Pengenalan Power DNS](https://www.idn.id/power-dns/)
