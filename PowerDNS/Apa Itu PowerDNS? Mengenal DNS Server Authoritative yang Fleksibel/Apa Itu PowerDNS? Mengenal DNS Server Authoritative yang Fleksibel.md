@@ -32,6 +32,16 @@ Secara garis besar, alur kerja PowerDNS dalam melayani query DNS dari pengguna a
 * **PowerDNS Recursor**, komponen yang melakukan pencarian DNS ke internet luar untuk melayani permintaan dari pengguna akhir.
 * **Storage Backends**, modul penghubung yang menentukan tempat penyimpanan data DNS (seperti di MySQL, PostgreSQL, atau file BIND).
 * **dnsdist**, alat penyeimbang beban (load balancer) dan penyaring keamanan yang berada di garda terdepan untuk mengatur lalu lintas DNS.
+* PowerDNS mendukung berbagai **DNS record** standar untuk memetakan domain ke IP atau layanan tertentu. Beberapa komponen utama yang sering digunakan meliputi:
+
+| Jenis Record | Fungsi Utama | Contoh Penggunaan |
+| ------------- |:-------------:|:-------------:|
+| **A** | Memetakan domain ke alamat IPv4 server. | `domainkamu.id` -> `192.0.2.50` |
+| **AAAA** | Memetakan domain ke alamat IPv6 server. | `domainkamu.id` -> `2001:db8::1` |
+| **CNAME** | Membuat alias nama domain ke domain utama. | `www.domainkamu.id` -> `domainkamu.id` |
+| **MX** | Menentukan server penanganan email domain. | `mail.domainkamu.id` |
+| **TXT** | Menyimpan teks untuk verifikasi & keamanan (SPF/DKIM). | `v=spf1 include:_spf.google.com ~all` |
+| **NS** | Menentukan server DNS otoritatif untuk domain. | `ns1.domainkamu.id` & `ns2.domainkamu.id` |
 
 # Kelebihan Utama PowerDNS
 * **Kinerja Tinggi**, mampu memproses permintaan DNS dalam jumlah besar dengan sangat cepat dan stabil.
