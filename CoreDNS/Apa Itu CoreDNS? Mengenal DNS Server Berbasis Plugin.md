@@ -22,8 +22,18 @@ Beberapa fungsi CoreDNS antara lain:
 * **Mengelola DNS Zone**, dengan menentukan zone yang akan dilayani oleh CoreDNS.
 * **Melayani DNS Record**, seperti `A`, `AAAA`, `CNAME`, `MX`, `NS`, dan `TXT`.
 * **DNS Forwarding**, untuk meneruskan permintaan DNS ke DNS server lain melalui plugin yang sesuai.
-* **Plugin-based**, sehingga fitur CoreDNS dapat disesuaikan dengan kebutuhan melalui plugin.
 
+## Kelebihan CoreDNS
+
+- **Berbasis plugin**, sehingga fitur dapat disesuaikan dengan kebutuhan.
+- **Konfigurasi sederhana** menggunakan Corefile.
+- **Open source** dan dapat digunakan pada berbagai lingkungan, seperti server Linux dan container.
+
+## Kekurangan CoreDNS
+
+- **Tidak menyediakan GUI bawaan**, sehingga konfigurasi umumnya dilakukan melalui file dan terminal.
+- **Membutuhkan pemahaman dasar DNS** untuk melakukan konfigurasi.
+- **Pengelolaan zone dan DNS record dapat dilakukan secara manual** jika menggunakan konfigurasi berbasis file.
 ## Komponen Utama CoreDNS
 
 Dalam penggunaannya, terdapat beberapa komponen yang perlu dipahami:
@@ -121,13 +131,7 @@ Dengan domain dan Kilat VM, kamu bisa mengelola domain, server, serta konfiguras
 
 ## Kapan Menggunakan CoreDNS?
 
-CoreDNS dapat digunakan ketika membutuhkan:
-
-* DNS server yang dapat dikonfigurasi secara mandiri.
-* **Authoritative DNS server** untuk suatu domain.
-* Konfigurasi DNS berbasis file melalui **Corefile** dan zone file.
-* DNS server dengan arsitektur berbasis plugin.
-* DNS server yang dapat disesuaikan dengan kebutuhan melalui plugin.
+CoreDNS dapat digunakan ketika membutuhkan DNS server yang dapat dikonfigurasi secara mandiri, baik sebagai **authoritative DNS server** maupun untuk kebutuhan DNS lainnya melalui sistem berbasis plugin.
 
 > **Catatan:** Authoritative DNS server adalah DNS server yang menyimpan dan memberikan informasi DNS record secara resmi untuk suatu domain.
 
@@ -147,7 +151,7 @@ Dengan memahami Corefile, zone file, DNS record, dan plugin `file`, pengguna dap
 
 ---
 
-CloudKilat menyediakan layanan **server, hosting, dan layanan tambahan lainnya** yang memiliki performa andal. Layanan tersebut juga didukung oleh tim support CloudKilat dengan respons cepat dan pelayanan terbaik selama **7x24 jam**.
+CloudKilat menyediakan layanan **Kilat VM, hosting, domain, dan layanan tambahan lainnya** untuk berbagai kebutuhan pengguna. Layanan tersebut juga didukung oleh tim support CloudKilat dengan pelayanan selama **7x24 jam**.
 
 Terima kasih, sekian dan semoga bermanfaat.
 
