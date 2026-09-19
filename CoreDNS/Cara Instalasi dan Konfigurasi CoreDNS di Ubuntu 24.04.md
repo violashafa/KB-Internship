@@ -1,44 +1,12 @@
 # Cara Instalasi dan Konfigurasi CoreDNS di Ubuntu 24.04
 
-Halo, Kawan Belajar! Pernah membutuhkan DNS server sendiri untuk mengelola domain pada Kilat VM?
+Halo, Kawan Belajar!
 
-Pada panduan ini, kita akan membahas cara menginstal dan mengonfigurasi **CoreDNS** pada Ubuntu 24.04 LTS hingga dapat digunakan sebagai **authoritative DNS server** untuk mengelola DNS record pada domain.
+Ketika mengelola sebuah domain, diperlukan **DNS Server** untuk mengatur informasi seperti alamat IP yang digunakan oleh domain tersebut. Salah satu aplikasi yang dapat digunakan untuk kebutuhan tersebut adalah **CoreDNS**.
 
-## Apa Itu CoreDNS?
+CoreDNS merupakan DNS server *open source* berbasis plugin yang dapat dikonfigurasi sesuai kebutuhan. Pada panduan ini, kita akan melakukan instalasi dan konfigurasi **CoreDNS pada Kilat VM** dengan sistem operasi **Ubuntu 24.04 LTS**, hingga CoreDNS dapat digunakan sebagai **authoritative DNS server** untuk mengelola DNS record pada sebuah domain.
 
-CoreDNS merupakan DNS server **open source** yang digunakan untuk menangani permintaan DNS (*Domain Name System*). CoreDNS menggunakan sistem berbasis plugin sehingga dapat dikonfigurasi sesuai dengan kebutuhan, seperti melayani DNS record, melakukan DNS forwarding, dan menyediakan layanan DNS lainnya.
-
-CoreDNS cocok digunakan pada **Kilat VM** ketika pengguna membutuhkan DNS server yang ringan, fleksibel, dan dapat dikonfigurasi secara mandiri.
-
-### Fungsi CoreDNS
-
-CoreDNS dapat digunakan untuk:
-
-* Menjadi **authoritative DNS server** untuk sebuah domain.
-* Mengelola dan melayani **DNS Zone** serta **DNS Record**.
-* Menjawab permintaan DNS dari client.
-* Mendukung berbagai jenis DNS Record seperti `A`, `AAAA`, `CNAME`, `MX`, `NS`, dan `TXT`.
-* Meneruskan permintaan DNS ke DNS server lain melalui konfigurasi plugin yang sesuai.
-
-### Kelebihan CoreDNS
-
-Beberapa kelebihan CoreDNS antara lain:
-
-* **Ringan**, sehingga dapat berjalan dengan penggunaan resource yang relatif rendah.
-* **Fleksibel**, karena menggunakan sistem plugin yang dapat disesuaikan dengan kebutuhan.
-* **Open source**, sehingga dapat digunakan dan dikembangkan secara bebas.
-* **Mudah dikonfigurasi**, menggunakan file konfigurasi `Corefile`.
-* **Mendukung berbagai kebutuhan DNS**, termasuk authoritative DNS dan DNS forwarding.
-
-### Kekurangan CoreDNS
-
-CoreDNS juga memiliki beberapa hal yang perlu diperhatikan:
-
-* Konfigurasi DNS memerlukan pemahaman dasar mengenai DNS, seperti zone, record, dan nameserver.
-* Pengelolaan DNS dilakukan secara mandiri pada server sehingga konfigurasi dan keamanannya perlu diperhatikan.
-* Untuk kebutuhan **high availability**, diperlukan lebih dari satu DNS server agar tidak bergantung pada satu server.
-
-Pada panduan ini, CoreDNS akan dikonfigurasi sebagai **authoritative DNS server** pada Kilat VM dengan sistem operasi Ubuntu 24.04 LTS.
+> **Catatan:** Untuk memahami CoreDNS lebih lanjut, mulai dari pengertian, fungsi, komponen, hingga cara kerjanya, silakan baca [KB Apa Itu CoreDNS? Mengenal DNS Server Berbasis Plugin](https://github.com/violashafa/KB-Internship/blob/main/CoreDNS/Apa%20Itu%20CoreDNS%3F%20Mengenal%20DNS%20Server%20Berbasis%20Plugin.md).
 
 ## Persiapan Awal
 
