@@ -570,7 +570,7 @@ Jika konfigurasi sudah dipastikan benar tetapi perubahan belum terlihat dari jar
 ## Kesimpulan
 Dengan memahami konsep dan cara kerja **PowerDNS**, kamu kini bisa membangun layanan DNS Authoritative pada VPS secara lebih fleksibel dan mandiri. Berkat dukungan MariaDB sebagai backend, seluruh konfigurasi zone dan record DNS dapat disimpan serta dikelola secara terstruktur melalui baris perintah **(CLI)** dan query SQL langsung dari terminal.
 
-Setelah PowerDNS berhasil dikonfigurasi, pengelolaan domain, nameserver, serta DNS record dapat dilakukan sepenuhnya tanpa interface grafis, cukup menggunakan database prompt atau utilitas `pdns_control`. Jangan lupa untuk selalu melakukan pengecekan berkala menggunakan perintah CLI seperti `dig` atau `nslookup` untuk memastikan layanan DNS berjalan dengan baik dan responsif.
+> **CloudKilat menyediakan layanan server, hosting, dan layanan tambahan lainnya yang memiliki performa handal. Layanan tersebut juga didukung oleh tim support kami secara fast respon dengan pelayanan terbaik selama 7x24 jam.**
 
 ## Referensi
 
@@ -578,4 +578,4 @@ Setelah PowerDNS berhasil dikonfigurasi, pengelolaan domain, nameserver, serta D
 * [PowerDNS GitHub Releases](https://github.com/PowerDNS/pdns)
 * [KB - Cara Menggunakan Private Name Server pada Domain di Portal Client CloudKilat](https://kb.cloudkilat.id/domain-di-cloudkilat/cara-menggunakan-private-name-server-pada-domain-di-portal-client-cloudkilat)
 
-Sekian, dan semoga bermanfaat.
+Terima kasih, sekian dan semoga bermanfaat.
