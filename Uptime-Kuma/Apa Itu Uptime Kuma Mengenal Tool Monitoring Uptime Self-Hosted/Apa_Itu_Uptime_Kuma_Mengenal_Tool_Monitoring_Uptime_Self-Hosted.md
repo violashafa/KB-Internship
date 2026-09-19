@@ -73,6 +73,10 @@ Setelah memahami dasar-dasar Uptime Kuma, kini saatnya mendalami langkah instala
 
 Uptime Kuma adalah solusi monitoring uptime yang ringan, open source, dan sepenuhnya dapat dikendalikan sendiri, cocok digunakan untuk memantau website, server, maupun service lain tanpa bergantung pada layanan pihak ketiga. Dengan dukungan berbagai tipe monitor, notifikasi otomatis, dan Public Status Page, Uptime Kuma dapat diandalkan baik untuk kebutuhan personal maupun web agency yang mengelola banyak layanan klien.
 
+CloudKilat menyediakan layanan Kilat VM, hosting, domain, dan layanan tambahan lainnya yang dapat mendukung kebutuhan monitoring mandiri seperti Uptime Kuma, mulai dari server tempat Uptime Kuma dijalankan hingga domain untuk Public Status Page. Layanan tersebut juga didukung oleh tim support CloudKilat dengan pelayanan selama 7x24 jam.
+
+Terima kasih, sekian dan semoga bermanfaat.
+
 ## Referensi
 
 - [Uptime Kuma Official Repository](https://github.com/louislam/uptime-kuma/)

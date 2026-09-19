@@ -271,32 +271,20 @@ Pilih tipe database sesuai yang tersedia pada wizard (lihat kembali bagian [Pili
 * **SQLite**: tidak perlu input tambahan, langsung klik Next. Direkomendasikan untuk kebanyakan kasus.
 * **MariaDB/MySQL**: isi Hostname (`localhost` apabila satu server dengan MariaDB, atau IP server terpisah), Port (`3306`), Username, Password, dan Database Name sesuai yang dibuat pada langkah 6.1.
 
-<p align="center">
-<img alt="Pemilihan Database MariaDB/MySQL" src="Images/5_mariadb.png" />
-  <br>
-  <em>Gambar 5: Pemilihan Database MariaDB/MySQL</em>
-</p>
-
-<p align="center">
-<img alt="Pemilihan Database SQLite" src="Images/6_sqlite.png" />
-  <br>
-  <em>Gambar 6: Pemilihan Database SQLite</em>
-</p>
-
 Buat akun admin dengan username dan password yang kuat pada langkah berikutnya.
 
 <p align="center">
-<img alt="Setup Admin" src="Images/7_setup_akun_admin.png" />
+<img alt="Setup Admin" src="Images/5_setup_akun_admin.png" />
   <br>
-  <em>Gambar 7: Setup Admin</em>
+  <em>Gambar 5: Setup Admin</em>
 </p>
 
 Setelah berhasil, dashboard akan menampilkan Quick Stats kosong (Up/Down/Maintenance/Unknown/Pause semuanya 0) dengan pesan "No Monitors, please add one". Ini adalah kondisi normal karena Uptime Kuma tidak melakukan auto-discovery terhadap layanan apapun; setiap monitor harus ditambahkan manual.
 
 <p align="center">
-<img alt="Halaman Dashboard" src="Images/8_dashboard.png" />
+<img alt="Halaman Dashboard" src="Images/6_dashboard.png" />
   <br>
-  <em>Gambar 8: Halaman Dashboard</em>
+  <em>Gambar 6: Halaman Dashboard</em>
 </p>
 
 > **Catatan:** Penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.
@@ -330,6 +318,10 @@ Apabila koneksi ke database gagal pada halaman setup wizard, periksa hal berikut
 Uptime Kuma dapat diinstal pada Linux menggunakan metode Non-Docker (Native) dengan Node.js dan PM2, mendukung dua pilihan database (SQLite dan MariaDB/MySQL eksternal) sesuai skala penggunaan.
 
 Dengan mengikuti panduan ini, Uptime Kuma telah berhasil diinstal, akun admin telah dibuat, dan dashboard utama sudah dapat diakses. Konfigurasi penambahan monitor, notifikasi, dan status page dibahas pada artikel terpisah.
+
+CloudKilat menyediakan layanan Kilat VM dengan akses root penuh dan performa stabil, sehingga proses instalasi Node.js, PM2, maupun MariaDB pada panduan ini dapat berjalan tanpa hambatan dari sisi infrastruktur. Layanan tersebut juga didukung oleh tim support CloudKilat dengan pelayanan selama 7x24 jam apabila memerlukan bantuan lebih lanjut.
+
+Terima kasih, sekian dan semoga bermanfaat.
 
 ## Referensi
 

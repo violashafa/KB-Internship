@@ -2,7 +2,7 @@
 
 Halo, Kawan Belajar! Setelah Uptime Kuma berhasil diinstal dan dashboard sudah dapat diakses, langkah selanjutnya adalah menambahkan **monitor** agar Uptime Kuma dapat mulai memantau status uptime dari website maupun service yang kamu miliki.
 
-Pada panduan ini, kita akan membahas cara menambahkan tiga tipe monitor yang umum digunakan: **HTTP(s)** untuk memantau website, **TCP Port** untuk memantau service tertentu pada server lain, dan **Ping** untuk memantau apakah sebuah server aktif (up) atau tidak.
+Pada panduan ini, kita akan membahas cara menambahkan tiga tipe monitor yang umum digunakan: **HTTP(s)** untuk memantau website, **TCP Port** untuk memantau service tertentu pada suatu server, dan **Ping** untuk memantau apakah sebuah server aktif (up) atau tidak.
 
 > **Catatan:** Panduan ini merupakan lanjutan dari artikel instalasi Uptime Kuma, baik metode [Docker](https://kb.cloudkilat.id/uptime-kuma/cara-instalasi-uptime-kuma-di-linux-dengan-docker) maupun [NPM (Non-Docker/Native)](https://kb.cloudkilat.id/uptime-kuma/cara-instalasi-uptime-kuma-di-linux-dengan-npm-non-docker-native). Pastikan Uptime Kuma sudah terinstal dan akun admin sudah dibuat sebelum mengikuti langkah-langkah berikut.
 
@@ -12,7 +12,7 @@ Sebelum memulai, pastikan sudah memiliki:
 
 1. Uptime Kuma yang sudah terinstal dan dapat diakses melalui dashboard, sesuai artikel instalasi sebelumnya.
 2. Akun admin Uptime Kuma yang sudah login ke dashboard.
-3. Alamat website (untuk monitor HTTP(s)) dan/atau IP Address server lain beserta port service yang ingin dipantau (untuk monitor TCP Port dan Ping).
+3. Alamat website (untuk monitor HTTP(s)) dan/atau IP Address server beserta port service yang ingin dipantau (untuk monitor TCP Port dan Ping).
 
 ---
 
@@ -102,7 +102,7 @@ Pada dashboard, klik **Add New Monitor**, lalu isi konfigurasi berikut:
 
 * **Monitor Type**: `Ping`.
 * **Friendly Name**: nama monitor, contoh `server1`.
-* **Hostname**: IP Address publik server yang ingin dipantau, contoh `IP_VPS`.
+* **Hostname**: IP Address atau Hostname server yang ingin dipantau.
 * **Heartbeat Interval**: jeda waktu antar pengecekan dalam detik, contoh `30`.
 * **Retries**: jumlah percobaan ulang sebelum monitor dinyatakan down, contoh `0`.
 
@@ -118,15 +118,15 @@ Klik **Save** untuk menyimpan monitor.
 
 ---
 
-## 4. Monitor Tipe TCP Port — Memantau Service pada Server Lain
+## 4. Monitor Tipe TCP Port
 
-Tipe monitor ini digunakan untuk memastikan sebuah port/service tertentu pada server lain dapat diakses, misalnya port aplikasi Portainer, database, atau service lainnya.
+Tipe monitor ini digunakan untuk memastikan sebuah port/service tertentu pada server dapat diakses.
 
 Pada dashboard, klik **Add New Monitor**, lalu isi konfigurasi berikut:
 
 * **Monitor Type**: `TCP Port`.
 * **Friendly Name**: nama monitor, contoh `Portainer`.
-* **Hostname**: IP Address publik server yang menjalankan service tersebut, contoh `IP_VPS`.
+* **Hostname**: IP Address atau Hostname server yang menjalankan service tersebut.
 * **Port**: nomor port service yang ingin dipantau, contoh `9443`.
 
 <p align="center">
@@ -172,13 +172,17 @@ Periksa apakah domain yang dipantau menggunakan Cloudflare atau reverse proxy de
 
 Periksa hal berikut:
 
-1. Pastikan IP Address pada field **Hostname** sudah benar dan server target dapat dijangkau dari VPS Uptime Kuma.
+1. Pastikan IP Address atau Hostname server pada field **Hostname** sudah benar dan server target dapat dijangkau dari VPS Uptime Kuma.
 2. Khusus TCP Port, pastikan port yang dipantau memang sedang listen pada server target, dan tidak diblokir oleh firewall (UFW/security group) di sisi server target maupun di sisi VPS Uptime Kuma.
 3. Khusus Ping, pastikan ICMP tidak diblokir oleh firewall pada jalur jaringan menuju server target.
 
 ## Kesimpulan
 
-Dengan menambahkan monitor tipe HTTP(s), TCP Port, dan Ping, Uptime Kuma sudah dapat memantau status uptime website maupun service pada server lain secara mandiri. Konfigurasi tambahan seperti HTTP Headers untuk bypass cache dapat digunakan agar hasil monitoring HTTP(s) tetap akurat meski domain berada di belakang CDN atau reverse proxy. Langkah selanjutnya adalah mengonfigurasi notifikasi dan Public Status Page agar monitoring berjalan optimal.
+Dengan menambahkan monitor tipe HTTP(s), TCP Port, dan Ping, Uptime Kuma sudah dapat memantau status uptime website maupun service pada server secara mandiri. Konfigurasi tambahan seperti HTTP Headers untuk bypass cache dapat digunakan agar hasil monitoring HTTP(s) tetap akurat meski domain berada di belakang CDN atau reverse proxy. Langkah selanjutnya adalah mengonfigurasi notifikasi dan Public Status Page agar monitoring berjalan optimal.
+
+CloudKilat menyediakan layanan Kilat VM, hosting, dan domain dengan performa handal, sehingga website maupun server yang dipantau melalui monitor pada panduan ini dapat berjalan stabil dan minim downtime. Layanan tersebut juga didukung oleh tim support CloudKilat dengan pelayanan selama 7x24 jam.
+
+Terima kasih, sekian dan semoga bermanfaat.
 
 ## Referensi
 

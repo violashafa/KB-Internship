@@ -221,7 +221,11 @@ Periksa nilai **Retries** pada monitor, karena notifikasi baru dikirim setelah j
 
 ## Kesimpulan
 
-Dengan mengonfigurasi notifikasi tipe Email (SMTP) menggunakan akun email Kilat Hosting 2.0, Uptime Kuma dapat mengirimkan peringatan otomatis setiap kali monitor berubah status down maupun kembali up, tanpa perlu memantau dashboard secara manual. Pengujian melalui tombol **Test** memastikan kredensial SMTP sudah benar, sedangkan simulasi kondisi down memastikan notifikasi benar-benar terkirim pada kondisi nyata. Langkah selanjutnya adalah membuat Public Status Page agar status layanan dapat ditampilkan secara publik.
+Dengan mengonfigurasi notifikasi tipe Email (SMTP) menggunakan akun email Kilat Hosting 2.0, Uptime Kuma dapat mengirimkan peringatan otomatis setiap kali monitor berubah status down maupun kembali up, tanpa perlu memantau dashboard secara manual. Pengujian melalui tombol Test memastikan kredensial SMTP sudah benar, sedangkan simulasi kondisi down memastikan notifikasi benar-benar terkirim pada kondisi nyata. Langkah selanjutnya adalah membuat Public Status Page agar status layanan dapat ditampilkan secara publik.
+
+CloudKilat menyediakan layanan Kilat Hosting 2.0 dengan fitur email hosting yang andal, sehingga dapat dimanfaatkan sebagai pengirim notifikasi otomatis seperti pada panduan ini. Layanan tersebut juga didukung oleh tim support CloudKilat dengan pelayanan selama 7x24 jam apabila mengalami kendala pada konfigurasi SMTP.
+
+Terima kasih, sekian dan semoga bermanfaat.
 
 ## Referensi
 
