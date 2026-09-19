@@ -620,6 +620,15 @@ CoreDNS dapat digunakan sebagai DNS server pada Kilat VM dengan sistem operasi U
 
 Dengan mengikuti panduan ini, CoreDNS telah dikonfigurasi sebagai **authoritative DNS server** dan dapat diuji secara langsung menggunakan `dig`. Agar domain dapat menggunakan DNS server tersebut dari internet, pastikan service CoreDNS aktif, port `53/UDP` dan `53/TCP` dapat diakses, serta nameserver domain telah diarahkan ke Private NameServer yang sesuai.
 
+---
+
+
+CloudKilat menyediakan layanan **Kilat VM, hosting, serta berbagai layanan pendukung lainnya** dengan performa yang andal. Layanan CloudKilat juga didukung oleh tim support yang siap membantu dengan respons cepat dan pelayanan selama **7x24 jam**.
+
+Untuk informasi lebih lanjut mengenai layanan CloudKilat, silakan kunjungi [website resmi CloudKilat](https://cloudkilat.id/).
+
+Terima kasih, semoga panduan ini bermanfaat.
+
 ## Referensi
 
 - [CoreDNS Official Website](https://coredns.io/)
