@@ -5,7 +5,9 @@ Halo, Kawan Belajar! Pernahkah kamu membutuhkan DNS server sendiri untuk mengelo
 Salah satu software yang dapat digunakan untuk kebutuhan tersebut adalah **CoreDNS**. CoreDNS merupakan DNS server open source yang menggunakan sistem berbasis plugin sehingga dapat dikonfigurasi sesuai dengan kebutuhan pengguna.
 
 <p align="center">
-  <img alt="Logo CoreDNS" src="Images/CoreDNS-Logo.png" width="200" />
+  <img width="271" height="286" alt="logo-coredns" src="https://github.com/user-attachments/assets/89bdd4bb-3963-4c46-8ec6-64aac97ac2c9" style="border-radius: 10px;" />
+  <br>
+  Logo CoreDNS
 </p>
 
 ## Mengenal CoreDNS
@@ -42,7 +44,7 @@ domainkamu.com:53 {
 
 ### Zone File
 
-**Zone file** merupakan file yang berisi DNS record untuk suatu domain.
+**Zone file** merupakan file yang berisi DNS record untuk suatu domain. Zone file digunakan oleh CoreDNS untuk menyimpan informasi DNS yang akan dilayani kepada client.
 
 Contohnya:
 
@@ -66,7 +68,8 @@ DNS record merupakan informasi yang digunakan untuk menentukan alamat atau fungs
 
 ### Plugin `file`
 
-Plugin `file` digunakan agar CoreDNS dapat membaca dan melayani DNS zone yang disimpan dalam bentuk **zone file**.
+Plugin `file` digunakan untuk membuat CoreDNS membaca dan melayani data DNS yang disimpan dalam **zone file**. Zone file berisi berbagai **DNS record**, seperti `A`, `NS`, dan `CNAME`, yang digunakan CoreDNS untuk memberikan jawaban atas permintaan DNS.
+Konfigurasi plugin `file` ditentukan melalui **Corefile**, yang menunjukkan lokasi zone file yang akan digunakan.
 
 Alur sederhananya:
 
@@ -130,13 +133,15 @@ CoreDNS dapat digunakan ketika membutuhkan:
 * DNS server dengan arsitektur berbasis plugin.
 * DNS server yang dapat disesuaikan dengan kebutuhan melalui plugin.
 
+> **Catatan:** Authoritative DNS server adalah DNS server yang menyimpan dan memberikan informasi DNS record secara resmi untuk suatu domain.
+
 ## Siap Mencoba CoreDNS?
 
 Setelah memahami konsep dasar CoreDNS, kamu dapat melanjutkan ke panduan instalasi dan konfigurasi CoreDNS pada Kilat VM.
 
 **Panduan Instalasi dan Konfigurasi:**
 
-- [Cara Instalasi dan Konfigurasi CoreDNS di Ubuntu 24.04](#)
+[Cara Instalasi dan Konfigurasi CoreDNS di Ubuntu 24.04](https://github.com/violashafa/KB-Internship/blob/main/CoreDNS/Cara%20Instalasi%20dan%20Konfigurasi%20CoreDNS%20di%20Ubuntu%2024.04.md)
 
 ## Kesimpulan
 
