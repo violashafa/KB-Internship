@@ -149,6 +149,8 @@ CoreDNS merupakan DNS server open source yang menggunakan arsitektur berbasis pl
 
 Dengan memahami Corefile, zone file, DNS record, dan plugin `file`, pengguna dapat memahami dasar penggunaan CoreDNS sebelum melakukan instalasi dan konfigurasi pada server.
 
+---
+
 CloudKilat menyediakan layanan **server, hosting, dan layanan tambahan lainnya** yang memiliki performa andal. Layanan tersebut juga didukung oleh tim support CloudKilat dengan respons cepat dan pelayanan terbaik selama **7x24 jam**.
 
 Terima kasih, sekian dan semoga bermanfaat.
