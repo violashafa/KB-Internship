@@ -6,7 +6,7 @@ Ketika mengelola sebuah domain, diperlukan **DNS Server** untuk mengatur informa
 
 CoreDNS merupakan DNS server *open source* berbasis plugin yang dapat dikonfigurasi sesuai kebutuhan. Pada panduan ini, kita akan melakukan instalasi dan konfigurasi **CoreDNS pada Kilat VM** dengan sistem operasi **Ubuntu 24.04 LTS**, hingga CoreDNS dapat digunakan sebagai **authoritative DNS server** untuk mengelola DNS record pada sebuah domain.
 
-> **Catatan:** Untuk memahami CoreDNS lebih lanjut, mulai dari pengertian, fungsi, komponen, hingga cara kerjanya, silakan baca [KB Apa Itu CoreDNS? Mengenal DNS Server Berbasis Plugin](https://github.com/violashafa/KB-Internship/blob/main/CoreDNS/Apa%20Itu%20CoreDNS%3F%20Mengenal%20DNS%20Server%20Berbasis%20Plugin.md).
+> **Catatan:** Untuk memahami CoreDNS lebih lanjut, mulai dari pengertian, fungsi, komponen, hingga cara kerjanya, silakan baca [Apa Itu CoreDNS? Mengenal DNS Server Berbasis Plugin](https://kb.cloudkilat.id/coredns/apa-itu-coredns?-mengenal-dns-server-berbasis-plugin).
 
 ## Persiapan Awal
 
