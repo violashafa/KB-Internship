@@ -5,9 +5,7 @@ Halo, Kawan Belajar! Pernahkah kamu membutuhkan DNS server sendiri untuk mengelo
 Salah satu software yang dapat digunakan untuk kebutuhan tersebut adalah **CoreDNS**. CoreDNS merupakan DNS server open source yang menggunakan sistem berbasis plugin sehingga dapat dikonfigurasi sesuai dengan kebutuhan pengguna.
 
 <p align="center">
-  <img width="271" height="286" alt="logo-coredns" src="https://github.com/user-attachments/assets/89bdd4bb-3963-4c46-8ec6-64aac97ac2c9" style="border-radius: 10px;" />
-  <br>
-  Logo CoreDNS
+  <img width="271" height="286" alt="logo-coredns" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/logo-coredns.png" style="border-radius: 10px;" />
 </p>
 
 ## Mengenal CoreDNS
@@ -42,20 +40,19 @@ domainkamu.com:53 {
 }
 ```
 
+### Plugin `file`
+
+Plugin `file` merupakan plugin CoreDNS yang digunakan untuk membaca dan melayani data DNS dari **zone file**. Penggunaan plugin ini dikonfigurasi melalui **Corefile** dengan menentukan lokasi zone file yang akan digunakan.
+
+Pada contoh konfigurasi sebelumnya, CoreDNS menggunakan plugin `file` untuk membaca zone file `db.domainkamu.com` dan melayani DNS record untuk domain `domainkamu.com`.
+
 ### Zone File
 
-**Zone file** merupakan file yang berisi DNS record untuk suatu domain. Zone file digunakan oleh CoreDNS untuk menyimpan informasi DNS yang akan dilayani kepada client.
-
-Contohnya:
-
-```text
-domainkamu.com.    IN    A    IP-VPS
-www                IN    A    IP-VPS
-```
+**Zone file**  merupakan file yang berisi informasi DNS (DNS Record) suatu domain dan digunakan oleh CoreDNS sebagai sumber data DNS yang akan dilayani kepada client.
 
 ### DNS Record
 
-DNS record merupakan informasi yang digunakan untuk menentukan alamat atau fungsi suatu domain. Beberapa record yang umum digunakan antara lain:
+DNS record merupakan informasi yang terdapat di dalam zone file dan digunakan untuk menentukan alamat atau fungsi suatu domain. Beberapa record yang umum digunakan antara lain:
 
 | Record | Fungsi |
 | ------ | ------ |
@@ -66,46 +63,43 @@ DNS record merupakan informasi yang digunakan untuk menentukan alamat atau fungs
 | `NS` | Menentukan nameserver |
 | `TXT` | Menyimpan informasi berupa teks |
 
-### Plugin `file`
-
-Plugin `file` digunakan untuk membuat CoreDNS membaca dan melayani data DNS yang disimpan dalam **zone file**. Zone file berisi berbagai **DNS record**, seperti `A`, `NS`, dan `CNAME`, yang digunakan CoreDNS untuk memberikan jawaban atas permintaan DNS.
-Konfigurasi plugin `file` ditentukan melalui **Corefile**, yang menunjukkan lokasi zone file yang akan digunakan.
-
-Alur sederhananya:
-
-```text
-Corefile
-   ↓
-file plugin
-   ↓
-Zone File
-   ↓
-DNS Records
-   ↓
-DNS Response
-```
-
 ## Cara Kerja CoreDNS
 
-Ketika client mengirimkan DNS query, CoreDNS menerima permintaan tersebut melalui port `53`.
+CoreDNS bekerja dengan menerima DNS query dari client melalui port `53`, kemudian memproses permintaan tersebut berdasarkan konfigurasi yang terdapat pada **Corefile**.
 
-CoreDNS kemudian menggunakan konfigurasi pada **Corefile** untuk menentukan bagaimana query tersebut diproses. Jika menggunakan plugin `file`, CoreDNS akan membaca informasi DNS dari zone file yang telah dikonfigurasi dan memberikan DNS response kepada client.
+Pada konfigurasi menggunakan plugin `file`, CoreDNS akan membaca zone file yang telah ditentukan pada Corefile. Zone file tersebut berisi berbagai DNS record yang digunakan untuk menentukan informasi DNS suatu domain. Setelah menemukan informasi yang sesuai dengan permintaan, CoreDNS mengirimkan DNS response kembali kepada client.
 
-```text
-DNS Query
-    ↓
-CoreDNS :53
-    ↓
-Corefile
-    ↓
-file plugin
-    ↓
-Zone File
-    ↓
-DNS Record
-    ↓
-DNS Response
-```
+Berikut merupakan gambaran alur kerja CoreDNS:
+
+<p align="center">
+  <img width="1536" height="1024" alt="carakerja-coredns" src="https://raw.githubusercontent.com/violashafa/KB-Internship/main/CoreDNS/Images/carakerja-coredns.png" style="border-radius: 10px;" />
+</p>
+
+Secara berurutan, proses kerja CoreDNS pada gambar tersebut adalah:
+
+1. **DNS Query**  
+   Client mengirimkan permintaan DNS untuk mendapatkan informasi suatu domain.
+
+2. **CoreDNS Server**  
+   CoreDNS menerima DNS query melalui port `53` dan memproses permintaan tersebut.
+
+3. **Corefile**  
+   CoreDNS membaca konfigurasi pada Corefile untuk menentukan zone dan plugin yang digunakan.
+
+4. **Plugin `file`**  
+   Plugin `file` membaca data DNS dari zone file yang telah dikonfigurasi.
+
+5. **Zone File**  
+   Zone file berisi data DNS untuk domain yang dilayani oleh CoreDNS.
+
+6. **DNS Record**  
+   CoreDNS mencocokkan permintaan dengan DNS record yang tersedia, seperti `A`, `AAAA`, `CNAME`, `MX`, `NS`, dan `TXT`.
+
+7. **DNS Response**  
+   Setelah mendapatkan informasi yang sesuai, CoreDNS mengirimkan hasil DNS query sebagai DNS response.
+
+8. **Client**  
+   Client menerima DNS response dan memperoleh informasi DNS yang diminta.
 
 ## Perbedaan BIND9, CoreDNS, dan PowerDNS
 
@@ -119,9 +113,11 @@ Ketiganya merupakan software yang dapat digunakan sebagai DNS server, tetapi mem
 
 ## CoreDNS pada Kilat VM
 
-CoreDNS dapat dijalankan pada **Kilat VM** dan dikonfigurasi secara mandiri sesuai kebutuhan. Pengguna memiliki akses untuk mengatur konfigurasi DNS, zone, dan DNS record pada server.
+CoreDNS dapat dijalankan pada **Kilat VM** dan dikonfigurasi sesuai kebutuhan. Kamu bisa mengatur zone, DNS record, serta konfigurasi DNS lainnya secara mandiri melalui server.
 
-Namun, karena konfigurasi dilakukan secara mandiri, pengguna perlu memahami dasar DNS serta memperhatikan konfigurasi keamanan dan ketersediaan server.
+Untuk menggunakan CoreDNS sebagai authoritative DNS server, tentu kamu juga membutuhkan **domain**. CloudKilat menyediakan layanan **domain dan Kilat VM** yang bisa digunakan bersama untuk menjalankan berbagai layanan berbasis internet.
+
+Dengan domain dan Kilat VM, kamu bisa mengelola domain, server, serta konfigurasi DNS sesuai kebutuhan.
 
 ## Kapan Menggunakan CoreDNS?
 
