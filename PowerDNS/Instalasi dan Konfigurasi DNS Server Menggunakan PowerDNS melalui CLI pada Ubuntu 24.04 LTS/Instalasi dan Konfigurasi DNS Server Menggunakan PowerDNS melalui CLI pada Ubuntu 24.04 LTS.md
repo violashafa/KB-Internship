@@ -3,16 +3,17 @@
 
 # Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS melalui CLI pada Ubuntu 24.04 LTS.
 
-Pelajari cara instalasi dan konfigurasi DNS Server menggunakan BIND di Kilat VM 2.0 berbasis Ubuntu 18.04. Panduan lengkap mulai dari persiapan, setup Glue Record, hingga konfigurasi zona domain.
+Pelajari cara instalasi dan konfigurasi PowerDNS Server berbasis CLI di Kilat VM 2.0 dengan Ubuntu 24.04. Panduan lengkap ini membahas persiapan sistem, setup Glue Record, hingga manajemen zona domain langsung via terminal dan database.
 ***
 
 Halo, Kawan Belajar!
 
 DNS atau Domain Name System merupakan sistem yang digunakan untuk menerjemahkan nama domain menjadi IP Address. Dengan adanya DNS, pengguna dapat mengakses layanan menggunakan nama domain tanpa harus mengingat IP Address dari server.
 
-Salah satu aplikasi yang dapat digunakan sebagai DNS Server adalah **PowerDNS**. PowerDNS merupakan DNS Server yang digunakan untuk menangani permintaan DNS dan mengelola informasi domain melalui DNS Zone dan DNS Record.
+Salah satu aplikasi open-source berkinerja tinggi yang dapat digunakan sebagai DNS Server adalah PowerDNS. Berbeda dengan DNS konvensional, PowerDNS memiliki keunggulan fleksibilitas karena menyimpan data domain langsung di dalam database melalui terminal.
 
-Pada panduan kali ini, akan dilakukan instalasi dan konfigurasi **PowerDNS pada Kilat VM 2.0** dengan sistem operasi Ubuntu. Konfigurasi dilakukan menggunakan domain sendiri dengan nameserver ns1 dan ns2 sehingga diperlukan Glue Record.
+Pada panduan kali ini, kita akan melakukan instalasi dan konfigurasi **PowerDNS Authoritative Server berbasis CLI (Command Line Interface) di Kilat VM 2.0 dengan sistem operasi Ubuntu**. Kita akan mengonfigurasi domain sendiri menggunakan nameserver ns1 dan ns2 via akses SSH, melakukan manajemen record langsung melalui database prompt, serta menyiapkan Glue Record.
+
 
 > 💡 **Catatan Kawan Belajar:** 
 > 
@@ -567,9 +568,9 @@ dig domainkamu.id A
 Jika konfigurasi sudah dipastikan benar tetapi perubahan belum terlihat dari jaringan luar atau resolver tertentu, kemungkinan besar domain Anda masih berada dalam proses propagasi (waktu yang dibutuhkan oleh internet/ISP untuk mengenali perubahan record DNS yang baru, yang biasanya membutuhkan waktu hingga 48 jam).
 
 ## Kesimpulan
-Dengan memahami konsep dan cara kerja PowerDNS, kamu bisa membangun layanan DNS Authoritative pada VPS secara lebih fleksibel dan terkelola. Dengan dukungan MariaDB sebagai backend, konfigurasi zone dan record DNS dapat disimpan serta dikelola dengan lebih terstruktur sesuai kebutuhan.
+Dengan memahami konsep dan cara kerja **PowerDNS**, kamu kini bisa membangun layanan DNS Authoritative pada VPS secara lebih fleksibel dan mandiri. Berkat dukungan MariaDB sebagai backend, seluruh konfigurasi zone dan record DNS dapat disimpan serta dikelola secara terstruktur melalui baris perintah **(CLI)** dan query SQL langsung dari terminal.
 
-Setelah PowerDNS berhasil dikonfigurasi, kamu dapat mengelola domain, nameserver, serta DNS record melalui database dan melakukan pengecekan untuk memastikan layanan DNS berjalan dengan baik.
+Setelah PowerDNS berhasil dikonfigurasi, pengelolaan domain, nameserver, serta DNS record dapat dilakukan sepenuhnya tanpa interface grafis, cukup menggunakan database prompt atau utilitas `pdns_control`. Jangan lupa untuk selalu melakukan pengecekan berkala menggunakan perintah CLI seperti `dig` atau `nslookup` untuk memastikan layanan DNS berjalan dengan baik dan responsif.
 
 ## Referensi
 
