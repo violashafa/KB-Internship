@@ -69,15 +69,15 @@ Sebelum masuk ke panduan praktis instalasi di artikel selanjutnya, penting untuk
 | **Rekomendasi**      | Server tanpa GUI (_headless_) & otomatisasi tingkat lanjut.     | Kolaborasi tim & admin yang ingin kemudahan.     | 
 
 ## Siap Menguasai PowerDNS? Lanjutkan dengan Panduan Ini
-Setelah memahami dasar-dasar PowerDNS, cara kerja, serta kelebihannya, kini saatnya mendalami langkah instalasi dan konfigurasi praktisnya sesuai dengan kebutuhan infrastruktur Anda.
+Setelah memahami dasar-dasar PowerDNS, cara kerja, serta kelebihannya, kini saatnya mendalami langkah instalasi dan konfigurasi praktisnya sesuai dengan kebutuhan infrastrukturmu.
 
 Silakan pilih panduan lengkap langkah demi langkah di bawah ini:
 
-**Pengelolaan via Command Line (CLI):**
-* linknya
+* **Pengelolaan via Command Line (CLI):**
+  * [Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS melalui CLI pada Ubuntu 24.04 LTS](https://www.cloudkilat.com/layanan/kilat-domain)
 
-**Pengelolaan via Web Dashboard (GUI):**
-* linknya
+* **Pengelolaan via Web Dashboard (GUI):**
+  * [Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS melalui GUI pada Ubuntu 24.04 LTS](https://www.cloudkilat.com/layanan/kilat-domain)
 
 ## Kesimpulan
 **PowerDNS** adalah solusi server DNS modern yang sangat handal, cepat, dan fleksibel karena datanya disimpan langsung di dalam database. Meskipun memerlukan sedikit perhatian lebih pada pengelolaan resource dan database, PowerDNS menjadi pilihan terbaik bagi siapa saja yang menginginkan kontrol penuh, performa tinggi, serta kemudahan pengelolaan domain secara mandiri, baik melalui baris perintah **(CLI)** maupun panel web **(GUI)**.
