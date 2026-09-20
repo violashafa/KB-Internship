@@ -582,5 +582,3 @@ Terima kasih, semoga panduan ini bermanfaat.
 * [PowerDNS Official Website](https://www.powerdns.com/)
 * [PowerDNS GitHub Releases](https://github.com/PowerDNS/pdns)
 * [KB - Cara Menggunakan Private Name Server pada Domain di Portal Client CloudKilat](https://kb.cloudkilat.id/domain-di-cloudkilat/cara-menggunakan-private-name-server-pada-domain-di-portal-client-cloudkilat)
-
-Terima kasih, sekian dan semoga bermanfaat.
