@@ -80,7 +80,7 @@ apt update && apt upgrade -y
 ```
 
 <p align="center">
-  <img width="1352" height="555" alt="apt update" src="https://github.com/user-attachments/assets/5fa107d5-5933-4f65-b352-50bca91f8a1e" />
+<img width="779" height="405" alt="apt update   apt upgrade -y" src="https://github.com/user-attachments/assets/bd2093f0-cc0c-42f8-8069-eddcfcba04ec" />
   <br>
   <em>Gambar 1: Update Paket Ubuntu Server</em>
 </p>
@@ -90,7 +90,7 @@ Kemudian install beberapa utilitas yang akan digunakan:
 apt install -y curl wget gnupg ca-certificates lsb-release software-properties-common unzip git nano dnsutils
 ```
 <p align="center">
-  <img width="1352" height="555" alt="apt update" src="https://github.com/user-attachments/assets/5fa107d5-5933-4f65-b352-50bca91f8a1e" />
+<img width="849" height="427" alt="install beberapa utilitas" src="https://github.com/user-attachments/assets/8fead86c-af8b-4137-8b05-10679a14f48f" />
   <br>
   <em>Gambar 2: Install utilitas</em>
 </p>
@@ -120,7 +120,7 @@ DNSStubListener=no
 ```
 
 <p align="center">
-<img width="916" height="565" alt="isi systemd-resolved" src="https://github.com/user-attachments/assets/a629e7d9-c257-452b-8a66-985c2ba99f31" />
+<img width="846" height="430" alt="Menonaktifkan DNS Stub Listener" src="https://github.com/user-attachments/assets/520ad9f7-741a-4dd9-9d74-9a185ba1b300" />
   <br>
   <em>Gambar 3: Menonaktifkan DNS Stub Listener</em>
 </p>
@@ -164,7 +164,7 @@ Isi dengan:
 deb [signed-by=/etc/apt/keyrings/auth-51-pub.asc] http://repo.powerdns.com/ubuntu noble-auth-51 main
 ```
 <p align="center">
-<img width="916" height="565" alt="isi systemd-resolved" src="https://github.com/user-attachments/assets/a629e7d9-c257-452b-8a66-985c2ba99f31" />
+<img width="849" height="430" alt="Buat repository PowerDNS" src="https://github.com/user-attachments/assets/0f2af243-7c02-4331-891e-f9e76ea6ccc6" />
   <br>
   <em>Gambar 4: Membuat file repository PowerDNS</em>
 </p>
@@ -183,7 +183,7 @@ Pin: origin repo.powerdns.com
 Pin-Priority: 600
 ```
 <p align="center">
-<img width="916" height="565" alt="isi systemd-resolved" src="https://github.com/user-attachments/assets/a629e7d9-c257-452b-8a66-985c2ba99f31" />
+<img width="847" height="428" alt="konfigurasi pinning" src="https://github.com/user-attachments/assets/cb46d491-259a-414e-9b7e-d3f31b251e3c" />
   <br>
   <em>Gambar 5: Konfigurasi Pinning</em>
 </p>
@@ -206,7 +206,7 @@ Setelah proses instalasi selesai, Anda dapat memeriksa versi PowerDNS yang terin
 pdns_server --version
 ```
 <p align="center">
-  <img width="1360" height="347" alt="versi powerdns" src="https://github.com/user-attachments/assets/8f2ffb58-6ae8-4c6c-9759-8e52315b8220" />
+<img width="846" height="429" alt="veris power dns" src="https://github.com/user-attachments/assets/fa3936a3-517e-4592-8d43-962c7e87d067" />
   <br>
   <em>Gambar 6: Versi PowerDNS</em>
 </p>
@@ -241,7 +241,7 @@ apt install -y mariadb-server mariadb-client
 ```
 
 <p align="center">
-<img width="1359" height="387" alt="install mariadb" src="https://github.com/user-attachments/assets/fb97b494-bee4-4303-a91a-c1daa909f4b0" />
+<img width="850" height="338" alt="installll mariadb" src="https://github.com/user-attachments/assets/c11585f1-4102-4a93-bd09-077417ba2ab1" />
   <br>
   <em>Gambar 7: Instal MariaDB</em>
 </p>
@@ -268,7 +268,7 @@ Selanjutnya, install backend MariaDB untuk PowerDNS menggunakan perintah berikut
 apt install pdns-backend-mysql
 ```
 <p align="center">
-<img width="1366" height="523" alt="install backend mariadb" src="https://github.com/user-attachments/assets/39bc39ba-dc1a-4e45-bb25-965188e1aa20" />
+<img width="850" height="324" alt="install backend mariadbbb" src="https://github.com/user-attachments/assets/ebc69948-8560-4fd3-86fb-a418c878cf25" />
   <br>
   <em>Gambar 8: Instal Backend MariaDB</em>
 </p>
@@ -319,7 +319,7 @@ Kemudian lakukan import menggunakan path tersebut
 mysql -u powerdns -p powerdns < /usr/share/pdns-backend-mysql/schema/schema.mysql.sql
 ```
 <p align="center">
-<img width="903" height="97" alt="impor schema" src="https://github.com/user-attachments/assets/f6e61714-468c-432e-98b9-e5a4bd888930" />
+<img width="847" height="134" alt="Impor File" src="https://github.com/user-attachments/assets/f4dde935-4e6f-473a-94f7-37f21f81a9bb" />
   <br>
   <em>Gambar 9: Impor File</em>
 </p>
@@ -336,11 +336,10 @@ Kemudian cek tabel untuk memastikan schema berhasil di-import dan tabel-tabel ya
 SHOW TABLES;
 ```
 <p align="center">
-<img width="577" height="261" alt="show tables" src="https://github.com/user-attachments/assets/8c09928b-5e50-4a67-a4d1-23e9f79fa3ba" />
+<img width="848" height="318" alt="showw tabless" src="https://github.com/user-attachments/assets/ad616fea-eae9-4379-acb5-1c08844eb4ca" />
   <br>
   <em>Gambar 10: Show Tables</em>
 </p>
-
 
 ## 9. Konfigurasi Backend PowerDNS
 
@@ -362,7 +361,7 @@ gmysql-password=PASSWORD_ANDA
 gmysql-dnssec=yes
 ```
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="848" height="429" alt="isi nano pdns" src="https://github.com/user-attachments/assets/a88d2ea1-5872-454a-b84a-32ecb947768e" />
   <br>
   <em>Gambar 11: File Pdns</em>
 </p>
@@ -416,7 +415,7 @@ webserver-port=8081
 ```
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="847" height="403" alt="Isin file pdns API" src="https://github.com/user-attachments/assets/837dd78f-9832-4a06-8b6b-2d2810060e9f" />
   <br>
   <em>Gambar 12: File Pdns API</em>
 </p>
@@ -467,7 +466,7 @@ Periksa versi:
 docker --version
 ```
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="837" height="128" alt="docker --version" src="https://github.com/user-attachments/assets/15df1076-7f29-4bcd-b4c3-60a38f63f4ee" />
   <br>
   <em>Gambar 13: versi Docker</em>
 </p>
@@ -477,7 +476,7 @@ Periksa Docker Compose:
 docker compose version
 ```
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="836" height="109" alt="docker compose version" src="https://github.com/user-attachments/assets/84f08c70-1914-468f-92e3-22a94ec7afba" />
   <br>
   <em>Gambar 14: versi Docker Compose</em>
 </p>
@@ -523,7 +522,7 @@ volumes:
   pda-data:
 ```
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="844" height="399" alt="File Docker Compose" src="https://github.com/user-attachments/assets/4182aebf-4534-4663-9646-19705527fcd1" />
   <br>
   <em>Gambar 15: File Docker Compose</em>
 </p>
@@ -581,7 +580,7 @@ volumes:
 ```
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="841" height="399" alt="Konfigurasi Koneksi PowerDNS API di Docker" src="https://github.com/user-attachments/assets/0c3373d0-455b-47da-989a-e5f193408bb3" />
   <br>
   <em>Gambar 16: Konfigurasi Koneksi PowerDNS API di Docker</em>
 </p>
@@ -612,7 +611,7 @@ http://103.xxx.xxx.xxx:9191
 Halaman PowerDNS-Admin akan tampil.
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1366" height="700" alt="Tampilan PowerDNS Login" src="https://github.com/user-attachments/assets/01c34585-010d-4862-bded-f4e5b7919e5c" />
   <br>
   <em>Gambar 17: Tampilan PowerDNS Login</em>
 </p>
@@ -623,7 +622,7 @@ Halaman PowerDNS-Admin akan tampil.
 Pada halaman awal PowerDNS-Admin, pilih menu atau tautan untuk membuat akun baru (Register / Create Account).
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1366" height="700" alt="Menu Create Account" src="https://github.com/user-attachments/assets/fa0f18cc-120d-4348-925c-f13f80461bad" />
   <br>
   <em>Gambar 18: Menu Create Account</em>
 </p>
@@ -635,7 +634,7 @@ Email    : email@domainkamu.id
 Password : PASSWORD_ADMIN
 ```
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1363" height="724" alt="Halaman Registrasi" src="https://github.com/user-attachments/assets/c55bf31a-19c2-46bc-adef-865b61ee809f" />
   <br>
   <em>Gambar 19: Halaman Registrasi</em>
 </p>
@@ -644,7 +643,7 @@ Password : PASSWORD_ADMIN
 
 Setelah akun dibuat, login menggunakan akun administrator tersebut.
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1364" height="665" alt="Halaman Login" src="https://github.com/user-attachments/assets/146665a1-2634-4f8b-8312-ae77f9125aaf" />
   <br>
   <em>Gambar 20: Halaman Login</em>
 </p>
@@ -655,7 +654,7 @@ Pada halaman utama dasbor PowerDNS-Admin, arahkan pandangan ke menu navigasi (bi
 Pilih menu Settings (Pengaturan).
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1366" height="729" alt="Halaman Dashboard Terdapat Error" src="https://github.com/user-attachments/assets/f93f44e4-97bb-471e-ba5a-550893bbb1ce" />
   <br>
   <em>Gambar 21: Halaman Setting Terdapat Error</em>
 </p>
@@ -675,7 +674,7 @@ API_KEY_ANDA
 Simpan konfigurasi.
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1366" height="724" alt="Simpan Konfigurasi" src="https://github.com/user-attachments/assets/bdc55cd4-d16e-4d01-9cfb-c50daf0b838c" />
   <br>
   <em>Gambar 22: Simpan Konfigurasi</em>
 </p>
@@ -690,7 +689,7 @@ Masuk ke menu:
 Create Zones
 ```
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1366" height="725" alt="Menu Zones" src="https://github.com/user-attachments/assets/6658e31c-d96d-4b51-9b48-9ed66fc0ea99" />
   <br>
   <em>Gambar 23: Menu Zones</em>
 </p>
@@ -702,7 +701,12 @@ domainkamu.id
 Biarkan pengaturan lainnya sesuai default (misalnya Zone Type menggunakan Native atau Primary).
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1366" height="691" alt="Membuat DNS Zone melalui PowerDNS-Admin" src="https://github.com/user-attachments/assets/43b4a0dd-b667-4f03-baa0-684f9ec93a3a" />
+  <br>
+</p>
+
+<p align="center">
+<img width="1366" height="721" alt="Membuat DNS Zone melalui PowerDNS-Admin 2" src="https://github.com/user-attachments/assets/0de5c617-b1e7-48a8-bce9-fc02a45b12c5" />
   <br>
   <em>Gambar 24: Membuat DNS Zone melalui PowerDNS-Admin</em>
 </p>
@@ -712,7 +716,7 @@ Klik tombol `Create Zone` di bagian bawah.
 Setelah zone berhasil dibuat, domain akan otomatis muncul pada daftar zone (Zone List).
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1366" height="722" alt="DNS Zone yang berhasil dibuat" src="https://github.com/user-attachments/assets/7294ab2d-0d9e-4a86-a70f-a00d4d32ed82" />
   <br>
   <em>Gambar 25: DNS Zone yang berhasil dibuat</em>
 </p>
@@ -725,7 +729,7 @@ Klik nama domain tersebut, kemudian akan masuk pada pengaturan DNS Record domain
 Lakukan penambahan dengan klik `Add Record`:
 
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1365" height="296" alt="Klik Add Record" src="https://github.com/user-attachments/assets/94cb75d2-e7fd-49bf-9e14-e139acc669c0" />
   <br>
   <em>Gambar 26: Klik Add Record</em>
 </p>
@@ -781,7 +785,7 @@ CNAME www.domainkamu.id
 TXT domainkamu.id
 ```
 <p align="center">
-<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+<img width="1366" height="719" alt="Daftar DNS Record pada PowerDNS-Admin" src="https://github.com/user-attachments/assets/ca8bf376-fe2b-4bfc-8fd6-0ff3b32d3515" />
   <br>
   <em>Gambar 27: Daftar DNS Record pada PowerDNS-Admin</em>
 </p>
