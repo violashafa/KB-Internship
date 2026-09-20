@@ -1,4 +1,3 @@
-
 # Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS-Admin melalui GUI pada Ubuntu 24.04 LTS
 
 Pelajari cara instalasi dan konfigurasi PowerDNS Server berbasis GUI di Kilat VM 2.0 dengan Ubuntu 24.04. Panduan lengkap ini membahas persiapan sistem, setup Glue Record, hingga manajemen zona domain secara visual dan mudah melalui panel PowerDNS-Admin.
@@ -392,13 +391,335 @@ Kemudian cek kembali status service PowerDNS untuk memastikan semuanya berjalan 
 > **Catatan:** Pastikan statusnya menunjukkan keterangan active (running):
 
 ## 10. Konfigurasi PowerDNS API
+**PowerDNS-Admin** membutuhkan **PowerDNS API** untuk berkomunikasi dengan _PowerDNS Authoritative Server_. PowerDNS menyediakan REST API melalui webserver internalnya. API menggunakan API Key melalui header `X-API-Key`.
+
+Membuat Kunci API yang Kuat
+```
+openssl rand -hex 32
+```
+> **Catatan:** Salin (copy) hasil string acak yang dihasilkan oleh perintah di atas untuk digunakan sebagai `api-key.`
+
+Buka konfigurasi:
+```
+nano /etc/powerdns/pdns.conf
+```
+
+Tambahkan:
+```
+api=yes
+api-key=ISI_DENGAN_HASIL_OPENSSL_RANDOM_TADI
+
+webserver=yes
+webserver-address=127.0.0.1
+webserver-port=8081
+```
+
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 12: File Pdns API</em>
+</p>
+
+Restart PowerDNS:
+```
+systemctl restart pdns
+```
+
+Periksa port API:
+```
+ss -lntup | grep 8081
+```
+
+Kemudian lakukan pengujian API:
+```
+curl -H "X-API-Key: API_KEY_ANDA" http://127.0.0.1:8081/api/v1/servers/localhost
+```
+
+Jika berhasil, PowerDNS akan mengembalikan informasi server dalam format JSON.
+Contoh:
+```
+{ 
+  "type": "Server", 
+  "id": "localhost", 
+  "daemon_type": "authoritative", 
+  "version": "5.1.x" 
+}
+```
+
+> **Catatan:** Pada konfigurasi ini API hanya menerima koneksi dari server lokal melalui `127.0.0.1.` Hal ini lebih aman karena PowerDNS-Admin akan berjalan pada server yang sama.
+
 ## 11. Instalasi Docker
+Pada panduan ini PowerDNS-Admin dijalankan menggunakan Docker karena dokumentasi resmi PowerDNS-Admin merekomendasikan Docker sebagai cara cepat untuk menjalankan aplikasi.
+
+Install Docker:
+```
+apt install -y docker.io docker-compose-v2
+```
+
+Aktifkan Docker:
+```
+systemctl enable --now docker
+```
+
+Periksa versi:
+```
+docker --version
+```
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 13: versi Docker</em>
+</p>
+
+Periksa Docker Compose:
+```
+docker compose version
+```
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 14: versi Docker Compose</em>
+</p>
+
+> **Catatan:** Perbedaan versi Docker yang muncul di terminal adalah hal wajar karena adanya pembaruan paket repositori. Yang terpenting, pastikan kedua perintah tersebut menampilkan informasi versi dengan sukses tanpa ada _error_.
+
 ## 12. Instalasi PowerDNS-Admin
+Buat direktori untuk PowerDNS-Admin:
+```
+mkdir -p /opt/powerdns-admin
+```
+
+```
+cd /opt/powerdns-admin
+```
+Membuat Kunci Rahasia (Secret Key) yang Kuat
+```
+openssl rand -hex 32
+```
+> **Catatan:** Salin (copy) hasil string acak yang dihasilkan untuk digunakan pada konfigurasi Docker Compose di bawah.
+
+Buat file Docker Compose:
+```
+nano docker-compose.yml
+```
+
+Isi:
+```
+services:
+  powerdns-admin:
+    image: powerdnsadmin/pda-legacy:latest
+    container_name: powerdns-admin
+    restart: unless-stopped
+    environment:
+      SECRET_KEY: "ISI_DENGAN_HASIL_SECRETKEY_RANDOM_TADI"
+      SQLALCHEMY_DATABASE_URI: "sqlite:////data/powerdns-admin.db"
+    volumes:
+      - pda-data:/data
+    ports:
+      - "9191:80"
+
+volumes:
+  pda-data:
+```
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 15: File Docker Compose</em>
+</p>
+
+Jalankan container di latar belakang (detached mode) menggunakan Docker Compose:
+```
+docker compose up -d
+```
+
+Periksa container:
+```
+docker ps
+```
+
+Contoh:
+```
+CONTAINER ID   IMAGE                             STATUS
+xxxxxxxxxxxx   powerdnsadmin/pda-legacy:latest   Up About a minute
+
+```
+
+> **Catatan:** PowerDNS-Admin menggunakan SQLite untuk database aplikasinya pada contoh ini. Database SQLite tersebut hanya menyimpan data PowerDNS-Admin, sedangkan data DNS tetap berada pada database PowerDNS/MariaDB.
+
 ## 13. Konfigurasi Koneksi PowerDNS API
+Pada tahap ini PowerDNS-Admin berjalan dalam container, sedangkan PowerDNS API berjalan pada host Ubuntu.
+
+Karena PowerDNS API dikonfigurasi pada `127.0.0.1`, container tidak dapat langsung menggunakan `127.0.0.1` untuk mengakses API host.
+
+Agar PowerDNS-Admin dapat berkomunikasi dengan PowerDNS API, buat konfigurasi Docker agar container dapat mengakses host.
+
+Edit file:
+```
+nano docker-compose.yml
+```
+
+Ubah menjadi:
+```
+services:
+  powerdns-admin:
+    image: powerdnsadmin/pda-legacy:latest
+    container_name: powerdns-admin
+    restart: unless-stopped
+    environment:
+      SECRET_KEY: "ISI_DENGAN_HASIL_SECRETKEY_RANDOM_YANG_PERTAMA"
+      SQLALCHEMY_DATABASE_URI: "sqlite:////data/powerdns-admin.db"
+    volumes:
+      - pda-data:/data
+    ports:
+      - "9191:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  pda-data:
+```
+
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 16: Konfigurasi Koneksi PowerDNS API di Docker</em>
+</p>
+
+Kemudian jalankan ulang:
+```
+docker compose down
+```
+
+```
+docker compose up -d
+```
+
+
 ## 14. Akses PowerDNS-Admin melalui Browser
+Buka web browser kesayanganmu (seperti Google Chrome, Mozilla Firefox, atau Microsoft Edge), lalu masukkan alamat IP Public VPS-mu diikuti dengan port `9191`:
+
+```
+http://IP_SERVER:9191
+```
+
+Contoh:
+```
+http://103.xxx.xxx.xxx:9191
+```
+
+
+Halaman PowerDNS-Admin akan tampil.
+
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 17: Tampilan PowerDNS Login</em>
+</p>
+
+> **Catatan:** Jika halaman web gagal diakses, pastikan port `9191` pada firewall VPS atau panel cloud provider (seperti Kilat VM 2.0) sudah diizinkan (allow) untuk koneksi TCP.
+
 ## 15. Membuat Akun Administrator
+Pada halaman awal PowerDNS-Admin, pilih menu atau tautan untuk membuat akun baru (Register / Create Account).
+
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 18: Menu Create Account</em>
+</p>
+
+Lalu isi data administrator dengan informasi berikut:
+```
+Username : admin
+Email    : email@domainkamu.id
+Password : PASSWORD_ADMIN
+```
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 19: Halaman Registrasi</em>
+</p>
+
+> **Catatan:** Gunakan password minimal 12–16 karakter yang mengombinasikan huruf besar/kecil, angka, dan simbol, serta hindari kata yang mudah ditebak demi menjaga keamanan penuh panel DNS kamu.
+
+Setelah akun dibuat, login menggunakan akun administrator tersebut.
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 20: Halaman Login</em>
+</p>
+
 ## 16. Konfigurasi PowerDNS pada PowerDNS-Admin
+Pada halaman utama dasbor PowerDNS-Admin, arahkan pandangan ke menu navigasi (biasanya terletak di bagian atas atau bilah samping).
+
+Pilih menu Settings (Pengaturan).
+
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 21: Halaman Setting Terdapat Error</em>
+</p>
+
+Isi dengan:
+
+PowerDNS API URL:
+```
+http://host.docker.internal:8081
+```
+
+PowerDNS API Key:
+```
+API_KEY_ANDA
+```
+
+Simpan konfigurasi.
+
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 22: Simpan Konfigurasi</em>
+</p>
+
+> **Catatan:** Jika integrasi sukses, pesan error koneksi tidak akan muncul. 
+
 ## 17. Membuat DNS Zone melalui GUI
+Setelah PowerDNS-Admin berhasil terhubung dengan PowerDNS, pembuatan zone dapat dilakukan melalui GUI tanpa menjalankan perintah SQL.
+
+Masuk ke menu:
+```
+Create Zones
+```
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 23: Menu Zones</em>
+</p>
+
+Masukkan nama domain:
+```
+domainkamu.id
+```
+
+Kemudian masukkan nameserver:
+```
+ns1.domainkamu.id 
+ns2.domainkamu.id
+```
+
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 24: Membuat DNS Zone melalui PowerDNS-Admin</em>
+</p>
+
+Simpan zone.
+
+Setelah zone berhasil dibuat, domain akan muncul pada daftar zone.
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 25: DNS Zone yang berhasil dibuat</em>
+</p>
+
 ## 18. Menambahkan DNS Record melalui GUI
 ### Record A
 ### CNAME
