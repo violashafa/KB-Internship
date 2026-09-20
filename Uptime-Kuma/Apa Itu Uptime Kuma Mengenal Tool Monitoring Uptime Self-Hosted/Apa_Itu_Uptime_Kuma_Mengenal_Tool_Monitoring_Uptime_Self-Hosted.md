@@ -68,6 +68,7 @@ Setelah memahami dasar-dasar Uptime Kuma, kini saatnya mendalami langkah instala
 - [Cara Menambahkan dan Mengonfigurasi Monitor di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-menambahkan-dan-mengonfigurasi-monitor-di-uptime-kuma)
 - [Cara Setup Notifikasi pada Uptime Kuma ke Email Kilat Hosting 2.0](https://kb.cloudkilat.id/uptime-kuma/cara-setup-notifikasi-pada-uptime-kuma-ke-email-kilat-hosting-2-0)
 - [Cara Membuat Public Status Page di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-membuat-public-status-page-di-uptime-kuma)
+- [Cara Mengakses Status Page Uptime Kuma melalui Domain](https://kb.cloudkilat.id/uptime-kuma/cara-mengakses-status-page-uptime-kuma-melalui-domain)
 
 ## Kesimpulan
 

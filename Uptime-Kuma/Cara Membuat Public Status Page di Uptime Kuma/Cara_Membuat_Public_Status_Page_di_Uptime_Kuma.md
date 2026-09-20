@@ -93,7 +93,7 @@ Pengaturan yang tersedia:
 * **Show Powered By**: menampilkan keterangan `Powered by Uptime Kuma` pada bagian bawah halaman.
 * **Show Certificate Expiry**: menampilkan sisa masa berlaku sertifikat SSL pada monitor HTTPS, tampil sebagai badge `Cert Exp.` di samping nama monitor.
 * **Show Only Last Heartbeat**: menampilkan hanya hasil pengecekan terakhir, tanpa grafik heartbeat.
-* **Domain Names**: mendaftarkan domain khusus agar status page dapat diakses langsung melalui domain tersebut, selain melalui path `/status/SLUG` pada alamat instance Uptime Kuma. Konfigurasi reverse proxy dan SSL untuk domain khusus berada di luar cakupan panduan ini.
+* **Domain Names**: mendaftarkan domain khusus agar status page dapat diakses langsung melalui domain tersebut, selain melalui path `/status/SLUG` pada alamat instance Uptime Kuma. Konfigurasi reverse proxy, SSL, dan pendaftaran domain dibahas pada artikel terpisah [Cara Mengakses Status Page Uptime Kuma melalui Domain](https://kb.cloudkilat.id/uptime-kuma/cara-mengakses-status-page-uptime-kuma-melalui-domain).
 * **Analytics Type**: integrasi layanan analytics, default `None`.
 * **RSS Title**: judul feed RSS status page, dikosongkan untuk mengikuti judul status page.
 * **Custom CSS**: CSS tambahan untuk menyesuaikan tampilan status page.
