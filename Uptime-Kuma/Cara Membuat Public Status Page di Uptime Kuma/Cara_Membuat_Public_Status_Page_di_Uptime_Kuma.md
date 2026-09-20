@@ -2,7 +2,7 @@
 
 Halo, Kawan Belajar! Dashboard Uptime Kuma hanya dapat diakses setelah login sebagai admin, sehingga status layanan tidak dapat dilihat langsung oleh pengguna atau klien. Untuk kebutuhan tersebut, Uptime Kuma menyediakan fitur **Public Status Page**, yaitu halaman status yang dapat diakses tanpa login dan menampilkan monitor yang dipilih saja.
 
-Pada panduan ini akan dibahas cara membuat status page, mengelompokkan monitor ke dalam beberapa grup, menyesuaikan tampilannya, membuat pengumuman gangguan (incident), hingga menampilkan status page pada domain sendiri menggunakan reverse proxy Nginx dan SSL Let's Encrypt.
+Pada panduan ini akan dibahas cara membuat status page, mengelompokkan monitor ke dalam beberapa grup, menyesuaikan tampilannya, hingga membuat dan mengakhiri pengumuman gangguan (incident).
 
 > **Catatan:** Panduan ini merupakan lanjutan dari artikel [Cara Menambahkan dan Mengonfigurasi Monitor di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-menambahkan-dan-mengonfigurasi-monitor-di-uptime-kuma). Pastikan Uptime Kuma sudah terinstal dan minimal satu monitor sudah ditambahkan sebelum mengikuti langkah-langkah berikut.
 
@@ -13,8 +13,6 @@ Sebelum memulai, pastikan sudah memiliki:
 1. Uptime Kuma yang sudah terinstal dan dapat diakses melalui dashboard, sesuai artikel instalasi sebelumnya.
 2. Akun admin Uptime Kuma yang sudah login ke dashboard.
 3. Minimal satu monitor yang sudah ditambahkan, karena status page hanya menampilkan monitor yang sudah ada.
-4. (Opsional) File logo yang akan ditampilkan pada status page.
-5. (Opsional) Domain atau subdomain beserta akses ke pengaturan DNS-nya, apabila status page ingin diakses melalui domain sendiri seperti pada bagian [Menampilkan Status Page pada Domain Sendiri](#8-opsional-menampilkan-status-page-pada-domain-sendiri).
 
 ---
 
@@ -83,12 +81,6 @@ Apabila grup maupun monitor belum ditambahkan, area preview akan menampilkan ket
 
 Panel kiri berisi pengaturan tampilan dan perilaku status page. Seluruh perubahan baru tersimpan setelah tombol **Save** di bagian bawah panel ditekan.
 
-<p align="center">
-<img alt="Panel Pengaturan Status Page" src="Images/4_konfigurasi_halaman.png" />
-  <br>
-  <em>Gambar 4: Panel Pengaturan Status Page</em>
-</p>
-
 Pengaturan yang tersedia:
 
 * **Slug**: mengubah slug yang sudah dibuat pada langkah sebelumnya.
@@ -101,7 +93,7 @@ Pengaturan yang tersedia:
 * **Show Powered By**: menampilkan keterangan `Powered by Uptime Kuma` pada bagian bawah halaman.
 * **Show Certificate Expiry**: menampilkan sisa masa berlaku sertifikat SSL pada monitor HTTPS, tampil sebagai badge `Cert Exp.` di samping nama monitor.
 * **Show Only Last Heartbeat**: menampilkan hanya hasil pengecekan terakhir, tanpa grafik heartbeat.
-* **Domain Names**: mendaftarkan domain yang digunakan untuk mengakses status page, dibahas pada langkah 8.
+* **Domain Names**: mendaftarkan domain khusus agar status page dapat diakses langsung melalui domain tersebut, selain melalui path `/status/SLUG` pada alamat instance Uptime Kuma. Konfigurasi reverse proxy dan SSL untuk domain khusus berada di luar cakupan panduan ini.
 * **Analytics Type**: integrasi layanan analytics, default `None`.
 * **RSS Title**: judul feed RSS status page, dikosongkan untuk mengikuti judul status page.
 * **Custom CSS**: CSS tambahan untuk menyesuaikan tampilan status page.
@@ -130,9 +122,9 @@ http://IP_VPS:3001/status/SLUG
 Ganti `IP_VPS` dengan IP Address publik VPS Uptime Kuma dan `SLUG` dengan slug yang dibuat pada langkah 2.
 
 <p align="center">
-<img alt="Tampilan Public Status Page" src="Images/5_halaman_jadi.png" />
+<img alt="Tampilan Public Status Page" src="Images/4_halaman_jadi.png" />
   <br>
-  <em>Gambar 5: Tampilan Public Status Page</em>
+  <em>Gambar 4: Tampilan Public Status Page</em>
 </p>
 
 Informasi yang ditampilkan pada status page:
@@ -157,161 +149,65 @@ Pada halaman editor status page, klik **Create Incident**, lalu isi:
 * **Style**: warna banner pengumuman, tersedia pilihan `info`, `warning`, `danger`, `primary`, `light`, dan `dark`.
 
 <p align="center">
-<img alt="Membuat Incident pada Status Page" src="Images/6_create_incident.png" />
+<img alt="Membuat Incident pada Status Page" src="Images/5_create_incident.png" />
   <br>
-  <em>Gambar 6: Membuat Incident pada Status Page</em>
+  <em>Gambar 5: Membuat Incident pada Status Page</em>
 </p>
 
 Klik **Post** untuk menayangkan pengumuman, atau **Cancel** untuk membatalkannya. Setelah ditayangkan, banner pengumuman akan tampil di bagian paling atas status page beserta keterangan **Date Created**.
 
 <p align="center">
-<img alt="Tampilan Incident pada Status Page" src="Images/7_result_incident.png" />
+<img alt="Tampilan Incident pada Status Page" src="Images/6_result_incident.png" />
   <br>
-  <em>Gambar 7: Tampilan Incident pada Status Page</em>
+  <em>Gambar 6: Tampilan Incident pada Status Page</em>
 </p>
 
 ---
 
-## 8. (Opsional) Menampilkan Status Page pada Domain Sendiri
+## 8. Mengakhiri Incident
 
-Secara default status page diakses melalui `IP_VPS:3001`. Agar dapat diakses melalui domain sendiri beserta HTTPS, diperlukan reverse proxy pada VPS Uptime Kuma, kemudian domain tersebut didaftarkan pada pengaturan **Domain Names** status page.
-
-Prasyarat:
-
-* Domain atau subdomain dengan A record yang sudah diarahkan (pointing) ke IP Address publik VPS Uptime Kuma.
-* Port `80/tcp` dan `443/tcp` dapat diakses dari internet.
-
-### 8.1 Install Nginx
-
-```bash
-apt update
-apt install nginx -y
-```
-
-### 8.2 Membuat Konfigurasi Reverse Proxy
-
-Buat file konfigurasi virtual host:
-
-```bash
-nano /etc/nginx/conf.d/uptime-kuma.conf
-```
-
-Isi dengan konfigurasi berikut, ganti `uptime-kuma.domainkamu.com` dengan domain yang digunakan:
-
-```nginx
-server {
-    listen 80;
-    server_name uptime-kuma.domainkamu.com;
-
-    location / {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-
-        # Dukungan WebSocket
-        proxy_set_header Sec-WebSocket-Key $http_sec_websocket_key;
-        proxy_set_header Sec-WebSocket-Version $http_sec_websocket_version;
-        proxy_set_header Sec-WebSocket-Extensions $http_sec_websocket_extensions;
-
-        # Meningkatkan performa reverse proxy
-        proxy_buffering off;
-    }
-}
-```
-
-Uji konfigurasi dan reload Nginx:
-
-```bash
-nginx -t
-systemctl reload nginx
-```
-
-> **Catatan:** Header `Upgrade` dan `Connection` wajib disertakan karena Uptime Kuma menggunakan WebSocket. Tanpa kedua header tersebut, halaman tetap terbuka namun status monitor tidak diperbarui secara realtime.
-
-### 8.3 Memasang SSL Let's Encrypt
-
-Install Certbot beserta plugin Nginx:
-
-```bash
-apt install certbot python3-certbot-nginx -y
-```
-
-Terbitkan sertifikat SSL untuk domain yang digunakan:
-
-```bash
-certbot --nginx -d uptime-kuma.domainkamu.com
-```
-
-Certbot akan menambahkan konfigurasi HTTPS pada file virtual host secara otomatis, termasuk pengalihan dari HTTP ke HTTPS apabila opsi tersebut dipilih.
-
-### 8.4 Mendaftarkan Domain pada Status Page
-
-Kembali ke halaman editor status page, lalu pada panel kiri bagian **Domain Names**, klik ikon tambah dan masukkan domain yang sudah dikonfigurasi, contoh `uptime-kuma.domainkamu.com`.
+Incident yang masih aktif akan terus tampil sebagai banner di bagian atas status page hingga diakhiri secara manual. Pada halaman editor status page, banner incident yang aktif menampilkan tiga tombol aksi: **Resolve**, **Edit**, dan **Delete**.
 
 <p align="center">
-<img alt="Menambahkan Domain pada Status Page" src="Images/8_domain.png" />
+<img alt="Tombol Resolve, Edit, dan Delete pada Incident" src="Images/7_resolve.png" />
   <br>
-  <em>Gambar 8: Menambahkan Domain pada Status Page</em>
+  <em>Gambar 7: Tombol Resolve, Edit, dan Delete pada Incident</em>
 </p>
 
-Klik **Save** untuk menyimpan perubahan.
+* **Resolve**: menandai incident sebagai selesai. Banner akan hilang dari bagian atas status page dan dipindahkan ke bagian **Past Incidents**.
+* **Edit**: mengubah Title, Content, atau Style pada incident yang sedang aktif.
+* **Delete**: menghapus incident secara permanen tanpa memindahkannya ke Past Incidents.
 
-### 8.5 Uji Coba Akses melalui Domain
-
-Akses domain tersebut melalui browser. Status page akan langsung tampil pada domain yang didaftarkan, tanpa perlu menyertakan path `/status/SLUG`.
+Setelah incident di-Resolve, status page akan menampilkan bagian **Past Incidents** di bagian bawah halaman, berisi riwayat incident beserta tanggal **Created** dan **Last Updated**.
 
 <p align="center">
-<img alt="Status Page Diakses melalui Domain Sendiri" src="Images/9_domain_hasil.png" />
+<img alt="Riwayat Incident pada Past Incidents" src="Images/8_past.png" />
   <br>
-  <em>Gambar 9: Status Page Diakses melalui Domain Sendiri</em>
+  <em>Gambar 8: Riwayat Incident pada Past Incidents</em>
 </p>
+
+> **Catatan:** Incident yang di-Resolve tetap tersimpan pada riwayat Past Incidents dan tidak dapat dikembalikan menjadi banner aktif. Apabila gangguan yang sama terjadi kembali, buat incident baru melalui **Create Incident**.
 
 ---
 
 ## Troubleshooting
 
-### Status Page Kosong Meski Monitor Sudah Ada
-
-Pastikan monitor sudah ditambahkan ke dalam grup melalui dropdown **Add a monitor**, kemudian klik **Save**. Perubahan pada editor tidak tersimpan sebelum tombol Save ditekan.
-
 ### Monitor Tidak Muncul pada Dropdown Add a monitor
 
 Dropdown hanya menampilkan monitor yang sudah dibuat pada Uptime Kuma. Tambahkan monitor terlebih dahulu sesuai artikel [Cara Menambahkan dan Mengonfigurasi Monitor di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-menambahkan-dan-mengonfigurasi-monitor-di-uptime-kuma).
 
-### Slug Ditolak saat Dibuat
+### Incident Sudah di-Resolve, Namun Masih Tampil sebagai Banner
 
-Pastikan slug hanya menggunakan karakter `a-z`, `0-9`, dan tanda hubung tunggal, serta belum digunakan oleh status page lain.
-
-### Badge Cert Exp. Tidak Muncul pada Monitor
-
-Aktifkan opsi **Show Certificate Expiry** pada panel kiri editor. Badge ini hanya tampil pada monitor HTTP(s) yang mengakses URL dengan HTTPS.
-
-### Domain Menampilkan Halaman Login atau Error 404
-
-Periksa hal berikut:
-
-1. Pastikan domain sudah ditambahkan pada bagian **Domain Names** di editor status page, kemudian disimpan dengan tombol **Save**.
-2. Pastikan A record domain sudah mengarah ke IP Address publik VPS Uptime Kuma dan propagasi DNS sudah selesai.
-3. Pastikan `server_name` pada konfigurasi Nginx sama persis dengan domain yang diakses.
-
-### Halaman Terbuka, Namun Status Tidak Diperbarui Secara Realtime
-
-Kondisi ini umumnya terjadi apabila header WebSocket belum diteruskan oleh reverse proxy. Pastikan seluruh baris `proxy_set_header` pada bagian 8.2 sudah ditambahkan, lalu reload Nginx.
+Refresh halaman status page secara manual. Status page melakukan refresh otomatis sesuai nilai **Refresh Interval**, sehingga perubahan tidak selalu langsung terlihat tanpa refresh manual.
 
 ## Kesimpulan
 
-Dengan Public Status Page, status layanan pada Uptime Kuma dapat ditampilkan kepada pengguna maupun klien tanpa memberikan akses ke dashboard admin. Monitor dapat dikelompokkan ke dalam beberapa grup sesuai jenis layanan, dilengkapi logo, deskripsi, footer khusus, serta pengumuman incident saat terjadi gangguan atau pemeliharaan. Melalui reverse proxy Nginx, SSL Let's Encrypt, dan pengaturan Domain Names, status page juga dapat diakses langsung pada domain sendiri sehingga terlihat lebih profesional.
+Dengan Public Status Page, status layanan pada Uptime Kuma dapat ditampilkan kepada pengguna maupun klien tanpa memberikan akses ke dashboard admin. Monitor dapat dikelompokkan ke dalam beberapa grup sesuai jenis layanan, dilengkapi logo, deskripsi, dan footer khusus, serta pengumuman incident saat terjadi gangguan atau pemeliharaan yang dapat diakhiri (Resolve) sehingga tercatat pada riwayat Past Incidents.
 
-CloudKilat menyediakan layanan Kilat VM beserta domain yang dapat digunakan untuk menjalankan Uptime Kuma sekaligus menampilkan Public Status Page pada domain sendiri. Layanan tersebut juga didukung oleh tim support CloudKilat dengan pelayanan selama 7x24 jam apabila mengalami kendala pada konfigurasi.
+CloudKilat menyediakan layanan Kilat VM dan domain yang dapat digunakan untuk menjalankan Uptime Kuma beserta Public Status Page-nya. Layanan tersebut juga didukung oleh tim support CloudKilat dengan pelayanan selama 7x24 jam apabila mengalami kendala pada konfigurasi.
 
 Terima kasih, sekian dan semoga bermanfaat.
 
 ## Referensi
 
 - [Uptime Kuma Official Repository](https://github.com/louislam/uptime-kuma/)
-- [Uptime Kuma - Reverse Proxy](https://github.com/louislam/uptime-kuma/wiki/Reverse-Proxy)
