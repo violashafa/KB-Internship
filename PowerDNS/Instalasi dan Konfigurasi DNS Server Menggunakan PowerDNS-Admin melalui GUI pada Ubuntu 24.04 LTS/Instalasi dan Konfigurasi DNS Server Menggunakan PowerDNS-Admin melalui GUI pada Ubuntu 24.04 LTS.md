@@ -1,3 +1,4 @@
+
 # Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS-Admin melalui GUI pada Ubuntu 24.04 LTS
 
 Pelajari cara instalasi dan konfigurasi PowerDNS Server berbasis GUI di Kilat VM 2.0 dengan Ubuntu 24.04. Panduan lengkap ini membahas persiapan sistem, setup Glue Record, hingga manajemen zona domain secara visual dan mudah melalui panel PowerDNS-Admin.
@@ -694,16 +695,11 @@ Create Zones
   <em>Gambar 23: Menu Zones</em>
 </p>
 
-Masukkan nama domain:
+Pada bagian Zone Name, masukkan nama domain yang ingin kamu kelola:
 ```
 domainkamu.id
 ```
-
-Kemudian masukkan nameserver:
-```
-ns1.domainkamu.id 
-ns2.domainkamu.id
-```
+Biarkan pengaturan lainnya sesuai default (misalnya Zone Type menggunakan Native atau Primary).
 
 <p align="center">
 <img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
@@ -711,9 +707,10 @@ ns2.domainkamu.id
   <em>Gambar 24: Membuat DNS Zone melalui PowerDNS-Admin</em>
 </p>
 
-Simpan zone.
+Klik tombol `Create Zone` di bagian bawah.
 
-Setelah zone berhasil dibuat, domain akan muncul pada daftar zone.
+Setelah zone berhasil dibuat, domain akan otomatis muncul pada daftar zone (Zone List).
+
 <p align="center">
 <img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
   <br>
@@ -721,7 +718,20 @@ Setelah zone berhasil dibuat, domain akan muncul pada daftar zone.
 </p>
 
 ## 18. Menambahkan DNS Record melalui GUI
+Pada tampilan dashboard sudah ada daftar zone (domain) yang sudah dibuat sebelumnya. 
+
+Klik nama domain tersebut, kemudian akan masuk pada pengaturan DNS Record domain anda.
+
+Lakukan penambahan dengan klik `Add Record`:
+
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 26: Klik Add Record</em>
+</p>
+
 ### Record A
+### Nameserver (NS)
 ### CNAME
 ### TXT
 ## 19. Memeriksa DNS Record melalui PowerDNS-Admin
