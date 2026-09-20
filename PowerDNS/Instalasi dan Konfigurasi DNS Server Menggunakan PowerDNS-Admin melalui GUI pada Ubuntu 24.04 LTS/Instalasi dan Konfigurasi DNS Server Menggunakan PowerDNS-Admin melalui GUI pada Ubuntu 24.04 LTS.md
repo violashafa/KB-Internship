@@ -730,24 +730,257 @@ Lakukan penambahan dengan klik `Add Record`:
   <em>Gambar 26: Klik Add Record</em>
 </p>
 
-### Record A
 ### Nameserver (NS)
+Tambahkan NS untuk domain utama.
+```
+ns1.domainkamu.id 
+ns2.domainkamu.id
+```
+
+### Record A
+Tambahkan record A untuk domain utama.
+```
+Type : A 
+Name : domainkamu.id 
+Content : IP_SERVER 
+TTL : 3600
+```
+
+Tambahkan juga record A untuk nameserver:
+```
+Type : A 
+Name : ns1.domainkamu.id 
+Content : IP_SERVER 
+TTL : 3600
+
+Type : A 
+Name : ns2.domainkamu.id 
+Content : IP_SERVER 
+TTL : 3600
+```
+
 ### CNAME
-### TXT
+Sebagai contoh, tambahkan record CNAME untuk subdomain `www`.
+```
+Type : CNAME 
+Name : www.domainkamu.id 
+Content : domainkamu.id 
+TTL : 3600
+```
+
 ## 19. Memeriksa DNS Record melalui PowerDNS-Admin
-## 20. Memeriksa Service PowerDNS
+Setelah seluruh record ditambahkan, periksa kembali daftar record.
+```
+SOA domainkamu.id 
+NS domainkamu.id 
+NS domainkamu.id 
+A domainkamu.id 
+A ns1.domainkamu.id 
+A ns2.domainkamu.id 
+CNAME www.domainkamu.id 
+TXT domainkamu.id
+```
+<p align="center">
+<img width="1366" height="287" alt="isi nano" src="https://github.com/user-attachments/assets/afff038b-ad69-4d23-b8ff-5fa716e9ff36" />
+  <br>
+  <em>Gambar 27: Daftar DNS Record pada PowerDNS-Admin</em>
+</p>
+
+> **Catatan:** Nama record yang tampil dapat berbeda tergantung zone dan record yang dibuat saat praktik.
+
+## 20. Memeriksa Service 
+Setelah konfigurasi selesai, periksa kembali service PowerDNS:
+```
+#systemctl status pdns
+● pdns.service - PowerDNS Authoritative Server
+     Loaded: loaded (/usr/lib/systemd/system/pdns.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-09-20 17:00:48 WIB; 4h 16min ago
+       Docs: man:pdns_server(1)
+             man:pdns_control(1)
+             https://doc.powerdns.com
+   Main PID: 23371 (pdns_server)
+      Tasks: 10 (limit: 1094)
+     Memory: 50.7M (peak: 59.5M)
+        CPU: 1.869s
+     CGroup: /system.slice/pdns.service
+             └─23371 /usr/sbin/pdns_server --guardian=no --daemon=no --disable-syslog --log-timestamp=no --write-pid=no
+```
+
+Periksa port DNS:
+```
+#ss -lntup | grep :53
+udp   UNCONN 0      0            0.0.0.0:53         0.0.0.0:*    users:(("pdns_server",pid=23371,fd=5))
+udp   UNCONN 0      0               [::]:53            [::]:*    users:(("pdns_server",pid=23371,fd=6))
+tcp   LISTEN 0      128          0.0.0.0:53         0.0.0.0:*    users:(("pdns_server",pid=23371,fd=7))
+tcp   LISTEN 0      128             [::]:53            [::]:*    users:(("pdns_server",pid=23371,fd=8))
+```
+
+Periksa port API:
+```
+#ss -lntup | grep :8081
+tcp   LISTEN 0      10           0.0.0.0:8081       0.0.0.0:*    users:(("pdns_server",pid=23371,fd=9))
+```
+
 ## 21. Verifikasi DNS Menggunakan dig
-### Verifikasi SOA
-### Verifikasi NS Record
+Pengujian pertama dilakukan dari server menggunakan `dig`.
+
 ### Verifikasi Record A
-### Pengujian melalui Public IP
-### Pengujian dari DNS Resolver Publik
+Jalankan:
+```
+dig domainkamu.id A
+```
+
+Kemudian:
+```
+dig www.domainkamu.id A
+```
+
+Jika ingin melihat hasil yang lebih singkat:
+```
+dig +short domainkamu.id A
+```
+
+```
+dig +short www.domainkamu.id A
+```
+> **Hasil yang diharapkan:** Perintah `dig` menampilkan IP Address VPS yang telah dimasukkan pada record A.
+
+### Verifikasi NS Record
+Selanjutnya lakukan pengecekan nameserver:
+```
+dig domainkamu.id NS
+```
+
+Hasil yang diharapkan menampilkan:
+```
+ns1.domainkamu.id. 
+ns2.domainkamu.id.
+```
+> **Catatan:** Pengujian ini dilakukan untuk memastikan zone memiliki nameserver sesuai konfigurasi.
+
+### Pengujian Resolusi DNS melalui PowerDNS
+Untuk memastikan PowerDNS memberikan respons terhadap query DNS, jalankan:
+```
+dig @127.0.0.1 domainkamu.id A
+```
+
+Kalau PowerDNS menerima query dan zone sudah benar, pada bagian **ANSWER SECTION** akan muncul record A yang telah dibuat.
+
+Contohnya:
+```
+;; ANSWER SECTION:
+domainkamu.id.    3600    IN    A    IP_PUBLIC_VPS
+```
+
+> **Hasil yang diharapkan:** PowerDNS berhasil memberikan jawaban DNS berdasarkan record yang tersimpan pada zone.
+
+### Pengujian melalui DNS Resolver
+Setelah pengujian lokal berhasil, lakukan pengujian menggunakan resolver DNS dengan:
+```
+dig @8.8.8.8 domainkamu.id A
+```
+
+atau:
+```
+dig @1.1.1.1 domainkamu.id A
+```
+
+> **Hasil yang diharapkan:** Jika domain dan nameserver sudah terdelegasi dengan benar, resolver akan mendapatkan record A dari domain tersebut.
+
+
+
 ## 22. Pengujian menggunakan DNS Checker
+Apabila hasil *output* IP Address sudah mengarah ke IP Address *server* yang digunakan, maka hasil *pointing* domain sudah *resolved*.
+
+Selain itu, Anda juga dapat memeriksa hasil *pointing* lebih lanjut menggunakan *tools* berbasis web seperti [DNS Checker](https://dnschecker.org/). Jika sudah resolved semua, maka akan ditandai dengan centang warna hijau secara keseluruhan pada tool DNS Checker seperti pada Gambar 10.
+
+<p align="center">
+<img width="1163" height="645" alt="dns checker" src="https://github.com/user-attachments/assets/6984dd71-721e-49a7-8e96-056246bc5022" />
+  <br>
+  <em>Gambar 28: DNS CHECKER</em>
+</p>
+
+Apabila dari hasil verifikasi, hasil pointing domain masih belum mengarah ke IP Address server yang digunakan atau masih belum terdapat tanda centang hijau secara keseluruhan pada tool DNS Checker, biasanya hal tersebut masih berada dalam proses propagasi.
+
+> _Propagasi adalah waktu yang dibutuhkan oleh internet atau ISP untuk mengenali record-record DNS yang baru pada sebuah domain (biasanya dibutuhkan ketika terjadi perubahan pada record-record DNS). Pada saat proses propagasi berlangsung, domain terkadang akan mengalami anomali ketika diakses._
+>
+>> _Proses propagasi ini dipengaruhi oleh beberapa faktor, yaitu pengaturan TTL (Time to Live), jaringan ISP, serta pihak Registry domain. Waktu yang dibutuhkan untuk proses propagasi ini biasanya memakan waktu kurang lebih hingga 48 jam._
+
 ## 23. Troubleshooting
-### PowerDNS gagal berjalan karena port 53 digunakan
-### PowerDNS-Admin tidak dapat terhubung ke PowerDNS API
-### PowerDNS API tidak aktif
-### DNS Record tidak muncul
-### DNS belum dapat diakses dari internet
+### PowerDNS-Admin menampilkan 400 Bad Request saat menambahkan Zone atau Record
+Jika **PowerDNS-Admin** menampilkan `400 Bad Request` saat menambahkan zone atau record, periksa log:
+```
+docker logs --tail 50 powerdns-admin 2>&1
+```
+
+Jika terdapat pesan:
+```
+Connection to host.docker.internal timed out
+```
+
+berarti PowerDNS-Admin masih mencoba mengakses PowerDNS API melalui `host.docker.internal:8081`.
+
+#### Periksa konfigurasi
+Cek file konfigurasi PowerDNS:
+```
+nano /etc/powerdns/pdns.conf
+```
+
+Pastikan API aktif:
+```
+api=yes
+api-key=API_KEY_ANDA
+webserver=yes
+webserver-address=0.0.0.0
+webserver-port=8081
+```
+
+Kemudian cek konfigurasi API URL pada PowerDNS-Admin:
+```
+docker exec powerdns-admin python -c "import sqlite3; c=sqlite3.connect('/data/powerdns-admin.db'); print(c.execute(\"SELECT name,value FROM setting WHERE name='pdns_api_url'\").fetchone()); c.close()"
+```
+
+Jika masih menggunakan:
+```
+http://host.docker.internal:8081
+```
+
+ubah menjadi:
+```
+http://172.18.0.1:8081
+```
+
+dengan perintah:
+```
+docker exec powerdns-admin python -c "import sqlite3; c=sqlite3.connect('/data/powerdns-admin.db'); c.execute(\"UPDATE setting SET value='http://172.18.0.1:8081' WHERE name='pdns_api_url'\"); c.commit(); c.close()"
+```
+
+Restart PowerDNS-Admin:
+```
+cd /opt/powerdns-admin
+docker compose restart
+```
+
+#### Periksa UFW
+Jika masih mengalami timeout, izinkan koneksi dari container ke API:
+```
+ufw allow in on br-cb447a1ab8dd from 172.18.0.2 to 172.18.0.1 port 8081 proto tcp
+```
+
+Setelah itu, coba kembali menambahkan zone atau record melalui PowerDNS-Admin.
+
 ## Kesimpulan
+Berdasarkan pengujian yang dilakukan, **PowerDNS** berhasil digunakan untuk mengelola **zone melalui PowerDNS-Admin**. Zone dapat ditambahkan dan record DNS seperti A dan NS dapat dikonfigurasi melalui antarmuka PowerDNS-Admin.
+
+***
+CloudKilat menyediakan layanan **Kilat VM, hosting, serta berbagai layanan pendukung lainnya** dengan performa yang andal. Layanan CloudKilat juga didukung oleh tim support yang siap membantu dengan respons cepat dan pelayanan selama **7x24 jam**.
+
+Untuk informasi lebih lanjut mengenai layanan CloudKilat, silakan kunjungi [website resmi CloudKilat](https://cloudkilat.id/).
+
+Terima kasih, semoga panduan ini bermanfaat.
+
 ## Referensi
+
+* [PowerDNS Official Website](https://www.powerdns.com/)
+* [PowerDNS GitHub Releases](https://github.com/PowerDNS/pdns)
+* [KB - Cara Menggunakan Private Name Server pada Domain di Portal Client CloudKilat](https://kb.cloudkilat.id/domain-di-cloudkilat/cara-menggunakan-private-name-server-pada-domain-di-portal-client-cloudkilat)
