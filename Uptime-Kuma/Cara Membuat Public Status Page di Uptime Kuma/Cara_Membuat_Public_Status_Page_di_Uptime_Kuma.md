@@ -109,6 +109,12 @@ Monitor pada status page harus berada di dalam sebuah grup, sehingga grup perlu 
 3. Ulangi langkah 1 dan 2 untuk grup lain, contoh grup `Port` untuk monitor TCP Port dan grup `Server` untuk monitor Ping.
 4. Klik **Save** pada panel kiri untuk menyimpan status page.
 
+<p align="center">
+<img alt="Menambahkan Grup dan Monitor" src="Images/4_add.png" />
+  <br>
+  <em>Gambar 4: Menambahkan Grup dan Monitor</em>
+</p>
+
 ---
 
 ## 6. Mengakses Status Page
@@ -122,9 +128,9 @@ http://IP_VPS:3001/status/SLUG
 Ganti `IP_VPS` dengan IP Address publik VPS Uptime Kuma dan `SLUG` dengan slug yang dibuat pada langkah 2.
 
 <p align="center">
-<img alt="Tampilan Public Status Page" src="Images/4_halaman_jadi.png" />
+<img alt="Tampilan Public Status Page" src="Images/5_halaman_jadi.png" />
   <br>
-  <em>Gambar 4: Tampilan Public Status Page</em>
+  <em>Gambar 5: Tampilan Public Status Page</em>
 </p>
 
 Informasi yang ditampilkan pada status page:
@@ -149,17 +155,17 @@ Pada halaman editor status page, klik **Create Incident**, lalu isi:
 * **Style**: warna banner pengumuman, tersedia pilihan `info`, `warning`, `danger`, `primary`, `light`, dan `dark`.
 
 <p align="center">
-<img alt="Membuat Incident pada Status Page" src="Images/5_create_incident.png" />
+<img alt="Membuat Incident pada Status Page" src="Images/6_create_incident.png" />
   <br>
-  <em>Gambar 5: Membuat Incident pada Status Page</em>
+  <em>Gambar 6: Membuat Incident pada Status Page</em>
 </p>
 
 Klik **Post** untuk menayangkan pengumuman, atau **Cancel** untuk membatalkannya. Setelah ditayangkan, banner pengumuman akan tampil di bagian paling atas status page beserta keterangan **Date Created**.
 
 <p align="center">
-<img alt="Tampilan Incident pada Status Page" src="Images/6_result_incident.png" />
+<img alt="Tampilan Incident pada Status Page" src="Images/7_result_incident.png" />
   <br>
-  <em>Gambar 6: Tampilan Incident pada Status Page</em>
+  <em>Gambar 7: Tampilan Incident pada Status Page</em>
 </p>
 
 ---
@@ -169,9 +175,9 @@ Klik **Post** untuk menayangkan pengumuman, atau **Cancel** untuk membatalkannya
 Incident yang masih aktif akan terus tampil sebagai banner di bagian atas status page hingga diakhiri secara manual. Pada halaman editor status page, banner incident yang aktif menampilkan tiga tombol aksi: **Resolve**, **Edit**, dan **Delete**.
 
 <p align="center">
-<img alt="Tombol Resolve, Edit, dan Delete pada Incident" src="Images/7_resolve.png" />
+<img alt="Tombol Resolve, Edit, dan Delete pada Incident" src="Images/8_resolve.png" />
   <br>
-  <em>Gambar 7: Tombol Resolve, Edit, dan Delete pada Incident</em>
+  <em>Gambar 8: Tombol Resolve, Edit, dan Delete pada Incident</em>
 </p>
 
 * **Resolve**: menandai incident sebagai selesai. Banner akan hilang dari bagian atas status page dan dipindahkan ke bagian **Past Incidents**.
@@ -181,9 +187,9 @@ Incident yang masih aktif akan terus tampil sebagai banner di bagian atas status
 Setelah incident di-Resolve, status page akan menampilkan bagian **Past Incidents** di bagian bawah halaman, berisi riwayat incident beserta tanggal **Created** dan **Last Updated**.
 
 <p align="center">
-<img alt="Riwayat Incident pada Past Incidents" src="Images/8_past.png" />
+<img alt="Riwayat Incident pada Past Incidents" src="Images/9_past.png" />
   <br>
-  <em>Gambar 8: Riwayat Incident pada Past Incidents</em>
+  <em>Gambar 9: Riwayat Incident pada Past Incidents</em>
 </p>
 
 > **Catatan:** Incident yang di-Resolve tetap tersimpan pada riwayat Past Incidents dan tidak dapat dikembalikan menjadi banner aktif. Apabila gangguan yang sama terjadi kembali, buat incident baru melalui **Create Incident**.
@@ -194,7 +200,7 @@ Setelah incident di-Resolve, status page akan menampilkan bagian **Past Incident
 
 ### Monitor Tidak Muncul pada Dropdown Add a monitor
 
-Dropdown hanya menampilkan monitor yang sudah dibuat pada Uptime Kuma. Tambahkan monitor terlebih dahulu sesuai artikel [Cara Menambahkan dan Mengonfigurasi Monitor di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-menambahkan-dan-mengonfigurasi-monitor-di-uptime-kuma).
+Dropdown hanya menampilkan monitor yang sudah dibuat pada Uptime Kuma atau belum ditambahkan ke grup di slug yang sama. Tambahkan monitor terlebih dahulu sesuai artikel [Cara Menambahkan dan Mengonfigurasi Monitor di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-menambahkan-dan-mengonfigurasi-monitor-di-uptime-kuma).
 
 ### Incident Sudah di-Resolve, Namun Masih Tampil sebagai Banner
 
