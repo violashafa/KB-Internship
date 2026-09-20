@@ -20,6 +20,10 @@ Pada panduan kali ini, kita akan melakukan instalasi dan konfigurasi **PowerDNS 
 > Sebelum kita masuk ke langkah-langkah instalasi teknis, pastikan kamu sudah memahami dasar-dasar serta alur kerjanya melalui artikel pengenalan sebelumnya:
 > 
 > 👉 [Apa Itu PowerDNS? Mengenal DNS Server Authoritative yang Fleksibel](https://www.cloudkilat.com/layanan/kilat-domain)
+> 
+> 🖥️ Lebih suka menggunakan tampilan web (GUI)?
+> 
+> 👉 [Instalasi dan Konfigurasi DNS Server Menggunakan PowerDNS melalui GUI pada Ubuntu 24.04 LTS](https://www.cloudkilat.com/layanan/kilat-domain)
 
 ## 1. Persiapan
 
