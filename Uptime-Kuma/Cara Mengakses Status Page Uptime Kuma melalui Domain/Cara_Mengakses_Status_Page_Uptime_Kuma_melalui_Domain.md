@@ -2,7 +2,7 @@
 
 Halo, Kawan Belajar! Secara default, Public Status Page pada Uptime Kuma diakses melalui `IP_VPS:3001/status/SLUG`, mengikuti alamat instance Uptime Kuma itu sendiri. Alamat ini kurang praktis untuk dibagikan kepada pelanggan atau klien, baik dari sisi kemudahan diingat maupun dari sisi keamanan (port `3001` sekaligus mengarah ke dashboard admin).
 
-Pada panduan ini akan dibahas cara menampilkan status page pada domain atau subdomain sendiri beserta HTTPS, menggunakan reverse proxy Nginx dan SSL Let's Encrypt, sehingga status page dapat dibagikan sebagai `https://status.domainkamu.com` tanpa menyertakan port maupun path `/status/SLUG`.
+Pada panduan ini akan dibahas cara menampilkan status page pada domain atau subdomain beserta HTTPS, menggunakan reverse proxy Nginx dan SSL Let's Encrypt, sehingga status page dapat dibagikan sebagai `https://status.domainkamu.com` tanpa menyertakan port maupun path `/status/SLUG`.
 
 > **Catatan:** Panduan ini merupakan lanjutan dari artikel [Cara Membuat Public Status Page di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-membuat-public-status-page-di-uptime-kuma). Pastikan status page sudah dibuat dan monitor yang relevan sudah ditambahkan sebelum mengikuti langkah-langkah berikut.
 
@@ -111,9 +111,9 @@ Klik **Save** untuk menyimpan perubahan, atau **Discard** untuk membatalkannya.
 Akses domain tersebut melalui browser. Status page akan langsung tampil pada domain yang didaftarkan, tanpa perlu menyertakan path `/status/SLUG`.
 
 <p align="center">
-<img alt="Status Page Diakses melalui Domain Sendiri" src="Images/2_domain_hasil.png" />
+<img alt="Status Page Diakses melalui Domain" src="Images/2_domain_hasil.png" />
   <br>
-  <em>Gambar 2: Status Page Diakses melalui Domain Sendiri</em>
+  <em>Gambar 2: Status Page Diakses melalui Domain</em>
 </p>
 
 Pastikan seluruh grup, monitor, dan riwayat Past Incidents yang tampil pada domain tersebut memang sudah sesuai untuk dilihat pelanggan, sesuai catatan pada bagian [Persiapan Awal](#persiapan-awal).
@@ -140,7 +140,7 @@ Periksa hal berikut:
 
 ## Kesimpulan
 
-Dengan reverse proxy Nginx, SSL Let's Encrypt, dan pengaturan **Domain Names** pada editor Public Status Page, status layanan Uptime Kuma dapat diakses langsung melalui domain sendiri secara aman (HTTPS) tanpa menyertakan port maupun path tambahan, sehingga lebih mudah dibagikan dan terlihat lebih profesional di mata pelanggan. Sebelum membagikan domain tersebut, pastikan monitor yang ditampilkan sudah ditinjau ulang agar hanya memuat informasi yang memang ditujukan untuk pelanggan.
+Dengan reverse proxy Nginx, SSL Let's Encrypt, dan pengaturan **Domain Names** pada editor Public Status Page, status layanan Uptime Kuma dapat diakses langsung melalui domain secara aman (HTTPS) tanpa menyertakan port maupun path tambahan, sehingga lebih mudah dibagikan dan terlihat lebih profesional di mata pelanggan. Sebelum membagikan domain tersebut, pastikan monitor yang ditampilkan sudah ditinjau ulang agar hanya memuat informasi yang memang ditujukan untuk pelanggan.
 
 CloudKilat menyediakan layanan Kilat VM beserta domain yang dapat digunakan untuk menjalankan Uptime Kuma sekaligus menampilkan Public Status Page pada domain sendiri. Layanan tersebut juga didukung oleh tim support CloudKilat dengan pelayanan selama 7x24 jam apabila mengalami kendala pada konfigurasi.
 
