@@ -56,12 +56,10 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
 
-        # Dukungan WebSocket
         proxy_set_header Sec-WebSocket-Key $http_sec_websocket_key;
         proxy_set_header Sec-WebSocket-Version $http_sec_websocket_version;
         proxy_set_header Sec-WebSocket-Extensions $http_sec_websocket_extensions;
 
-        # Meningkatkan performa reverse proxy
         proxy_buffering off;
     }
 }
@@ -73,8 +71,6 @@ Uji konfigurasi dan reload Nginx:
 nginx -t
 systemctl reload nginx
 ```
-
-> **Catatan:** Header `Upgrade` dan `Connection`, beserta tiga header `Sec-WebSocket-*`, wajib disertakan karena Uptime Kuma menggunakan WebSocket untuk memperbarui status secara realtime. Tanpa header tersebut, halaman tetap terbuka namun status monitor tidak diperbarui tanpa refresh manual.
 
 ---
 
@@ -141,10 +137,6 @@ Periksa hal berikut:
 1. Pastikan A record domain sudah mengarah ke IP Address publik VPS dan propagasi DNS sudah selesai sebelum menjalankan Certbot, karena proses validasi domain dilakukan melalui koneksi HTTP ke VPS.
 2. Pastikan port `80/tcp` dapat diakses dari internet, karena Certbot melakukan validasi domain (HTTP-01 challenge) melalui port tersebut.
 3. Pastikan konfigurasi Nginx pada langkah 2 sudah aktif (`nginx -t` tidak menunjukkan error) sebelum menjalankan Certbot.
-
-### Halaman Terbuka, Namun Status Tidak Diperbarui Secara Realtime
-
-Kondisi ini umumnya terjadi apabila header WebSocket belum diteruskan oleh reverse proxy. Pastikan seluruh baris `proxy_set_header` pada langkah 2 sudah ditambahkan, lalu jalankan `nginx -t` dan `systemctl reload nginx`.
 
 ## Kesimpulan
 
