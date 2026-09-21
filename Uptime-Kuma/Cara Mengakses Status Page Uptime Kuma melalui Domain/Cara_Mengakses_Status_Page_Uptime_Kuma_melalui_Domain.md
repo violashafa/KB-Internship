@@ -1,4 +1,4 @@
-# Cara Mengakses Status Page Uptime Kuma melalui Domain Sendiri
+# Cara Mengakses Status Page Uptime Kuma melalui Domain
 
 Halo, Kawan Belajar! Secara default, Public Status Page pada Uptime Kuma diakses melalui `IP_VPS:3001/status/SLUG`, mengikuti alamat instance Uptime Kuma itu sendiri. Alamat ini kurang praktis untuk dibagikan kepada pelanggan atau klien, baik dari sisi kemudahan diingat maupun dari sisi keamanan (port `3001` sekaligus mengarah ke dashboard admin).
 
