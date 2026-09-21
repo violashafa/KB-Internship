@@ -2,7 +2,7 @@
 
 Halo, Kawan Belajar! Secara default, Public Status Page pada Uptime Kuma diakses melalui `IP_VPS:3001/status/SLUG`, mengikuti alamat instance Uptime Kuma itu sendiri. Alamat ini kurang praktis untuk dibagikan kepada pelanggan atau klien, baik dari sisi kemudahan diingat maupun dari sisi keamanan (port `3001` sekaligus mengarah ke dashboard admin).
 
-Pada panduan ini akan dibahas cara menampilkan status page pada domain atau subdomain beserta HTTPS, menggunakan reverse proxy Nginx dan SSL Let's Encrypt, sehingga status page dapat dibagikan sebagai `https://status.domainkamu.com` tanpa menyertakan port maupun path `/status/SLUG`.
+Pada panduan ini akan dibahas cara menampilkan status page pada domain atau subdomain beserta HTTPS, menggunakan reverse proxy Nginx dan SSL Let's Encrypt, sehingga status page dapat dibagikan sebagai `https://uptime-kuma.domainkamu.com` tanpa menyertakan port maupun path `/status/SLUG`.
 
 > **Catatan:** Panduan ini merupakan lanjutan dari artikel [Cara Membuat Public Status Page di Uptime Kuma](https://kb.cloudkilat.id/uptime-kuma/cara-membuat-public-status-page-di-uptime-kuma). Pastikan status page sudah dibuat dan monitor yang relevan sudah ditambahkan sebelum mengikuti langkah-langkah berikut.
 
@@ -11,7 +11,7 @@ Pada panduan ini akan dibahas cara menampilkan status page pada domain atau subd
 Sebelum memulai, pastikan sudah memiliki:
 
 1. Uptime Kuma yang sudah terinstal beserta minimal satu Public Status Page yang sudah dibuat.
-2. Domain atau subdomain khusus untuk status page, contoh `status.domainkamu.com`, beserta akses ke pengaturan DNS-nya.
+2. Domain atau subdomain khusus untuk status page, contoh `uptime-kuma.domainkamu.com`, beserta akses ke pengaturan DNS-nya.
 3. A record pada domain tersebut sudah diarahkan (pointing) ke IP Address publik VPS Uptime Kuma.
 4. Port `80/tcp` dan `443/tcp` dapat diakses dari internet menuju VPS Uptime Kuma.
 5. Akses **Root** atau user dengan hak akses `sudo` pada VPS.
@@ -39,12 +39,12 @@ Buat file konfigurasi virtual host:
 nano /etc/nginx/conf.d/uptime-kuma.conf
 ```
 
-Isi dengan konfigurasi berikut, ganti `status.domainkamu.com` dengan domain yang digunakan:
+Isi dengan konfigurasi berikut, ganti `uptime-kuma.domainkamu.com` dengan domain yang digunakan:
 
 ```nginx
 server {
     listen 80;
-    server_name status.domainkamu.com;
+    server_name uptime-kuma.domainkamu.com;
 
     location / {
         proxy_pass http://localhost:3001;
@@ -85,7 +85,7 @@ apt install certbot python3-certbot-nginx -y
 Terbitkan sertifikat SSL untuk domain yang digunakan:
 
 ```bash
-certbot --nginx -d status.domainkamu.com
+certbot --nginx -d uptime-kuma.domainkamu.com
 ```
 
 Certbot akan menambahkan konfigurasi HTTPS pada file virtual host secara otomatis, termasuk pengalihan dari HTTP ke HTTPS apabila opsi tersebut dipilih pada saat proses berjalan.
