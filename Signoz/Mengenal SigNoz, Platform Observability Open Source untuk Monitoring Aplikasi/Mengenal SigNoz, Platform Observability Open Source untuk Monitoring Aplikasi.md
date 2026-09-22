@@ -6,7 +6,10 @@ Ketika aplikasi mulai berjalan di banyak service atau server, memantau performan
 
 Pada artikel ini, kita akan membahas apa itu SigNoz, komponen yang membangunnya, cara kerjanya secara umum, serta kelebihan dan kekurangannya sebelum digunakan pada infrastruktur.
 
-> **Catatan:** Untuk langkah instalasi dan konfigurasi SigNoz pada Kilat VM, silakan baca [Cara Instalasi dan Konfigurasi SigNoz Menggunakan Docker Standalone](#).
+<p align="center"> 
+  <img width="850" alt="Logo SigNoz" src="images/signoz.svg" style="border-radius: 10px;" /> 
+  <br> Gambar 1: Logo SigNoz 
+</p>
 
 ## Apa Itu SigNoz?
 
@@ -72,8 +75,6 @@ SigNoz cocok digunakan ketika:
 ## Kesimpulan
 
 SigNoz merupakan platform observability open source yang menyatukan metrics, traces, dan logs dalam satu tampilan, dibangun di atas standar OpenTelemetry agar tidak terikat pada satu vendor tertentu. Dengan memahami komponen dan cara kerjanya, SigNoz dapat menjadi pilihan untuk memantau performa aplikasi maupun infrastruktur secara mandiri.
-
-Untuk langkah instalasi dan konfigurasi SigNoz pada Kilat VM, silakan lanjutkan ke artikel [Cara Instalasi dan Konfigurasi SigNoz Menggunakan Docker Standalone](#).
 
 ---
 
