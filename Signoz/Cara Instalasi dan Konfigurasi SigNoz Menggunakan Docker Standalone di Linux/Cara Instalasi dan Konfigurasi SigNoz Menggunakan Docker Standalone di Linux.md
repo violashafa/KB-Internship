@@ -265,13 +265,13 @@ Download OpenTelemetry Collector Contrib untuk Linux AMD64:
 
 ```
 cd /tmp
-curl -LO https://github.com/open-telemetry/opentelemetry-collector-releases/releases/latest/download/otelcol-contrib_linux_amd64.tar.gz
+curl -LO https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.110.0/otelcol-contrib_0.110.0_linux_amd64.tar.gz
 ```
 
 Ekstrak dan pindahkan binary:
 
 ```
-tar -xzf otelcol-contrib_linux_amd64.tar.gz
+tar -xzf otelcol-contrib_0.110.0_linux_amd64.tar.gz
 mv otelcol-contrib /usr/local/bin/otelcol-contrib
 chmod +x /usr/local/bin/otelcol-contrib
 ```
