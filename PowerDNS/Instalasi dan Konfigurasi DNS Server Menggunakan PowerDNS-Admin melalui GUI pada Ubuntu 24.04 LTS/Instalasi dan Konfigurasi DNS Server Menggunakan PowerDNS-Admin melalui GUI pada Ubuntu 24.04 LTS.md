@@ -912,6 +912,13 @@ Apabila dari hasil verifikasi, hasil pointing domain masih belum mengarah ke IP 
 
 ## 23. Troubleshooting
 ### PowerDNS-Admin menampilkan 400 Bad Request saat menambahkan Zone atau Record
+
+<p align="center">
+<img width="1366" height="619" alt="Error 400" src="https://github.com/user-attachments/assets/e2b7cdb7-ddfd-42f4-9b0c-42b3a0292a41" />
+  <br>
+  <em>Gambar 29: Error 400</em>
+</p>
+
 Jika **PowerDNS-Admin** menampilkan `400 Bad Request` saat menambahkan zone atau record, periksa log:
 ```
 docker logs --tail 50 powerdns-admin 2>&1
