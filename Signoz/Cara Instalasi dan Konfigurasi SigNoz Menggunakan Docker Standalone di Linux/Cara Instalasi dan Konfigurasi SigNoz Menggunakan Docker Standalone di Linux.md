@@ -378,7 +378,7 @@ Kembali ke tampilan SigNoz pada **VPS Utama**, kemudian masuk ke menu **Infrastr
 Setelah beberapa saat (mengikuti nilai `collection_interval`), VPS Target akan muncul pada daftar host beserta metrik CPU, memory, disk, dan network.
 
 <p align="center">
-  <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src=Images/verifikasi-host-infrastructure-monitoring.png" style="border-radius: 10px;" />
+  <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src="Images/verifikasi-host-infrastructure-monitoring.png" style="border-radius: 10px;" />
   <br>
   Gambar 8: Data VPS Target pada Infrastructure Monitoring
 </p>
