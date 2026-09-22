@@ -6,8 +6,6 @@ Ingin memantau metrics, traces, dan logs dari aplikasi maupun server secara mand
 
 Pada panduan ini, kita akan membahas cara menginstal dan mengonfigurasi **SigNoz** menggunakan metode **Docker Standalone** pada Kilat VM dengan sistem operasi **Ubuntu 24.04 LTS**, hingga dapat menerima data observability dari server lain.
 
-> **Catatan:** Untuk memahami SigNoz lebih lanjut, mulai dari pengertian, komponen, hingga cara kerjanya, silakan baca [Apa Itu SigNoz? Mengenal Platform Observability Berbasis OpenTelemetry](#).
-
 ## Persiapan Awal
 
 Sebelum memulai instalasi dan konfigurasi SigNoz, pastikan kamu sudah memiliki:
@@ -41,8 +39,8 @@ Panduan ini menggunakan konfigurasi berikut:
 | Komponen       | Versi            |
 | -------------- | ---------------- |
 | Sistem Operasi | Ubuntu 24.04 LTS |
-| Docker Engine  | 29.6.2           |
-| Docker Compose | v2 (plugin)      |
+| Docker Engine  | 29.8.1           |
+| Docker Compose | v5.5.1           |
 | SigNoz         | v0.141.1         |
 
 > **Catatan:** Versi SigNoz dan Docker dapat berubah seiring adanya release terbaru. Jalankan `docker --version` dan periksa versi SigNoz pada menu Settings setelah instalasi untuk memastikan versi yang benar-benar terpasang di server kamu.
@@ -53,13 +51,13 @@ Panduan ini menggunakan konfigurasi berikut:
 
 Sebelum melakukan instalasi, lakukan update package pada **VPS Utama** dengan menjalankan perintah berikut:
 
-```bash
+```
 apt update && apt upgrade -y
 ```
 
 Kemudian install package pendukung yang diperlukan:
 
-```bash
+```
 apt install -y curl ca-certificates gnupg
 ```
 
@@ -71,7 +69,7 @@ SigNoz dijalankan menggunakan beberapa container, sehingga Docker Engine beserta
 
 Tambahkan GPG key resmi Docker:
 
-```bash
+```
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 chmod a+r /etc/apt/keyrings/docker.asc
@@ -79,33 +77,33 @@ chmod a+r /etc/apt/keyrings/docker.asc
 
 Tambahkan repository Docker:
 
-```bash
+```
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
 Install Docker Engine dan plugin Docker Compose:
 
-```bash
+```
 apt update
 apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
 Pastikan Docker telah berhasil di-install:
 
-```bash
+```
 docker --version
 docker compose version
 ```
 
 <p align="center">
-  <img width="850" alt="Verifikasi versi Docker dan Docker Compose" src="images/verifikasi-docker.png" style="border-radius: 10px;" />
+  <img width="850" alt="Verifikasi versi Docker dan Docker Compose" src="Images/verifikasi-docker.png" style="border-radius: 10px;" />
   <br>
   Gambar 1: Verifikasi versi Docker dan Docker Compose
 </p>
 
 Pastikan service Docker berjalan dan aktif ketika server melakukan reboot:
 
-```bash
+```
 systemctl enable --now docker
 systemctl status docker
 ```
@@ -116,20 +114,26 @@ SigNoz versi terbaru di-install menggunakan tools bernama **foundryctl**, yaitu 
 
 Install `foundryctl`:
 
-```bash
+```
 curl -fsSL https://signoz.io/foundry.sh | bash
+```
+
+Simpan PATH Secara Permanen:
+```
+echo 'export PATH="/root/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 Buat direktori kerja, kemudian buat file konfigurasi `casting.yaml`:
 
-```bash
+```
 mkdir -p /opt/signoz && cd /opt/signoz
 nano casting.yaml
 ```
 
 Isi dengan konfigurasi berikut, yang menentukan target deployment berupa Docker Compose pada satu mesin (*Docker Standalone*):
 
-```yaml
+```
 apiVersion: v1alpha1
 kind: Installation
 metadata:
@@ -142,14 +146,14 @@ spec:
 
 Simpan file tersebut, kemudian jalankan proses deploy:
 
-```bash
+```
 foundryctl cast -f casting.yaml
 ```
 
 Perintah `cast` akan memvalidasi Docker pada server, membuat file Docker Compose pada direktori `pours/deployment/`, kemudian menjalankan seluruh container yang dibutuhkan SigNoz (aplikasi SigNoz, ClickHouse, dan OTel Collector).
 
 <p align="center">
-  <img width="850" alt="Proses instalasi SigNoz menggunakan foundryctl cast" src="images/proses-instalasi-signoz.png" style="border-radius: 10px;" />
+  <img width="850" alt="Proses instalasi SigNoz menggunakan foundryctl cast" src="Images/proses-instalasi-signoz.png" style="border-radius: 10px;" />
   <br>
   Gambar 2: Proses instalasi SigNoz
 </p>
@@ -160,14 +164,14 @@ Perintah `cast` akan memvalidasi Docker pada server, membuat file Docker Compose
 
 Pastikan seluruh container SigNoz telah berjalan:
 
-```bash
+```
 docker ps
 ```
 
 Pastikan container berada pada status `Up` dan `healthy`.
 
 <p align="center">
-  <img width="900" alt="Verifikasi container SigNoz" src="images/verifikasi-container-signoz.png" style="border-radius: 10px;" />
+  <img width="900" alt="Verifikasi container SigNoz" src="Images/verifikasi-container-signoz.png" style="border-radius: 10px;" />
   <br>
   Gambar 3: Verifikasi container SigNoz
 </p>
@@ -182,59 +186,11 @@ Pastikan container berada pada status `Up` dan `healthy`.
 
 Untuk memeriksa log salah satu container, gunakan:
 
-```bash
+```
 docker logs -f NAMA-CONTAINER
 ```
 
-## 5. Penyesuaian SELinux (Khusus Distro Berbasis RHEL)
-
-Ubuntu menggunakan **AppArmor**, bukan SELinux, sehingga langkah pada bagian ini **tidak diperlukan** apabila mengikuti panduan ini pada Ubuntu 24.04. Bagian ini disediakan sebagai referensi tambahan apabila kamu menjalankan Docker Standalone pada distro berbasis RHEL (CentOS, Rocky Linux, atau AlmaLinux) dengan SELinux dalam mode `enforcing`.
-
-Pada distro tersebut, SELinux dapat memblokir akses container ke volume atau port tertentu meskipun konfigurasi Docker sudah benar.
-
-Periksa status SELinux:
-
-```bash
-sestatus
-```
-
-<p align="center">
-  <img width="600" alt="Verifikasi status SELinux" src="images/verifikasi-selinux-status.png" style="border-radius: 10px;" />
-  <br>
-  Gambar 4: Verifikasi status SELinux
-</p>
-
-Jika terdapat proses yang diblokir SELinux, periksa log audit untuk mengetahui penyebabnya:
-
-```bash
-ausearch -m avc -ts recent
-```
-
-<p align="center">
-  <img width="850" alt="Log audit SELinux yang memblokir proses" src="images/log-audit-selinux.png" style="border-radius: 10px;" />
-  <br>
-  Gambar 5: Log audit SELinux
-</p>
-
-Untuk mengizinkan container Docker mengakses volume bind-mount, tambahkan label SELinux `:z` atau `:Z` pada definisi volume di file compose, misalnya:
-
-```yaml
-volumes:
-  - ./data:/var/lib/clickhouse:Z
-```
-
-Label `:Z` memberikan akses privat untuk container tersebut, sedangkan `:z` (huruf kecil) memberikan akses yang dapat digunakan bersama oleh beberapa container.
-
-Apabila SELinux tetap memblokir proses tertentu setelah penyesuaian label volume, policy khusus dapat dibuat menggunakan `audit2allow`:
-
-```bash
-ausearch -m avc -ts recent | audit2allow -M signoz-policy
-semodule -i signoz-policy.pp
-```
-
-> **Catatan:** Penggunaan `audit2allow` sebaiknya dilakukan dengan hati-hati karena dapat memberikan izin yang lebih luas dari yang seharusnya. Pastikan meninjau isi policy yang dihasilkan sebelum menerapkannya, dan lakukan pengujian langsung pada distro terkait karena kebutuhan penyesuaian dapat berbeda tergantung versi SELinux dan Docker yang digunakan.
-
-## 6. Konfigurasi Firewall
+## 5. Konfigurasi Firewall
 
 SigNoz menggunakan beberapa port yang perlu diizinkan pada firewall **VPS Utama**.
 
@@ -246,7 +202,7 @@ SigNoz menggunakan beberapa port yang perlu diizinkan pada firewall **VPS Utama*
 
 Jika menggunakan UFW, jalankan:
 
-```bash
+```
 ufw allow 8080/tcp
 ufw allow 4317/tcp
 ufw allow 4318/tcp
@@ -254,84 +210,84 @@ ufw status
 ```
 
 <p align="center">
-  <img width="600" alt="Verifikasi status UFW" src="images/verifikasi-ufw-status.png" style="border-radius: 10px;" />
+  <img width="600" alt="Verifikasi status UFW" src="Images/verifikasi-ufw-status.png" style="border-radius: 10px;" />
   <br>
-  Gambar 6: Verifikasi status UFW
+  Gambar 4: Verifikasi status UFW
 </p>
 
 > **Catatan:** Karena pada panduan ini VPS Target akan mengirim data melalui **IP publik** (bukan IP privat), port `4317` dan `4318` perlu dapat diakses dari internet. Untuk keamanan, SigNoz self-hosted secara bawaan **tidak memiliki autentikasi** pada endpoint OTLP tersebut. Batasi firewall agar hanya menerima koneksi dari IP Address VPS Target, bukan dari seluruh internet, misalnya:
 >
-> ```bash
+> ```
 > ufw allow from IP-VPS-TARGET to any port 4317 proto tcp
 > ufw allow from IP-VPS-TARGET to any port 4318 proto tcp
 > ```
 
-## 7. Mengakses Tampilan SigNoz
+## 6. Mengakses Tampilan SigNoz
 
 Akses SigNoz melalui browser menggunakan alamat berikut:
 
-```text
+```
 http://IP-VPS-UTAMA:8080
 ```
 
 Pada akses pertama, SigNoz akan meminta pembuatan akun administrator. Masukkan nama, email, dan password yang akan digunakan.
 
 <p align="center">
-  <img width="850" alt="Halaman pembuatan akun administrator SigNoz" src="images/setup-akun-admin-signoz.png" style="border-radius: 10px;" />
+  <img width="850" alt="Halaman pembuatan akun administrator SigNoz" src="Images/setup-akun-admin-signoz.png" style="border-radius: 10px;" />
   <br>
-  Gambar 7: Pembuatan akun administrator
+  Gambar 5: Pembuatan akun administrator
 </p>
 
 Setelah akun berhasil dibuat, tampilan utama SigNoz akan ditampilkan dengan kondisi Quick Stats kosong karena belum ada data yang masuk.
 
 <p align="center">
-  <img width="900" alt="Tampilan utama SigNoz dengan Quick Stats kosong" src="images/tampilan-utama-signoz.png" style="border-radius: 10px;" />
+    <img width="900" alt="Tampilan utama SigNoz dengan Quick Stats kosong" src="Images/tampilan-utama-signoz.png" style="border-radius: 10px;" />
   <br>
-  Gambar 8: Tampilan utama SigNoz
+  Gambar 6: Tampilan utama SigNoz
 </p>
 
 > **Catatan:** Gunakan password yang kuat karena tampilan SigNoz dapat diakses melalui internet.
 
-## 8. Instalasi Agent pada VPS Target
+## 7. Instalasi Agent pada VPS Target
 
 Agar SigNoz dapat menampilkan data, **VPS Target** perlu dipasangi **OpenTelemetry Collector** sebagai agent, kemudian diarahkan untuk mengirim data ke **VPS Utama** melalui IP publik.
 
 Login ke **VPS Target**, kemudian update sistem terlebih dahulu:
 
-```bash
+```
 apt update && apt upgrade -y
 apt install -y curl tar
 ```
 
-### 8.1 Download OTel Collector Binary
+### 7.1 Download OTel Collector Binary
 
 Download OpenTelemetry Collector Contrib untuk Linux AMD64:
 
-```bash
+```
 cd /tmp
 curl -LO https://github.com/open-telemetry/opentelemetry-collector-releases/releases/latest/download/otelcol-contrib_linux_amd64.tar.gz
 ```
 
 Ekstrak dan pindahkan binary:
 
-```bash
+```
 tar -xzf otelcol-contrib_linux_amd64.tar.gz
 mv otelcol-contrib /usr/local/bin/otelcol-contrib
 chmod +x /usr/local/bin/otelcol-contrib
 ```
 
-### 8.2 Membuat Konfigurasi Collector
+### 7.2 Membuat Konfigurasi Collector
 
 Buat direktori konfigurasi:
 
-```bash
+```
 mkdir -p /etc/otelcol-contrib
 nano /etc/otelcol-contrib/config.yaml
 ```
 
 Isi dengan konfigurasi berikut untuk mengumpulkan host metrics dari VPS Target dan mengirimkannya ke VPS Utama melalui IP publik:
 
-```yaml
+```
 receivers:
   hostmetrics:
     collection_interval: 60s
@@ -370,17 +326,17 @@ service:
 
 > **Catatan:** Ganti `IP-VPS-UTAMA` dengan IP Address publik VPS Utama tempat SigNoz berjalan. Karena komunikasi dilakukan melalui IP publik, opsi `tls.insecure: true` digunakan sebagai contoh sederhana; pada lingkungan produksi, pertimbangkan menambahkan TLS atau membatasi akses melalui firewall seperti pada langkah 6.
 
-### 8.3 Menjalankan Collector sebagai Service
+### 7.3 Menjalankan Collector sebagai Service
 
 Buat file service systemd agar collector berjalan otomatis:
 
-```bash
+```
 nano /etc/systemd/system/otelcol-contrib.service
 ```
 
 Isi dengan konfigurasi berikut:
 
-```ini
+```
 [Unit]
 Description=OpenTelemetry Collector Contrib
 After=network-online.target
@@ -397,34 +353,34 @@ WantedBy=multi-user.target
 
 Reload systemd, kemudian jalankan service:
 
-```bash
+```
 systemctl daemon-reload
 systemctl enable --now otelcol-contrib
 systemctl status otelcol-contrib
 ```
 
 <p align="center">
-  <img width="850" alt="Status service OTel Collector pada VPS Target" src="images/status-service-otelcol.png" style="border-radius: 10px;" />
+  <img width="850" alt="Status service OTel Collector pada VPS Target" src="Images/status-service-otelcol.png" style="border-radius: 10px;" />
   <br>
-  Gambar 9: Status service OTel Collector
+  Gambar 7: Status service OTel Collector
 </p>
 
 Pastikan status menunjukkan `active (running)`. Jika terdapat error, periksa log:
 
-```bash
+```
 journalctl -u otelcol-contrib -n 50 --no-pager
 ```
 
-## 9. Verifikasi Data pada SigNoz
+## 8. Verifikasi Data pada SigNoz
 
 Kembali ke tampilan SigNoz pada **VPS Utama**, kemudian masuk ke menu **Infrastructure Monitoring > Hosts**.
 
 Setelah beberapa saat (mengikuti nilai `collection_interval`), VPS Target akan muncul pada daftar host beserta metrik CPU, memory, disk, dan network.
 
 <p align="center">
-  <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src="images/verifikasi-host-infrastructure-monitoring.png" style="border-radius: 10px;" />
+  <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src=Images/verifikasi-host-infrastructure-monitoring.png" style="border-radius: 10px;" />
   <br>
-  Gambar 10: Data VPS Target pada Infrastructure Monitoring
+  Gambar 8: Data VPS Target pada Infrastructure Monitoring
 </p>
 
 > **Catatan:** Apabila host tidak muncul, periksa kembali:
@@ -438,7 +394,7 @@ Setelah beberapa saat (mengikuti nilai `collection_interval`), VPS Target akan m
 
 Periksa status dan log container:
 
-```bash
+```
 docker ps -a
 docker logs NAMA-CONTAINER
 ```
