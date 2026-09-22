@@ -7,7 +7,7 @@ Ketika aplikasi mulai berjalan di banyak service atau server, memantau performan
 Pada artikel ini, kita akan membahas apa itu SigNoz, komponen yang membangunnya, cara kerjanya secara umum, serta kelebihan dan kekurangannya sebelum digunakan pada infrastruktur.
 
 <p align="center"> 
-  <img width="850" alt="Logo SigNoz" src="images/signoz.svg" style="border-radius: 10px;" /> 
+  <img width="850" alt="Logo SigNoz" src="Images/signoz.svg" style="border-radius: 10px;" /> 
   <br> Gambar 1: Logo SigNoz 
 </p>
 
