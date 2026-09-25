@@ -42,7 +42,7 @@ Panduan ini menggunakan konfigurasi berikut:
 | -------------- | ---------------- |
 | Sistem Operasi | Ubuntu 24.04 LTS |
 | Docker Engine  | 29.6.2           |
-| SigNoz         | v0.141.1         |
+| SigNoz         | v0.142.1         |
 
 > **Catatan:** Versi SigNoz dan Docker dapat berubah seiring adanya release terbaru. Jalankan `docker --version` dan periksa versi SigNoz pada menu Settings setelah instalasi untuk memastikan versi yang benar-benar terpasang di server kamu.
 
@@ -52,7 +52,7 @@ Panduan ini menggunakan konfigurasi berikut:
 
 Sebelum melakukan instalasi, lakukan update package pada **VPS Utama** dengan menjalankan perintah berikut:
 
-```bash
+```
 apt update && apt upgrade -y
 apt install -y curl ca-certificates gnupg
 ```
@@ -65,7 +65,7 @@ Docker Swarm merupakan fitur bawaan Docker Engine, sehingga tidak memerlukan ins
 
 Tambahkan GPG key resmi Docker:
 
-```bash
+```
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 chmod a+r /etc/apt/keyrings/docker.asc
@@ -73,20 +73,20 @@ chmod a+r /etc/apt/keyrings/docker.asc
 
 Tambahkan repository Docker:
 
-```bash
+```
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
 Install Docker Engine:
 
-```bash
+```
 apt update
 apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
 Pastikan Docker telah berhasil di-install:
 
-```bash
+```
 docker --version
 ```
 
@@ -98,7 +98,7 @@ docker --version
 
 Pastikan service Docker berjalan dan aktif ketika server melakukan reboot:
 
-```bash
+```
 systemctl enable --now docker
 systemctl status docker
 ```
@@ -109,7 +109,7 @@ Sebelum menjalankan SigNoz, VPS Utama perlu diaktifkan sebagai **Swarm manager**
 
 Inisialisasi Docker Swarm dengan menentukan IP Address yang digunakan untuk komunikasi antar node:
 
-```bash
+```
 docker swarm init --advertise-addr IP-VPS-UTAMA
 ```
 
@@ -123,7 +123,7 @@ docker swarm init --advertise-addr IP-VPS-UTAMA
 
 Verifikasi node yang terdaftar pada Swarm:
 
-```bash
+```
 docker node ls
 ```
 
@@ -141,20 +141,20 @@ SigNoz di-install menggunakan tools bernama **foundryctl**, yaitu CLI resmi SigN
 
 Install `foundryctl`:
 
-```bash
+```
 curl -fsSL https://signoz.io/foundry.sh | bash
 ```
 
 Buat direktori kerja, kemudian buat file konfigurasi `casting.yaml`:
 
-```bash
+```
 mkdir -p /opt/signoz && cd /opt/signoz
 nano casting.yaml
 ```
 
 Isi dengan konfigurasi berikut, yang menentukan target deployment berupa **Docker Swarm**:
 
-```yaml
+```
 apiVersion: v1alpha1
 kind: Installation
 metadata:
@@ -169,7 +169,7 @@ spec:
 
 Jalankan proses deploy pada **Swarm manager node**:
 
-```bash
+```
 foundryctl cast -f casting.yaml
 ```
 
@@ -189,7 +189,7 @@ Berbeda dengan Docker Standalone yang diverifikasi menggunakan `docker ps`, pada
 
 Periksa daftar service yang berjalan pada stack SigNoz:
 
-```bash
+```
 docker stack services signoz
 ```
 
@@ -203,7 +203,7 @@ Pastikan kolom `REPLICAS` pada setiap service menunjukkan jumlah yang sesuai, mi
 
 Untuk melihat detail task dan kondisi masing-masing container pada service tertentu:
 
-```bash
+```
 docker service ps signoz_signoz --no-trunc
 ```
 
@@ -217,49 +217,11 @@ docker service ps signoz_signoz --no-trunc
 
 Untuk memeriksa log salah satu service:
 
-```bash
+```
 docker service logs -f NAMA-SERVICE
 ```
 
-## 6. Penyesuaian SELinux (Khusus Distro Berbasis RHEL)
-
-Ubuntu menggunakan **AppArmor**, bukan SELinux, sehingga langkah pada bagian ini **tidak diperlukan** apabila mengikuti panduan ini pada Ubuntu 24.04. Bagian ini disediakan sebagai referensi tambahan apabila Docker Swarm dijalankan pada distro berbasis RHEL (CentOS, Rocky Linux, atau AlmaLinux) dengan SELinux dalam mode `enforcing`.
-
-Periksa status SELinux:
-
-```bash
-sestatus
-```
-
-<p align="center">
-  <img width="600" alt="Verifikasi status SELinux" src="images/verifikasi-selinux-status-swarm.png" style="border-radius: 10px;" />
-  <br>
-  Gambar 6: Verifikasi status SELinux
-</p>
-
-Jika terdapat proses yang diblokir SELinux, periksa log audit untuk mengetahui penyebabnya:
-
-```bash
-ausearch -m avc -ts recent
-```
-
-Untuk volume bind-mount pada service Swarm (misalnya volume ClickHouse), tambahkan label SELinux pada definisi volume di stack Compose, misalnya:
-
-```yaml
-volumes:
-  - ./data:/var/lib/clickhouse:Z
-```
-
-Apabila SELinux tetap memblokir proses tertentu, policy khusus dapat dibuat menggunakan `audit2allow`:
-
-```bash
-ausearch -m avc -ts recent | audit2allow -M signoz-policy
-semodule -i signoz-policy.pp
-```
-
-> **Catatan:** Penggunaan `audit2allow` sebaiknya dilakukan dengan hati-hati karena dapat memberikan izin yang lebih luas dari yang seharusnya. Lakukan pengujian langsung pada distro terkait, karena perilaku SELinux terhadap service Swarm (dibandingkan container biasa) dapat memiliki kekhususan tersendiri yang perlu divalidasi.
-
-## 7. Konfigurasi Firewall
+## 6. Konfigurasi Firewall
 
 SigNoz menggunakan beberapa port yang perlu diizinkan pada firewall **VPS Utama**.
 
@@ -274,7 +236,7 @@ SigNoz menggunakan beberapa port yang perlu diizinkan pada firewall **VPS Utama*
 
 Jika menggunakan UFW, jalankan:
 
-```bash
+```
 ufw allow 8080/tcp
 ufw allow 4317/tcp
 ufw allow 4318/tcp
@@ -287,23 +249,23 @@ ufw status
 <p align="center">
   <img width="600" alt="Verifikasi status UFW" src="images/verifikasi-ufw-status-swarm.png" style="border-radius: 10px;" />
   <br>
-  Gambar 7: Verifikasi status UFW
+  Gambar 6: Verifikasi status UFW
 </p>
 
 > **Catatan:** Port `2377`, `7946`, dan `4789` digunakan untuk komunikasi antar node Swarm. Karena pada panduan ini Swarm hanya terdiri dari satu node, port tersebut tidak perlu diakses dari internet dan cukup diizinkan pada firewall sebagai persiapan apabila node lain ditambahkan ke cluster di kemudian hari.
 >
 > Untuk port `4317` dan `4318`, karena VPS Target akan mengirim data melalui **IP publik**, kedua port tersebut perlu dapat diakses dari internet. SigNoz self-hosted secara bawaan **tidak memiliki autentikasi** pada endpoint OTLP, sehingga sebaiknya dibatasi hanya untuk IP Address VPS Target, misalnya:
 >
-> ```bash
+> ```
 > ufw allow from IP-VPS-TARGET to any port 4317 proto tcp
 > ufw allow from IP-VPS-TARGET to any port 4318 proto tcp
 > ```
 
-## 8. Mengakses Tampilan SigNoz
+## 7. Mengakses Tampilan SigNoz
 
 Akses SigNoz melalui browser menggunakan alamat berikut:
 
-```text
+```
 http://IP-VPS-UTAMA:8080
 ```
 
@@ -312,7 +274,7 @@ Pada akses pertama, SigNoz akan meminta pembuatan akun administrator. Masukkan n
 <p align="center">
   <img width="850" alt="Halaman pembuatan akun administrator SigNoz" src="images/setup-akun-admin-signoz-swarm.png" style="border-radius: 10px;" />
   <br>
-  Gambar 8: Pembuatan akun administrator
+  Gambar 7: Pembuatan akun administrator
 </p>
 
 Setelah akun berhasil dibuat, tampilan utama SigNoz akan ditampilkan dengan kondisi Quick Stats kosong karena belum ada data yang masuk.
@@ -320,25 +282,25 @@ Setelah akun berhasil dibuat, tampilan utama SigNoz akan ditampilkan dengan kond
 <p align="center">
   <img width="900" alt="Tampilan utama SigNoz" src="images/tampilan-utama-signoz-swarm.png" style="border-radius: 10px;" />
   <br>
-  Gambar 9: Tampilan utama SigNoz
+  Gambar 8: Tampilan utama SigNoz
 </p>
 
 > **Catatan:** Gunakan password yang kuat karena tampilan SigNoz dapat diakses melalui internet.
 
-## 9. Instalasi Agent pada VPS Target
+## 8. Instalasi Agent pada VPS Target
 
 Agar SigNoz dapat menampilkan data, **VPS Target** perlu dipasangi **OpenTelemetry Collector** sebagai agent, kemudian diarahkan untuk mengirim data ke **VPS Utama** melalui IP publik. Karena VPS Target berperan sebagai simulasi server eksternal (bukan bagian dari cluster Swarm), agent dipasang menggunakan binary dan systemd, sama seperti pada metode Docker Standalone.
 
 Login ke **VPS Target**, kemudian update sistem terlebih dahulu:
 
-```bash
+```
 apt update && apt upgrade -y
 apt install -y curl tar
 ```
 
-### 9.1 Download OTel Collector Binary
+### 8.1 Download OTel Collector Binary
 
-```bash
+```
 cd /tmp
 curl -LO https://github.com/open-telemetry/opentelemetry-collector-releases/releases/latest/download/otelcol-contrib_linux_amd64.tar.gz
 tar -xzf otelcol-contrib_linux_amd64.tar.gz
@@ -346,16 +308,16 @@ mv otelcol-contrib /usr/local/bin/otelcol-contrib
 chmod +x /usr/local/bin/otelcol-contrib
 ```
 
-### 9.2 Membuat Konfigurasi Collector
+### 8.2 Membuat Konfigurasi Collector
 
-```bash
+```
 mkdir -p /etc/otelcol-contrib
 nano /etc/otelcol-contrib/config.yaml
 ```
 
 Isi dengan konfigurasi berikut:
 
-```yaml
+```
 receivers:
   hostmetrics:
     collection_interval: 60s
@@ -394,13 +356,13 @@ service:
 
 > **Catatan:** Ganti `IP-VPS-UTAMA` dengan IP Address publik VPS Utama tempat SigNoz (Docker Swarm) berjalan.
 
-### 9.3 Menjalankan Collector sebagai Service
+### 8.3 Menjalankan Collector sebagai Service
 
-```bash
+```
 nano /etc/systemd/system/otelcol-contrib.service
 ```
 
-```ini
+```
 [Unit]
 Description=OpenTelemetry Collector Contrib
 After=network-online.target
@@ -415,7 +377,7 @@ RestartSec=5
 WantedBy=multi-user.target
 ```
 
-```bash
+```
 systemctl daemon-reload
 systemctl enable --now otelcol-contrib
 systemctl status otelcol-contrib
@@ -424,16 +386,16 @@ systemctl status otelcol-contrib
 <p align="center">
   <img width="850" alt="Status service OTel Collector pada VPS Target" src="images/status-service-otelcol-swarm.png" style="border-radius: 10px;" />
   <br>
-  Gambar 10: Status service OTel Collector
+  Gambar 9: Status service OTel Collector
 </p>
 
 Pastikan status menunjukkan `active (running)`. Jika terdapat error, periksa log:
 
-```bash
+```
 journalctl -u otelcol-contrib -n 50 --no-pager
 ```
 
-## 10. Verifikasi Data pada SigNoz
+## 9. Verifikasi Data pada SigNoz
 
 Kembali ke tampilan SigNoz pada **VPS Utama**, kemudian masuk ke menu **Infrastructure Monitoring > Hosts**.
 
@@ -442,7 +404,7 @@ Setelah beberapa saat, VPS Target akan muncul pada daftar host beserta metrik CP
 <p align="center">
   <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src="images/verifikasi-host-infrastructure-monitoring-swarm.png" style="border-radius: 10px;" />
   <br>
-  Gambar 11: Data VPS Target pada Infrastructure Monitoring
+  Gambar 10: Data VPS Target pada Infrastructure Monitoring
 </p>
 
 > **Catatan:** Apabila host tidak muncul, periksa kembali:
@@ -456,7 +418,7 @@ Setelah beberapa saat, VPS Target akan muncul pada daftar host beserta metrik CP
 
 Periksa detail task pada service yang bermasalah:
 
-```bash
+```
 docker service ps NAMA-SERVICE --no-trunc
 ```
 
@@ -464,19 +426,19 @@ Command ini menampilkan pesan error terakhir apabila container gagal dijalankan,
 
 Periksa juga log service terkait:
 
-```bash
+```
 docker service logs NAMA-SERVICE
 ```
 
 ### Node Berstatus Down atau Unreachable
 
-```bash
+```
 docker node ls
 ```
 
 Jika manager node berstatus selain `Ready`, restart service Docker:
 
-```bash
+```
 systemctl restart docker
 ```
 
