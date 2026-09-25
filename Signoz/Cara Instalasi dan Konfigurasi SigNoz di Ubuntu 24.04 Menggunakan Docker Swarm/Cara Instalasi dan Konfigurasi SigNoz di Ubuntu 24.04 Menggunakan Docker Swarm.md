@@ -12,7 +12,7 @@ Sebelum memulai instalasi dan konfigurasi SigNoz, pastikan kamu sudah memiliki:
 
 1. **Dua unit Kilat VM** dengan sistem operasi Ubuntu 24.04 LTS:
    * **VPS Utama**, digunakan sebagai Swarm manager sekaligus menjalankan SigNoz.
-   * **VPS Target**, digunakan sebagai simulasi server yang akan dipantau, minimal 1 GB RAM.
+   * **VPS Target**, digunakan sebagai simulasi server yang akan dipantau.
 2. Akses **Root** atau user dengan hak akses `sudo` pada kedua VPS.
 3. **IP Address publik** pada VPS Utama.
 4. Spesifikasi minimal VPS Utama: **4 GB RAM**, disarankan **8 GB RAM dan 4 vCPU**.
