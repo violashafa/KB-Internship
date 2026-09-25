@@ -91,7 +91,7 @@ docker --version
 ```
 
 <p align="center">
-  <img width="850" alt="Verifikasi versi Docker Engine" src="images/verifikasi-docker-swarm.png" style="border-radius: 10px;" />
+  <img width="850" alt="Verifikasi versi Docker Engine" src="Images/verifikasi-docker-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 1: Verifikasi versi Docker Engine
 </p>
@@ -114,7 +114,7 @@ docker swarm init --advertise-addr IP-VPS-UTAMA
 ```
 
 <p align="center">
-  <img width="850" alt="Inisialisasi Docker Swarm" src="images/inisialisasi-docker-swarm.png" style="border-radius: 10px;" />
+  <img width="850" alt="Inisialisasi Docker Swarm" src="Images/inisialisasi-docker-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 2: Inisialisasi Docker Swarm
 </p>
@@ -128,7 +128,7 @@ docker node ls
 ```
 
 <p align="center">
-  <img width="850" alt="Verifikasi node Docker Swarm" src="images/verifikasi-node-swarm.png" style="border-radius: 10px;" />
+  <img width="850" alt="Verifikasi node Docker Swarm" src="Images/verifikasi-node-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 3: Verifikasi node Docker Swarm
 </p>
@@ -174,7 +174,7 @@ foundryctl cast -f casting.yaml
 ```
 
 <p align="center">
-  <img width="850" alt="Proses instalasi SigNoz pada Docker Swarm" src="images/proses-instalasi-signoz-swarm.png" style="border-radius: 10px;" />
+  <img width="850" alt="Proses instalasi SigNoz pada Docker Swarm" src="Images/proses-instalasi-signoz-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 4: Proses instalasi SigNoz pada Docker Swarm
 </p>
@@ -194,7 +194,7 @@ docker stack services signoz
 ```
 
 <p align="center">
-  <img width="900" alt="Verifikasi service SigNoz pada Docker Swarm" src="images/verifikasi-service-signoz-swarm.png" style="border-radius: 10px;" />
+  <img width="900" alt="Verifikasi service SigNoz pada Docker Swarm" src="Images/verifikasi-service-signoz-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 5: Verifikasi service SigNoz
 </p>
@@ -247,7 +247,7 @@ ufw status
 ```
 
 <p align="center">
-  <img width="600" alt="Verifikasi status UFW" src="images/verifikasi-ufw-status-swarm.png" style="border-radius: 10px;" />
+  <img width="600" alt="Verifikasi status UFW" src="Images/verifikasi-ufw-status-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 6: Verifikasi status UFW
 </p>
@@ -272,7 +272,7 @@ http://IP-VPS-UTAMA:8080
 Pada akses pertama, SigNoz akan meminta pembuatan akun administrator. Masukkan nama, email, dan password yang akan digunakan.
 
 <p align="center">
-  <img width="850" alt="Halaman pembuatan akun administrator SigNoz" src="images/setup-akun-admin-signoz-swarm.png" style="border-radius: 10px;" />
+  <img width="850" alt="Halaman pembuatan akun administrator SigNoz" src="Images/setup-akun-admin-signoz-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 7: Pembuatan akun administrator
 </p>
@@ -280,7 +280,7 @@ Pada akses pertama, SigNoz akan meminta pembuatan akun administrator. Masukkan n
 Setelah akun berhasil dibuat, tampilan utama SigNoz akan ditampilkan dengan kondisi Quick Stats kosong karena belum ada data yang masuk.
 
 <p align="center">
-  <img width="900" alt="Tampilan utama SigNoz" src="images/tampilan-utama-signoz-swarm.png" style="border-radius: 10px;" />
+  <img width="900" alt="Tampilan utama SigNoz" src="Images/tampilan-utama-signoz-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 8: Tampilan utama SigNoz
 </p>
@@ -384,7 +384,7 @@ systemctl status otelcol-contrib
 ```
 
 <p align="center">
-  <img width="850" alt="Status service OTel Collector pada VPS Target" src="images/status-service-otelcol-swarm.png" style="border-radius: 10px;" />
+  <img width="850" alt="Status service OTel Collector pada VPS Target" src="Images/status-service-otelcol-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 9: Status service OTel Collector
 </p>
@@ -402,7 +402,7 @@ Kembali ke tampilan SigNoz pada **VPS Utama**, kemudian masuk ke menu **Infrastr
 Setelah beberapa saat, VPS Target akan muncul pada daftar host beserta metrik CPU, memory, disk, dan network.
 
 <p align="center">
-  <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src="images/verifikasi-host-infrastructure-monitoring-swarm.png" style="border-radius: 10px;" />
+  <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src="Images/verifikasi-host-infrastructure-monitoring-swarm.png" style="border-radius: 10px;" />
   <br>
   Gambar 10: Data VPS Target pada Infrastructure Monitoring
 </p>
