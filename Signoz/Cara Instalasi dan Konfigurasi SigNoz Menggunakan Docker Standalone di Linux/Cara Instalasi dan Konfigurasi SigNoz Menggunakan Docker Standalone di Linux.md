@@ -41,7 +41,7 @@ Panduan ini menggunakan konfigurasi berikut:
 | Sistem Operasi | Ubuntu 24.04 LTS |
 | Docker Engine  | 29.8.1           |
 | Docker Compose | v5.5.1           |
-| SigNoz         | v0.141.1         |
+| SigNoz         | v0.142.1         |
 
 > **Catatan:** Versi SigNoz dan Docker dapat berubah seiring adanya release terbaru. Jalankan `docker --version` dan periksa versi SigNoz pada menu Settings setelah instalasi untuk memastikan versi yang benar-benar terpasang di server kamu.
 
