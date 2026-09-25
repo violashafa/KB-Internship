@@ -6,8 +6,6 @@ Selain dijalankan menggunakan Docker Standalone, **SigNoz** juga dapat dijalanka
 
 Pada panduan ini, kita akan membahas cara menginstal dan mengonfigurasi **SigNoz** menggunakan metode **Docker Swarm** pada Kilat VM dengan sistem operasi **Ubuntu 24.04 LTS**, hingga dapat menerima data observability dari server lain.
 
-> **Catatan:** Untuk memahami SigNoz lebih lanjut, mulai dari pengertian, komponen, hingga cara kerjanya, silakan baca [Apa Itu SigNoz? Mengenal Platform Observability Berbasis OpenTelemetry](#).
-
 ## Persiapan Awal
 
 Sebelum memulai instalasi dan konfigurasi SigNoz, pastikan kamu sudah memiliki:
