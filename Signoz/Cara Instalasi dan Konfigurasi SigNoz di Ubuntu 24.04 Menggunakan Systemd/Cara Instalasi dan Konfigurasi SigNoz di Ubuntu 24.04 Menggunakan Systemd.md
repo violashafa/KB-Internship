@@ -6,15 +6,13 @@ Selain menggunakan Docker, **SigNoz** juga dapat dijalankan langsung pada sistem
 
 Pada panduan ini, kita akan membahas cara menginstal dan mengonfigurasi **SigNoz** menggunakan metode **Systemd (Binary)** pada Kilat VM dengan sistem operasi **Ubuntu 24.04 LTS**, hingga dapat menerima data observability dari server lain.
 
-> **Catatan:** Untuk memahami SigNoz lebih lanjut, mulai dari pengertian, komponen, hingga cara kerjanya, silakan baca [Apa Itu SigNoz? Mengenal Platform Observability Berbasis OpenTelemetry](#).
-
 ## Persiapan Awal
 
 Sebelum memulai instalasi dan konfigurasi SigNoz, pastikan kamu sudah memiliki:
 
 1. **Dua unit Kilat VM** dengan sistem operasi Ubuntu 24.04 LTS:
    * **VPS Utama**, digunakan untuk menjalankan SigNoz beserta seluruh komponennya sebagai service systemd.
-   * **VPS Target**, digunakan sebagai simulasi server yang akan dipantau, minimal 1 GB RAM.
+   * **VPS Target**, digunakan sebagai simulasi server yang akan dipantau.
 2. Akses **Root** atau user dengan hak akses `sudo` pada kedua VPS.
 3. **IP Address publik** pada VPS Utama.
 4. Spesifikasi minimal VPS Utama: **4 GB RAM**, disarankan **8 GB RAM dan 4 vCPU**.
@@ -43,7 +41,7 @@ Panduan ini menggunakan konfigurasi berikut:
 | Sistem Operasi   | Ubuntu 24.04 LTS    |
 | SigNoz           | Rilis terbaru (`latest`) |
 | SigNoz OTel Collector | Rilis terbaru (`latest`) |
-| ClickHouse       | Mengikuti rilis stabil terbaru |
+| ClickHouse       | 25.12.5 |
 | PostgreSQL       | 16                  |
 
 > **Catatan:** Panduan ini menggunakan binary versi `latest` yang di-download langsung dari GitHub Releases. Jalankan `systemctl status signoz-signoz.service` dan periksa menu Settings pada SigNoz untuk memastikan versi yang benar-benar terpasang di server kamu. Untuk pin ke versi tertentu, unduh arsip rilis dengan nomor versi spesifik pada langkah 4, bukan `latest`.
@@ -54,7 +52,7 @@ Panduan ini menggunakan konfigurasi berikut:
 
 Sebelum melakukan instalasi, lakukan update package pada **VPS Utama**:
 
-```bash
+```
 apt update && apt upgrade -y
 apt install -y curl
 ```
@@ -65,24 +63,38 @@ apt install -y curl
 
 Berbeda dengan metode Docker, pada metode Systemd, **ClickHouse** dan **PostgreSQL** perlu di-install terlebih dahulu sebagai dependency pada host, karena Foundry hanya mengelola service-nya, bukan menginstalnya dari awal.
 
-### 2.1 Install ClickHouse
+### 2.1 Install ClickHouse 25.12.5
 
 Install ClickHouse mengikuti [panduan resmi ClickHouse](https://clickhouse.com/docs/install):
 
-```bash
-curl https://clickhouse.com/ | sh
-sudo ./clickhouse install
+```
+apt-get install -y apt-transport-https ca-certificates curl gnupg
+curl -fsSL 'https://packages.clickhouse.com/rpm/lts/repodata/repomd.xml.key' | gpg --dearmor -o /usr/share/keyrings/clickhouse-keyring.gpg
+ARCH=$(dpkg --print-architecture)
+echo "deb [signed-by=/usr/share/keyrings/clickhouse-keyring.gpg arch=${ARCH}] https://packages.clickhouse.com/deb stable main" | tee /etc/apt/sources.list.d/clickhouse.list
+apt-get update
+```
+
+Cek apakah versi tersedia di repositori
+```
+apt-cache madison clickhouse-server | grep 25.12.5
+```
+
+Install sesuai versi dan patch yang tersedia
+```
+apt-get install -y clickhouse-server=25.12.5.44 clickhouse-client=25.12.5.44 clickhouse-common-static=25.12.5.44
+apt-mark hold clickhouse-server clickhouse-client
 ```
 
 <p align="center">
-  <img width="850" alt="Instalasi ClickHouse" src="images/instalasi-clickhouse-systemd.png" style="border-radius: 10px;" />
+  <img width="850" alt="Instalasi ClickHouse" src="Images/instalasi-clickhouse-systemd.png" style="border-radius: 10px;" />
   <br>
   Gambar 1: Instalasi ClickHouse
 </p>
 
 Karena Foundry yang akan mengelola service ClickHouse setelah deployment, nonaktifkan dahulu service bawaan package manager:
 
-```bash
+```
 systemctl disable --now clickhouse-server.service clickhouse-keeper.service 2>/dev/null || true
 ```
 
@@ -92,31 +104,31 @@ systemctl disable --now clickhouse-server.service clickhouse-keeper.service 2>/d
 
 Install PostgreSQL mengikuti [panduan resmi PostgreSQL untuk Linux](https://www.postgresql.org/download/linux/), misalnya melalui repository default Ubuntu:
 
-```bash
+```
 apt install -y postgresql
 ```
 
 <p align="center">
-  <img width="850" alt="Instalasi PostgreSQL" src="images/instalasi-postgresql-systemd.png" style="border-radius: 10px;" />
+  <img width="850" alt="Instalasi PostgreSQL" src="Images/instalasi-postgresql-systemd.png" style="border-radius: 10px;" />
   <br>
   Gambar 2: Instalasi PostgreSQL
 </p>
 
 Nonaktifkan service bawaan package manager, karena akan dikelola oleh Foundry:
 
-```bash
+```
 systemctl disable --now postgresql.service
 ```
 
 Catat lokasi binary `postgres`, karena akan digunakan pada konfigurasi Foundry. Pada Ubuntu, binary PostgreSQL umumnya berada di:
 
-```text
+```
 /usr/lib/postgresql/<versi>/bin
 ```
 
 Periksa versi dan lokasi persisnya:
 
-```bash
+```
 ls /usr/lib/postgresql/
 ```
 
@@ -124,7 +136,7 @@ ls /usr/lib/postgresql/
 
 Install `foundryctl`, CLI resmi SigNoz untuk mengatur proses deployment:
 
-```bash
+```
 curl -fsSL https://signoz.io/foundry.sh | bash
 ```
 
@@ -132,7 +144,7 @@ curl -fsSL https://signoz.io/foundry.sh | bash
 
 Download arsip rilis SigNoz dan SigNoz OTel Collector ke path yang digunakan oleh Foundry:
 
-```bash
+```
 ARCH=$(uname -m | sed 's/x86_64/amd64/' | sed 's/aarch64/arm64/')
 
 mkdir -p /opt/signoz
@@ -145,35 +157,43 @@ curl -fsSL "https://github.com/SigNoz/signoz-otel-collector/releases/latest/down
 ```
 
 <p align="center">
-  <img width="850" alt="Download binary SigNoz dan SigNoz OTel Collector" src="images/download-binary-signoz.png" style="border-radius: 10px;" />
+  <img width="850" alt="Download binary SigNoz dan SigNoz OTel Collector" src="Images/download-binary-signoz.png" style="border-radius: 10px;" />
   <br>
   Gambar 3: Download binary SigNoz
 </p>
 
 > **Catatan:** Ekstrak seluruh isi arsip apa adanya, jangan hanya memindahkan binary `signoz` secara terpisah. Binary tersebut memuat web UI serta template email/alert secara relatif terhadap lokasinya sendiri, sehingga folder `bin/`, `web/`, `templates/`, dan `conf/` harus tetap berada dalam satu direktori yang sama. User dan direktori data untuk service `signoz` akan dibuat otomatis oleh `foundryctl cast` pada langkah berikutnya.
 
+Simpan PATH Secara Permanen:
+```
+echo 'export PATH="/root/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
 ## 5. Membuat Konfigurasi casting.yaml
 
 Buat direktori kerja di luar `/root`, agar file `pours/` yang dihasilkan tetap dapat dibaca oleh user sistem `signoz`:
 
-```bash
+```
 mkdir -p /opt/signoz-foundry
 cd /opt/signoz-foundry
 ```
 
 Buat file `casting.yaml`:
 
-```bash
+```
 nano casting.yaml
 ```
 
 Isi dengan konfigurasi berikut untuk deployment berbasis binary dan systemd:
 
-```yaml
+```
 apiVersion: v1alpha1
 kind: Installation
 metadata:
   name: signoz
+  annotations:
+    foundry.signoz.io/metastore-postgres-binary-path: /usr/lib/postgresql/16/bin/postgres
 spec:
   deployment:
     flavor: binary
@@ -182,25 +202,23 @@ spec:
 
 > **Catatan:** Apabila binary `postgres` tidak berada di `/usr/bin/postgres` (sesuai catatan pada langkah 2.2), tambahkan binary-path annotation di bagian `metadata`, misalnya:
 >
-> ```yaml
+> ```
 > metadata:
 >   name: signoz
 >   annotations:
 >     foundry.signoz.io/metastore-postgres-binary-path: /usr/lib/postgresql/16/bin/postgres
 > ```
->
-> Pastikan direktori tersebut juga memuat binary `initdb`. Untuk daftar lengkap binary-path annotation lainnya, lihat [contoh systemd binary pada repository Foundry](https://github.com/SigNoz/foundry/tree/main/docs/examples/systemd/binary).
 
 ## 6. Deploy SigNoz Menggunakan Foundry
 
 Jalankan proses deploy penuh:
 
-```bash
-sudo foundryctl cast -f casting.yaml
+```
+foundryctl cast -f casting.yaml
 ```
 
 <p align="center">
-  <img width="850" alt="Proses deploy SigNoz menggunakan foundryctl" src="images/proses-deploy-signoz-systemd.png" style="border-radius: 10px;" />
+  <img width="850" alt="Proses deploy SigNoz menggunakan foundryctl" src="Images/proses-deploy-signoz-systemd.png" style="border-radius: 10px;" />
   <br>
   Gambar 4: Proses deploy SigNoz
 </p>
@@ -213,19 +231,13 @@ Perintah `cast` akan memvalidasi dependency, menghasilkan file konfigurasi dan s
 
 Periksa status service utama yang telah berjalan:
 
-```bash
+```
 systemctl status signoz-signoz.service
 systemctl status signoz-ingester.service
 systemctl status signoz-telemetrystore-clickhouse-0-0.service
 systemctl status signoz-telemetrykeeper-clickhousekeeper-0.service
 systemctl status signoz-metastore-postgres.service
 ```
-
-<p align="center">
-  <img width="900" alt="Verifikasi status service SigNoz" src="images/verifikasi-status-service-signoz.png" style="border-radius: 10px;" />
-  <br>
-  Gambar 5: Verifikasi status service SigNoz
-</p>
 
 Pastikan setiap service menunjukkan status `active (running)`.
 
@@ -239,13 +251,13 @@ Pastikan setiap service menunjukkan status `active (running)`.
 
 Untuk melihat log seluruh service SigNoz secara realtime:
 
-```bash
+```
 journalctl -u 'signoz-*' -f
 ```
 
 Untuk melihat log salah satu service:
 
-```bash
+```
 journalctl -u signoz-signoz.service -f
 ```
 
@@ -257,26 +269,26 @@ Karena metode Systemd menjalankan seluruh proses (SigNoz, ClickHouse, PostgreSQL
 
 Periksa status SELinux:
 
-```bash
+```
 sestatus
 ```
 
 Jika terdapat proses yang diblokir, periksa log audit:
 
-```bash
+```
 ausearch -m avc -ts recent
 ```
 
 Untuk mengembalikan context default suatu direktori data:
 
-```bash
+```
 restorecon -Rv /var/lib/clickhouse
 restorecon -Rv /var/lib/signoz
 ```
 
 Apabila proses tetap diblokir setelah `restorecon`, policy khusus dapat dibuat menggunakan `audit2allow`:
 
-```bash
+```
 ausearch -m avc -ts recent | audit2allow -M signoz-policy
 semodule -i signoz-policy.pp
 ```
@@ -295,7 +307,7 @@ SigNoz menggunakan beberapa port yang perlu diizinkan pada firewall **VPS Utama*
 
 Jika menggunakan UFW, jalankan:
 
-```bash
+```
 ufw allow 8080/tcp
 ufw allow 4317/tcp
 ufw allow 4318/tcp
@@ -303,14 +315,14 @@ ufw status
 ```
 
 <p align="center">
-  <img width="600" alt="Verifikasi status UFW" src="images/verifikasi-ufw-status-systemd.png" style="border-radius: 10px;" />
+  <img width="600" alt="Verifikasi status UFW" src="Images/verifikasi-ufw-status-systemd.png" style="border-radius: 10px;" />
   <br>
-  Gambar 6: Verifikasi status UFW
+  Gambar 5: Verifikasi status UFW
 </p>
 
 > **Catatan:** Karena pada panduan ini VPS Target akan mengirim data melalui **IP publik**, port `4317` dan `4318` perlu dapat diakses dari internet. SigNoz self-hosted secara bawaan **tidak memiliki autentikasi** pada endpoint OTLP, sehingga sebaiknya dibatasi hanya untuk IP Address VPS Target, misalnya:
 >
-> ```bash
+> ```
 > ufw allow from IP-VPS-TARGET to any port 4317 proto tcp
 > ufw allow from IP-VPS-TARGET to any port 4318 proto tcp
 > ```
@@ -319,24 +331,24 @@ ufw status
 
 Akses SigNoz melalui browser menggunakan alamat berikut:
 
-```text
+```
 http://IP-VPS-UTAMA:8080
 ```
 
 Pada akses pertama, SigNoz akan meminta pembuatan akun administrator. Masukkan nama, email, dan password yang akan digunakan.
 
 <p align="center">
-  <img width="850" alt="Halaman pembuatan akun administrator SigNoz" src="images/setup-akun-admin-signoz-systemd.png" style="border-radius: 10px;" />
+  <img width="850" alt="Halaman pembuatan akun administrator SigNoz" src="Images/setup-akun-admin-signoz-systemd.png" style="border-radius: 10px;" />
   <br>
-  Gambar 7: Pembuatan akun administrator
+  Gambar 6: Pembuatan akun administrator
 </p>
 
 Setelah akun berhasil dibuat, tampilan utama SigNoz akan ditampilkan dengan kondisi Quick Stats kosong karena belum ada data yang masuk.
 
 <p align="center">
-  <img width="900" alt="Tampilan utama SigNoz" src="images/tampilan-utama-signoz-systemd.png" style="border-radius: 10px;" />
+  <img width="900" alt="Tampilan utama SigNoz" src="Images/tampilan-utama-signoz-systemd.png" style="border-radius: 10px;" />
   <br>
-  Gambar 8: Tampilan utama SigNoz
+  Gambar 7: Tampilan utama SigNoz
 </p>
 
 > **Catatan:** Gunakan password yang kuat karena tampilan SigNoz dapat diakses melalui internet.
@@ -347,14 +359,14 @@ Agar SigNoz dapat menampilkan data, **VPS Target** perlu dipasangi **OpenTelemet
 
 Login ke **VPS Target**, kemudian update sistem terlebih dahulu:
 
-```bash
+```
 apt update && apt upgrade -y
 apt install -y curl tar
 ```
 
 ### 11.1 Download OTel Collector Binary
 
-```bash
+```
 cd /tmp
 curl -LO https://github.com/open-telemetry/opentelemetry-collector-releases/releases/latest/download/otelcol-contrib_linux_amd64.tar.gz
 tar -xzf otelcol-contrib_linux_amd64.tar.gz
@@ -364,14 +376,14 @@ chmod +x /usr/local/bin/otelcol-contrib
 
 ### 11.2 Membuat Konfigurasi Collector
 
-```bash
+```
 mkdir -p /etc/otelcol-contrib
 nano /etc/otelcol-contrib/config.yaml
 ```
 
 Isi dengan konfigurasi berikut:
 
-```yaml
+```
 receivers:
   hostmetrics:
     collection_interval: 60s
@@ -412,11 +424,11 @@ service:
 
 ### 11.3 Menjalankan Collector sebagai Service
 
-```bash
+```
 nano /etc/systemd/system/otelcol-contrib.service
 ```
 
-```ini
+```
 [Unit]
 Description=OpenTelemetry Collector Contrib
 After=network-online.target
@@ -431,21 +443,21 @@ RestartSec=5
 WantedBy=multi-user.target
 ```
 
-```bash
+```
 systemctl daemon-reload
 systemctl enable --now otelcol-contrib
 systemctl status otelcol-contrib
 ```
 
 <p align="center">
-  <img width="850" alt="Status service OTel Collector pada VPS Target" src="images/status-service-otelcol-systemd.png" style="border-radius: 10px;" />
+  <img width="850" alt="Status service OTel Collector pada VPS Target" src="Images/status-service-otelcol-systemd.png" style="border-radius: 10px;" />
   <br>
-  Gambar 9: Status service OTel Collector
+  Gambar 8: Status service OTel Collector
 </p>
 
 Pastikan status menunjukkan `active (running)`. Jika terdapat error, periksa log:
 
-```bash
+```
 journalctl -u otelcol-contrib -n 50 --no-pager
 ```
 
@@ -456,9 +468,9 @@ Kembali ke tampilan SigNoz pada **VPS Utama**, kemudian masuk ke menu **Infrastr
 Setelah beberapa saat, VPS Target akan muncul pada daftar host beserta metrik CPU, memory, disk, dan network.
 
 <p align="center">
-  <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src="images/verifikasi-host-infrastructure-monitoring-systemd.png" style="border-radius: 10px;" />
+  <img width="900" alt="VPS Target muncul pada Infrastructure Monitoring SigNoz" src="Images/verifikasi-host-infrastructure-monitoring-systemd.png" style="border-radius: 10px;" />
   <br>
-  Gambar 10: Data VPS Target pada Infrastructure Monitoring
+  Gambar 9: Data VPS Target pada Infrastructure Monitoring
 </p>
 
 > **Catatan:** Apabila host tidak muncul, periksa kembali:
@@ -473,13 +485,13 @@ Setelah beberapa saat, VPS Target akan muncul pada daftar host beserta metrik CP
 
 Jalankan ulang dengan opsi `--debug` untuk log yang lebih rinci:
 
-```bash
+```
 sudo foundryctl cast -f casting.yaml --debug
 ```
 
 ### `sudo` Tidak Menemukan `foundryctl`
 
-```bash
+```
 sudo env "PATH=$PATH" foundryctl cast -f casting.yaml
 ```
 
@@ -489,24 +501,71 @@ Atau install `foundryctl` ke path sistem seperti `/usr/local/bin`.
 
 Pada beberapa host Ubuntu, `localhost` dapat ter-resolve ke `::1` terlebih dahulu, sedangkan ClickHouse Keeper listen pada IPv4. Apabila `signoz-telemetrystore-clickhouse-0-0.service` gagal start, ganti `localhost` menjadi `127.0.0.1` pada konfigurasi yang dihasilkan:
 
-```bash
+```
 sed -i 's/host: localhost/host: 127.0.0.1/' /etc/clickhouse-server/config-0-0.yaml
 systemctl restart signoz-telemetrystore-clickhouse-0-0.service
 ```
 
 Periksa kembali log service:
 
-```bash
+```
 journalctl -u signoz-telemetrystore-clickhouse-0-0.service -f
 ```
 
 > **Catatan:** Perubahan ini tidak bertahan setelah `recast`. `foundryctl cast` akan meregenerasi konfigurasi ClickHouse dan menimpa perubahan tersebut, sehingga `cast` berikutnya (misalnya saat mengaktifkan fitur tambahan) dapat memunculkan kembali error yang sama. Untuk membuat perubahan ini permanen, atur host Keeper ke `127.0.0.1` melalui `config.data` pada komponen ClickHouse di `casting.yaml` agar diterapkan otomatis oleh Foundry setiap kali `cast` dijalankan.
 
+### Migrator Gagal Setelah Mengganti Versi ClickHouse
+
+Apabila kamu sempat menjalankan instalasi dengan ClickHouse versi yang tidak di-pin (misalnya versi `latest`) lalu berpindah ke versi yang di-pin sesuai langkah 2.1, migrasi dapat gagal dengan beberapa gejala berikut, tergantung sejauh mana instalasi sebelumnya sempat berjalan:
+
+**Gejala 1 — Keeper gagal start dengan error `Unsupported snapshot version`:**
+
+```
+Failure to load from latest snapshot with index ...: Code: 287. DB::Exception: Unsupported snapshot version 8. (UNKNOWN_FORMAT_VERSION)
+```
+
+Ini terjadi karena snapshot data Keeper di disk ditulis oleh versi ClickHouse yang lebih baru, dan tidak bisa dibaca oleh versi yang lebih lama. Karena ini biasanya terjadi pada instalasi baru yang belum memiliki data produksi, snapshot yang bermasalah dapat dihapus:
+
+```
+systemctl stop signoz-telemetrykeeper-clickhousekeeper-0.service
+rm -rf /var/lib/clickhouse/coordination/snapshots/*
+rm -rf /var/lib/clickhouse/coordination/log/*
+systemctl start signoz-telemetrykeeper-clickhousekeeper-0.service
+```
+
+**Gejala 2 — Migrator gagal dengan `Table is in readonly mode ... metadata was not found in zookeeper`:**
+
+Muncul setelah Gejala 1 diperbaiki, apabila hanya data Keeper yang dihapus sedangkan data ClickHouse (tabel `Replicated*` yang sempat berhasil dibuat) tetap dibiarkan. Tabel-tabel tersebut mendaftarkan dirinya ke Keeper untuk keperluan replikasi, sehingga begitu Keeper direset tanpa turut mereset ClickHouse, terjadi ketidaksesuaian metadata.
+
+Solusinya, reset **kedua sisi sekaligus** (data Keeper dan data ClickHouse) agar keduanya mulai dari kondisi kosong yang konsisten satu sama lain:
+
+```
+systemctl stop signoz-telemetrystore-migrator.service
+systemctl stop signoz-ingester.service
+systemctl stop signoz-signoz.service
+systemctl stop signoz-telemetrystore-clickhouse-0-0.service
+systemctl stop signoz-telemetrykeeper-clickhousekeeper-0.service
+
+rm -rf /var/lib/clickhouse/coordination/snapshots/*
+rm -rf /var/lib/clickhouse/coordination/log/*
+rm -rf /var/lib/clickhouse/data/*
+rm -rf /var/lib/clickhouse/metadata/*
+rm -rf /var/lib/clickhouse/store/*
+
+systemctl start signoz-telemetrykeeper-clickhousekeeper-0.service
+sleep 10
+systemctl start signoz-telemetrystore-clickhouse-0-0.service
+sleep 5
+systemctl start signoz-telemetrystore-migrator.service
+```
+
+> **Catatan:** Perintah `rm -rf` di atas menghapus seluruh data telemetry yang tersimpan. Jangan jalankan pada instalasi yang sudah memiliki data produksi tanpa backup terlebih dahulu. Untuk mencegah kondisi ini sejak awal, pastikan mengikuti pin versi ClickHouse pada langkah 2.1 sebelum menjalankan `foundryctl cast` pertama kali, alih-alih memperbaikinya belakangan setelah data sempat ditulis dengan versi yang salah.
+
 ### Service SigNoz Gagal Setelah Cast
 
 Periksa unit dan log dari service yang bermasalah:
 
-```bash
+```
 systemctl status NAMA-SERVICE
 journalctl -u NAMA-SERVICE -n 200 --no-pager
 ```
@@ -515,7 +574,7 @@ journalctl -u NAMA-SERVICE -n 200 --no-pager
 
 Periksa apakah ClickHouse merespons dengan baik:
 
-```bash
+```
 curl -s http://localhost:8123/ping
 ```
 
@@ -525,10 +584,18 @@ Respons yang diharapkan adalah `Ok.`.
 
 Periksa apakah Collector berjalan dan listen pada port OTLP:
 
-```bash
+```
 systemctl status signoz-ingester.service
 sudo ss -ltnp | grep -E ':4317|:4318'
 ```
+
+Apabila service dan agent di kedua sisi (VPS Utama dan VPS Target) sudah sama-sama sehat tetapi data tetap tidak muncul, penyebab yang paling sering terlewat adalah **firewall di VPS Utama**, terutama apabila rule sempat ditambahkan lalu VPS Utama mengalami banyak restart service selama proses troubleshooting lain. Verifikasi ulang:
+
+```
+ufw status
+```
+
+Pastikan port `8080`, `4317`, dan `4318` masih terdaftar. Uji langsung konektivitasnya dari VPS Target:
 
 ## Kesimpulan
 
