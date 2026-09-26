@@ -143,6 +143,12 @@ Install `foundryctl`:
 curl -fsSL https://signoz.io/foundry.sh | bash
 ```
 
+Simpan PATH Secara Permanen:
+```
+echo 'export PATH="/root/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
 Buat direktori kerja, kemudian buat file konfigurasi `casting.yaml`:
 
 ```
