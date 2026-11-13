@@ -259,9 +259,9 @@ Kilat VPS kini menyediakan 14 versi OS dari enam distribusi Linux: AlmaLinux, Ub
 
 ## Referensi
 
-1. AlmaLinux: [wiki.almalinux.org/release-notes](https://wiki.almalinux.org/release-notes/)
+1. AlmaLinux: [endoflife.date/almalinux](https://endoflife.date/almalinux)
 2. Ubuntu: [ubuntu.com/about/release-cycle](https://ubuntu.com/about/release-cycle)
 3. Debian: [debian.org/releases](https://www.debian.org/releases/) dan [pengumuman akhir dukungan reguler Debian 12](https://www.debian.org/News/2026/20260712.en.html)
 4. Rocky Linux: [docs.rockylinux.org/releases](https://docs.rockylinux.org/releases/)
-5. CentOS Stream: [centos.org/download](https://www.centos.org/download/) dan [pengumuman rilis CentOS Stream 9](https://blog.centos.org/2021/12/introducing-centos-stream-9/)
-6. openSUSE Leap: [en.opensuse.org/Lifetime](https://en.opensuse.org/Lifetime) dan [pengumuman rilis Leap 16.0](https://news.opensuse.org/2025/10/01/next-chapter-opens-with-leap-release/)
+5. CentOS Stream: [endoflife.date/centos-stream](https://endoflife.date/centos-stream)
+6. openSUSE Leap: [endoflife.date/opensuse](https://endoflife.date/opensuse)
