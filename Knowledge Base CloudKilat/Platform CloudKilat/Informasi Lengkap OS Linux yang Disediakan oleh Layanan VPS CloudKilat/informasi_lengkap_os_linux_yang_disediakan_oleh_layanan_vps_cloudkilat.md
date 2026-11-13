@@ -28,7 +28,7 @@ Ringkasan versi yang tersedia beserta masa dukungannya:
 | Rocky Linux | 8 | 1 Mei 2021 | 4.18 | 31 Mei 2024 (sudah berakhir) | 31 Mei 2029 |
 | Rocky Linux | 9 | 14 Juli 2022 | 5.14 | 31 Mei 2027 | 31 Mei 2032 |
 | Rocky Linux | 10 | 11 Juni 2025 | 6.12 | 31 Mei 2030 | 31 Mei 2035 |
-| CentOS Stream | 9 | Desember 2021 | 5.14 | 31 Mei 2027 | 31 Mei 2027 |
+| CentOS Stream | 9 | 3 Desember 2021 | 5.14 | 31 Mei 2027 | 31 Mei 2027 |
 | CentOS Stream | 10 | 12 Desember 2024 | 6.12 | 31 Mei 2030 | 31 Mei 2030 |
 | openSUSE Leap | 16.0 | 1 Oktober 2025 | 6.12 | Oktober 2027 | Oktober 2027 |
 
@@ -44,18 +44,18 @@ AlmaLinux adalah distribusi open source yang kompatibel secara biner dengan Red 
 
 ### AlmaLinux 8
 
-Versi berbasis RHEL 8. Dukungan aktifnya berakhir 31 Mei 2024, sehingga saat ini AlmaLinux 8 hanya menerima pembaruan keamanan hingga 31 Mei 2029.
+Dirilis 30 Maret 2021, berbasis RHEL 8 dengan kernel 4.18. Dukungan aktifnya berakhir 31 Mei 2024, sehingga saat ini AlmaLinux 8 hanya menerima pembaruan keamanan hingga 31 Mei 2029.
 
 1. Kelebihan
     - Cocok untuk aplikasi atau panel kontrol yang masih membutuhkan basis RHEL 8.
-    - Tetap aman dipakai karena pembaruan keamanan berjalan hingga 31 Mei 2029.
+    - Masih menerima pembaruan keamanan hingga 31 Mei 2029.
 2. Kekurangan
     - Tidak lagi menerima pembaruan fitur.
     - Kernel 4.18 dan paket bawaannya sudah tertinggal dibandingkan versi 9 dan 10.
 
 ### AlmaLinux 9
 
-Versi berbasis RHEL 9 dengan kernel 5.14.
+Dirilis 26 Mei 2022, berbasis RHEL 9 dengan kernel 5.14.
 
 1. Kelebihan
     - Matang, stabil, dan didukung luas oleh aplikasi pihak ketiga.
@@ -65,17 +65,20 @@ Versi berbasis RHEL 9 dengan kernel 5.14.
 
 ### AlmaLinux 10
 
-Versi terbaru berbasis RHEL 10 dengan kernel 6.12.
+Dirilis 27 Mei 2025, berbasis RHEL 10 dengan kernel 6.12. Versi ini merupakan rilis mayor AlmaLinux terbaru.
 
 1. Kelebihan
     - Masa dukungan terpanjang di keluarga AlmaLinux, yaitu pembaruan keamanan hingga 31 Mei 2035.
+    - Kernel dan paket bawaannya paling baru di keluarga AlmaLinux.
     - Menyediakan build x86_64_v2 untuk prosesor lama, berbeda dengan Rocky Linux 10 dan CentOS Stream 10 yang mensyaratkan prosesor x86-64-v3.
 2. Kekurangan
-    - Sebagian aplikasi atau panel kontrol pihak ketiga mungkin belum mendukung basis RHEL 10, jadi periksa kompatibilitasnya sebelum dipakai di server produksi.
+    - Sebagian aplikasi atau panel kontrol pihak ketiga mungkin belum mendukung basis RHEL 10, sehingga kompatibilitasnya perlu diperiksa sebelum dipakai di server produksi.
 
-![Gambar 1: Tabel rilis dan masa dukungan AlmaLinux 10, 9, dan 8](images/gambar-01-siklus-almalinux.png)
-
-*Gambar 1: Tabel rilis dan masa dukungan AlmaLinux 10, 9, dan 8*
+<p align="center">
+  <img alt="Tabel rilis dan masa dukungan AlmaLinux 10, 9, dan 8" src="images/gambar-01-siklus-almalinux.png" />
+  <br>
+  <em>Gambar 1: Tabel rilis dan masa dukungan AlmaLinux 10, 9, dan 8</em>
+</p>
 
 ## Ubuntu
 
@@ -88,7 +91,8 @@ Dirilis 21 April 2022 dengan kernel 5.15.
 1. Kelebihan
     - Sangat matang, dengan dokumentasi dan dukungan aplikasi pihak ketiga yang luas.
 2. Kekurangan
-    - Dukungan standar berakhir Mei 2027. Setelah itu, pembaruan keamanan hanya tersedia melalui Ubuntu Pro, sehingga untuk server baru lebih disarankan memilih Ubuntu 24.04 atau 26.04.
+    - Dukungan standar berakhir Mei 2027. Setelah itu, pembaruan keamanan hanya tersedia melalui Ubuntu Pro.
+    - Kernel dan paket bawaannya paling lama di antara versi Ubuntu yang tersedia.
 
 ### Ubuntu 24.04 LTS (Noble Numbat)
 
@@ -104,15 +108,17 @@ Dirilis 25 April 2024 dengan kernel 6.8.
 Dirilis 23 April 2026 dengan kernel 7.0.
 
 1. Kelebihan
-    - Kernel dan paket paling baru di antara versi LTS yang tersedia.
+    - Kernel dan paket bawaannya paling baru di antara versi Ubuntu yang tersedia.
     - Dukungan standar terpanjang, yaitu hingga Mei 2031.
 2. Kekurangan
     - Sebagian repositori pihak ketiga mungkin belum menyediakan paket untuk versi ini.
     - Implementasi sudo dan coreutils bawaan kini berbasis Rust (sudo-rs dan uutils), sehingga skrip lama sebaiknya diuji terlebih dahulu.
 
-![Gambar 2: Masa dukungan Ubuntu 26.04 LTS, 24.04 LTS, dan 22.04 LTS](images/gambar-02-siklus-ubuntu.png)
-
-*Gambar 2: Masa dukungan Ubuntu 26.04 LTS, 24.04 LTS, dan 22.04 LTS*
+<p align="center">
+  <img alt="Masa dukungan Ubuntu 26.04 LTS, 24.04 LTS, dan 22.04 LTS" src="images/gambar-02-siklus-ubuntu.png" />
+  <br>
+  <em>Gambar 2: Masa dukungan Ubuntu 26.04 LTS, 24.04 LTS, dan 22.04 LTS</em>
+</p>
 
 ## Debian
 
@@ -124,24 +130,26 @@ Dirilis 10 Juni 2023 dengan kernel 6.1. Dukungan regulernya berakhir 11 Juli 202
 
 1. Kelebihan
     - Stabil dan ringan.
-    - Tetap menerima pembaruan keamanan hingga 30 Juni 2028.
+    - Masih menerima pembaruan keamanan melalui Debian LTS hingga 30 Juni 2028.
 2. Kekurangan
     - Fase LTS tidak mencakup semua paket dan arsitektur.
-    - Debian sendiri menyarankan pengguna beralih ke Debian 13.
+    - Debian menganjurkan pengguna untuk upgrade ke Debian 13 jika memungkinkan.
 
 ### Debian 13 (Trixie)
 
-Rilis stabil terbaru Debian, dirilis 9 Agustus 2025 dengan kernel 6.12 LTS dan APT 3.0.
+Dirilis 9 Agustus 2025 dengan kernel 6.12 LTS dan APT 3.0. Versi ini merupakan rilis stabil Debian terbaru.
 
 1. Kelebihan
     - Paket lebih baru dibandingkan Debian 12.
     - Dukungan reguler hingga 9 Agustus 2028 dan dukungan LTS hingga 30 Juni 2030.
 2. Kekurangan
-    - OpenSSH di versi ini tidak lagi mendukung kunci DSA. Jika Anda masih memakai kunci SSH berjenis DSA, ganti terlebih dahulu dengan jenis yang lebih baru seperti Ed25519.
+    - OpenSSH di versi ini tidak lagi mendukung kunci DSA, sehingga kunci SSH berjenis DSA perlu diganti terlebih dahulu dengan jenis yang lebih baru seperti Ed25519.
 
-![Gambar 3: Status dan masa dukungan Debian 13 dan Debian 12](images/gambar-03-siklus-debian.png)
-
-*Gambar 3: Status dan masa dukungan Debian 13 dan Debian 12*
+<p align="center">
+  <img alt="Status dan masa dukungan Debian 13 dan Debian 12" src="images/gambar-03-siklus-debian.png" />
+  <br>
+  <em>Gambar 3: Status dan masa dukungan Debian 13 dan Debian 12</em>
+</p>
 
 ## Rocky Linux
 
@@ -149,36 +157,41 @@ Rocky Linux adalah distribusi enterprise yang kompatibel dengan RHEL dan dikemba
 
 ### Rocky Linux 8 (Green Obsidian)
 
-Versi berbasis RHEL 8 dengan kernel 4.18. Dukungan umumnya berakhir 31 Mei 2024, sehingga saat ini Rocky Linux 8 hanya menerima pembaruan keamanan hingga 31 Mei 2029.
+Dirilis 1 Mei 2021, berbasis RHEL 8 dengan kernel 4.18. Dukungan umumnya berakhir 31 Mei 2024, sehingga saat ini Rocky Linux 8 hanya menerima pembaruan keamanan hingga 31 Mei 2029.
 
 1. Kelebihan
-    - Cocok untuk aplikasi yang masih membutuhkan basis RHEL 8.
+    - Cocok untuk aplikasi atau panel kontrol yang masih membutuhkan basis RHEL 8.
+    - Masih menerima pembaruan keamanan hingga 31 Mei 2029.
 2. Kekurangan
     - Tidak lagi menerima pembaruan fitur.
-    - Paket bawaannya sudah tertinggal dibandingkan versi 9 dan 10.
+    - Kernel 4.18 dan paket bawaannya sudah tertinggal dibandingkan versi 9 dan 10.
 
 ### Rocky Linux 9 (Blue Onyx)
 
-Dirilis 14 Juli 2022 dengan kernel 5.14.
+Dirilis 14 Juli 2022, berbasis RHEL 9 dengan kernel 5.14.
 
 1. Kelebihan
-    - Matang dan stabil, dengan pembaruan keamanan hingga 31 Mei 2032.
+    - Matang, stabil, dan didukung luas oleh aplikasi pihak ketiga.
+    - Menerima pembaruan keamanan hingga 31 Mei 2032.
 2. Kekurangan
     - Dukungan umum berakhir 31 Mei 2027. Setelah itu, versi ini hanya menerima pembaruan keamanan.
 
 ### Rocky Linux 10 (Red Quartz)
 
-Dirilis 11 Juni 2025 dengan kernel 6.12.
+Dirilis 11 Juni 2025, berbasis RHEL 10 dengan kernel 6.12. Versi ini merupakan rilis mayor Rocky Linux terbaru.
 
 1. Kelebihan
     - Masa dukungan terpanjang di keluarga Rocky Linux, yaitu pembaruan keamanan hingga 31 Mei 2035.
+    - Kernel dan paket bawaannya paling baru di keluarga Rocky Linux.
 2. Kekurangan
     - Mensyaratkan prosesor x86-64-v3 dan tidak lagi menyertakan paket 32-bit.
     - Upgrade langsung dari Rocky Linux 8 atau 9 tidak didukung, sehingga perpindahan versi harus melalui instalasi baru.
 
-![Gambar 4: Tabel rilis dan masa dukungan Rocky Linux 10, 9, dan 8](images/gambar-04-siklus-rocky-linux.png)
-
-*Gambar 4: Tabel rilis dan masa dukungan Rocky Linux 10, 9, dan 8*
+<p align="center">
+  <img alt="Tabel rilis dan masa dukungan Rocky Linux 10, 9, dan 8" src="images/gambar-04-siklus-rocky-linux.png" />
+  <br>
+  <em>Gambar 4: Tabel rilis dan masa dukungan Rocky Linux 10, 9, dan 8</em>
+</p>
 
 ## CentOS Stream
 
@@ -186,26 +199,29 @@ CentOS Stream berada di hulu (upstream) RHEL. Perubahan masuk ke CentOS Stream t
 
 ### CentOS Stream 9
 
-Dirilis Desember 2021 dengan kernel 5.14 dan berakhir pada 31 Mei 2027.
+Dirilis 3 Desember 2021 dengan kernel 5.14 dan berakhir pada 31 Mei 2027.
 
 1. Kelebihan
     - Memberi akses lebih awal ke perubahan yang akan masuk ke RHEL 9, sehingga cocok untuk pengembangan dan pengujian.
 2. Kekurangan
-    - Tidak ada fase dukungan keamanan setelah 31 Mei 2027, sehingga untuk server baru lebih disarankan memilih CentOS Stream 10, AlmaLinux, atau Rocky Linux.
+    - Tidak ada fase dukungan keamanan setelah 31 Mei 2027.
+    - Masa hidupnya lebih pendek dibandingkan AlmaLinux 9 dan Rocky Linux 9 yang menerima pembaruan keamanan hingga 31 Mei 2032.
 
 ### CentOS Stream 10
 
 Dirilis 12 Desember 2024 dengan kernel 6.12 dan berakhir pada 31 Mei 2030.
 
 1. Kelebihan
-    - Menjadi basis pengembangan RHEL 10, sehingga paketnya paling baru di keluarga RHEL.
+    - Memberi akses lebih awal ke perubahan yang akan masuk ke RHEL 10, sehingga paketnya paling baru di keluarga RHEL.
 2. Kekurangan
     - Mensyaratkan prosesor x86-64-v3.
-    - Masa hidupnya lebih pendek dibandingkan AlmaLinux 10 dan Rocky Linux 10 yang didukung hingga 2035.
+    - Masa hidupnya lebih pendek dibandingkan AlmaLinux 10 dan Rocky Linux 10 yang menerima pembaruan keamanan hingga 31 Mei 2035.
 
-![Gambar 5: Tanggal end-of-life CentOS Stream 10 dan CentOS Stream 9](images/gambar-05-siklus-centos-stream.png)
-
-*Gambar 5: Tanggal end-of-life CentOS Stream 10 dan CentOS Stream 9*
+<p align="center">
+  <img alt="Tanggal end-of-life CentOS Stream 10 dan CentOS Stream 9" src="images/gambar-05-siklus-centos-stream.png" />
+  <br>
+  <em>Gambar 5: Tanggal end-of-life CentOS Stream 10 dan CentOS Stream 9</em>
+</p>
 
 ## openSUSE Leap
 
@@ -216,16 +232,18 @@ openSUSE Leap adalah distribusi komunitas yang dibangun dari basis SUSE Linux En
 Dirilis 1 Oktober 2025 dengan kernel 6.12 LTS dan dipelihara minimal hingga Oktober 2027. Manajemen paket pada openSUSE Leap menggunakan zypper.
 
 1. Kelebihan
-    - Berbasis SUSE Linux Enterprise 16.
-    - SELinux aktif secara bawaan.
+    - Dibangun dari fondasi SUSE Linux Enterprise 16, distribusi enterprise dari SUSE.
+    - SELinux aktif secara bawaan sebagai modul keamanan Linux (LSM).
     - Server dapat dikelola melalui antarmuka web Cockpit.
 2. Kekurangan
     - Masa dukungan per rilis minor hanya 24 bulan, sehingga server perlu di-upgrade ke rilis minor berikutnya secara berkala.
     - Ekosistem panduan dan aplikasi pihak ketiganya tidak seluas Ubuntu, Debian, atau keluarga RHEL.
 
-![Gambar 6: Masa pemeliharaan openSUSE Leap 16.0](images/gambar-06-siklus-opensuse-leap.png)
-
-*Gambar 6: Masa pemeliharaan openSUSE Leap 16.0*
+<p align="center">
+  <img alt="Masa pemeliharaan openSUSE Leap 16.0" src="images/gambar-06-siklus-opensuse-leap.png" />
+  <br>
+  <em>Gambar 6: Masa pemeliharaan openSUSE Leap 16.0</em>
+</p>
 
 ## Tips Memilih OS
 
@@ -243,7 +261,7 @@ Kilat VPS kini menyediakan 14 versi OS dari enam distribusi Linux: AlmaLinux, Ub
 
 1. AlmaLinux: [wiki.almalinux.org/release-notes](https://wiki.almalinux.org/release-notes/)
 2. Ubuntu: [ubuntu.com/about/release-cycle](https://ubuntu.com/about/release-cycle)
-3. Debian: [debian.org/releases](https://www.debian.org/releases/)
+3. Debian: [debian.org/releases](https://www.debian.org/releases/) dan [pengumuman akhir dukungan reguler Debian 12](https://www.debian.org/News/2026/20260712.en.html)
 4. Rocky Linux: [docs.rockylinux.org/releases](https://docs.rockylinux.org/releases/)
-5. CentOS Stream: [centos.org/download](https://www.centos.org/download/)
+5. CentOS Stream: [centos.org/download](https://www.centos.org/download/) dan [pengumuman rilis CentOS Stream 9](https://blog.centos.org/2021/12/introducing-centos-stream-9/)
 6. openSUSE Leap: [en.opensuse.org/Lifetime](https://en.opensuse.org/Lifetime) dan [pengumuman rilis Leap 16.0](https://news.opensuse.org/2025/10/01/next-chapter-opens-with-leap-release/)
