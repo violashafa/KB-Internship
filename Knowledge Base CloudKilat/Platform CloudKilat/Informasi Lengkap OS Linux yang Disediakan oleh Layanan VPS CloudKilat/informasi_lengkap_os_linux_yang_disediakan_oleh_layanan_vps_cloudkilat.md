@@ -4,7 +4,7 @@ Halo, Kawan Belajar!
 
 Sistem operasi (OS) menentukan aplikasi apa saja yang bisa berjalan di VPS Anda dan berapa lama server tersebut tetap mendapat pembaruan keamanan. Karena itu, memilih distribusi dan versi yang tepat sebaiknya dilakukan sejak awal.
 
-Artikel ini merangkum seluruh OS Linux yang tersedia pada layanan Kilat VPS (Kilat VM 2.0), lengkap dengan tanggal rilis, kernel bawaan, masa dukungan, serta kelebihan dan kekurangan setiap versi. Daftar OS di bawah berlaku untuk template Base OS, LAMP, dan LEMP. Data diperbarui per 13 November 2026.
+Artikel ini merangkum seluruh OS Linux yang tersedia pada layanan Kilat VPS (Kilat VM 2.0), lengkap dengan tanggal rilis, kernel bawaan, masa dukungan, serta kelebihan dan kekurangan setiap versi. Data diperbarui per 13 November 2026.
 
 ## Pilihan OS di Kilat VPS
 
@@ -96,7 +96,6 @@ Dirilis 25 April 2024 dengan kernel 6.8.
 
 1. Kelebihan
     - Seimbang antara stabilitas dan kebaruan paket, dengan dukungan standar hingga Mei 2029.
-    - Banyak panduan di Basis Pengetahuan CloudKilat memakai versi ini, misalnya [Panduan Lengkap Install LEMP Stack (Nginx, MariaDB, PHP) di VPS Ubuntu 24.04](https://kb.cloudkilat.id/instalasi-dan-konfigurasi/panduan-lengkap-install-lemp-stack-nginx-maria-db-php-di-vps-ubuntu-24-04).
 2. Kekurangan
     - Kernel dan paket bawaannya lebih lama dibandingkan Ubuntu 26.04.
 
