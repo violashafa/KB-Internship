@@ -38,11 +38,6 @@ Keterangan kolom:
 2. Dukungan keamanan adalah periode lanjutan yang hanya berisi pembaruan keamanan. Pada Ubuntu, periode ini (ESM) hanya tersedia melalui Ubuntu Pro. Pada Debian, periode ini ditangani oleh tim Debian LTS.
 3. CentOS Stream dan openSUSE Leap tidak memiliki fase dukungan keamanan terpisah, sehingga kedua kolom berisi tanggal yang sama. Masa pemeliharaan openSUSE Leap 16.0 tercatat minimal hingga Oktober 2027.
 
-Perubahan dibandingkan pembaruan artikel sebelumnya (16 Juli 2025):
-
-1. Ditambahkan: AlmaLinux 10, Ubuntu 26.04 LTS, Debian 13, Rocky Linux 8, Rocky Linux 10, CentOS Stream 9, CentOS Stream 10, dan openSUSE Leap 16.0.
-2. Tidak lagi tersedia: Ubuntu 20.04 LTS (dukungan standar berakhir 31 Mei 2025) dan Debian 11 (dukungan LTS berakhir 31 Agustus 2026). Server yang masih menjalankan kedua versi tersebut sebaiknya dipindahkan ke versi yang masih didukung.
-
 ## AlmaLinux
 
 AlmaLinux adalah distribusi open source yang kompatibel secara biner dengan Red Hat Enterprise Linux (RHEL) dan dikelola oleh komunitas melalui AlmaLinux OS Foundation.
@@ -78,11 +73,6 @@ Versi terbaru berbasis RHEL 10 dengan kernel 6.12.
 2. Kekurangan
     - Sebagian aplikasi atau panel kontrol pihak ketiga mungkin belum mendukung basis RHEL 10, jadi periksa kompatibilitasnya sebelum dipakai di server produksi.
 
-<!-- FOTO Gambar 1
-File    : images/gambar-01-siklus-almalinux.png
-Isi     : Screenshot https://wiki.almalinux.org/release-notes/ bagian tabel rilis AlmaLinux OS 10, 9, dan 8.
-Penanda : kotak merah pada keterangan active support dan security support masing-masing versi.
-Sensor  : tidak ada data sensitif (halaman publik). -->
 ![Gambar 1: Tabel rilis dan masa dukungan AlmaLinux 10, 9, dan 8](images/gambar-01-siklus-almalinux.png)
 
 *Gambar 1: Tabel rilis dan masa dukungan AlmaLinux 10, 9, dan 8*
@@ -121,11 +111,6 @@ Dirilis 23 April 2026 dengan kernel 7.0.
     - Sebagian repositori pihak ketiga mungkin belum menyediakan paket untuk versi ini.
     - Implementasi sudo dan coreutils bawaan kini berbasis Rust (sudo-rs dan uutils), sehingga skrip lama sebaiknya diuji terlebih dahulu.
 
-<!-- FOTO Gambar 2
-File    : images/gambar-02-siklus-ubuntu.png
-Isi     : Screenshot https://ubuntu.com/about/release-cycle bagian tabel/grafik masa dukungan Ubuntu LTS.
-Penanda : kotak merah pada baris 26.04 LTS, 24.04 LTS, dan 22.04 LTS (versi 20.04 tidak perlu ditandai).
-Sensor  : tidak ada data sensitif (halaman publik). -->
 ![Gambar 2: Masa dukungan Ubuntu 26.04 LTS, 24.04 LTS, dan 22.04 LTS](images/gambar-02-siklus-ubuntu.png)
 
 *Gambar 2: Masa dukungan Ubuntu 26.04 LTS, 24.04 LTS, dan 22.04 LTS*
@@ -155,12 +140,6 @@ Rilis stabil terbaru Debian, dirilis 9 Agustus 2025 dengan kernel 6.12 LTS dan A
 2. Kekurangan
     - OpenSSH di versi ini tidak lagi mendukung kunci DSA. Jika Anda masih memakai kunci SSH berjenis DSA, ganti terlebih dahulu dengan jenis yang lebih baru seperti Ed25519.
 
-<!-- FOTO Gambar 3
-File    : images/gambar-03-siklus-debian.png
-Isi     : Screenshot https://www.debian.org/releases/ bagian daftar rilis yang memuat Debian 13 (trixie) dan Debian 12 (bookworm)
-          beserta tanggal end of life dan LTS.
-Penanda : kotak merah pada Debian 13 dan Debian 12.
-Sensor  : tidak ada data sensitif (halaman publik). -->
 ![Gambar 3: Status dan masa dukungan Debian 13 dan Debian 12](images/gambar-03-siklus-debian.png)
 
 *Gambar 3: Status dan masa dukungan Debian 13 dan Debian 12*
@@ -198,12 +177,6 @@ Dirilis 11 Juni 2025 dengan kernel 6.12.
     - Mensyaratkan prosesor x86-64-v3 dan tidak lagi menyertakan paket 32-bit.
     - Upgrade langsung dari Rocky Linux 8 atau 9 tidak didukung, sehingga perpindahan versi harus melalui instalasi baru.
 
-<!-- FOTO Gambar 4
-File    : images/gambar-04-siklus-rocky-linux.png
-Isi     : Screenshot https://docs.rockylinux.org/releases/ bagian tabel "Current supported releases"
-          (kolom Release, Codename, Release Date, Active Support Ends, End of Life).
-Penanda : kotak merah pada baris Rocky Linux 10, 9, dan 8.
-Sensor  : tidak ada data sensitif (halaman publik). -->
 ![Gambar 4: Tabel rilis dan masa dukungan Rocky Linux 10, 9, dan 8](images/gambar-04-siklus-rocky-linux.png)
 
 *Gambar 4: Tabel rilis dan masa dukungan Rocky Linux 10, 9, dan 8*
@@ -231,12 +204,6 @@ Dirilis 12 Desember 2024 dengan kernel 6.12 dan berakhir pada 31 Mei 2030.
     - Mensyaratkan prosesor x86-64-v3.
     - Masa hidupnya lebih pendek dibandingkan AlmaLinux 10 dan Rocky Linux 10 yang didukung hingga 2035.
 
-<!-- FOTO Gambar 5
-File    : images/gambar-05-siklus-centos-stream.png
-Isi     : Screenshot https://www.centos.org/download/ bagian CentOS Stream 10 dan CentOS Stream 9
-          yang menampilkan tanggal End-of-life (2030-05-31 dan 2027-05-31).
-Penanda : kotak merah pada tanggal End-of-life kedua versi.
-Sensor  : tidak ada data sensitif (halaman publik). -->
 ![Gambar 5: Tanggal end-of-life CentOS Stream 10 dan CentOS Stream 9](images/gambar-05-siklus-centos-stream.png)
 
 *Gambar 5: Tanggal end-of-life CentOS Stream 10 dan CentOS Stream 9*
@@ -257,12 +224,6 @@ Dirilis 1 Oktober 2025 dengan kernel 6.12 LTS dan dipelihara minimal hingga Okto
     - Masa dukungan per rilis minor hanya 24 bulan, sehingga server perlu di-upgrade ke rilis minor berikutnya secara berkala.
     - Ekosistem panduan dan aplikasi pihak ketiganya tidak seluas Ubuntu, Debian, atau keluarga RHEL.
 
-<!-- FOTO Gambar 6
-File    : images/gambar-06-siklus-opensuse-leap.png
-Isi     : Screenshot https://en.opensuse.org/Lifetime bagian openSUSE Leap yang memuat baris
-          "openSUSE Leap 16.0 maintained until at least October 2027".
-Penanda : kotak merah pada baris openSUSE Leap 16.0.
-Sensor  : tidak ada data sensitif (halaman publik). -->
 ![Gambar 6: Masa pemeliharaan openSUSE Leap 16.0](images/gambar-06-siklus-opensuse-leap.png)
 
 *Gambar 6: Masa pemeliharaan openSUSE Leap 16.0*
